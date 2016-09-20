@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      Objective-C属性约束关键字杂谈 | Shaw 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="Ly.Shaw">
+    
+    
+
+    <meta name="description" content="1** copy retain assign的差别在于对象属性的&quot;set&quot;方法 **
+NSString 与 NSMutableStringNSString是不可变字符串对象，这句话的意思，结合代码：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Objective-C属性约束关键字杂谈 | Shaw">
+<meta property="og:url" content="http://yoursite.com/2016/09/19/NSString-NSMutableString-copy-mutableCopy-retain-weak-strong杂谈/index.html">
+<meta property="og:site_name" content="Shaw">
+<meta property="og:description" content="1** copy retain assign的差别在于对象属性的&quot;set&quot;方法 **
+NSString 与 NSMutableStringNSString是不可变字符串对象，这句话的意思，结合代码：">
+<meta property="og:image" content="http://www.raywenderlich.com/wp-content/uploads/2011/10/Pointers1.png">
+<meta property="og:image" content="http://www.raywenderlich.com/wp-content/uploads/2011/10/Pointers2.png">
+<meta property="og:image" content="http://www.raywenderlich.com/wp-content/uploads/2011/10/Pointers3.png">
+<meta property="og:image" content="http://www.raywenderlich.com/wp-content/uploads/2011/10/Pointers4.png">
+<meta property="og:image" content="http://www.raywenderlich.com/wp-content/uploads/2011/10/Pointers5.png">
+<meta property="og:image" content="http://www.raywenderlich.com/wp-content/uploads/2011/10/Pointers6.png">
+<meta property="og:image" content="http://www.raywenderlich.com/wp-content/uploads/2011/10/Pointers7.png">
+<meta property="og:image" content="http://yoursite.com/D:\hexo\images\20160919.png">
+<meta property="og:updated_time" content="2016-09-19T15:18:25.991Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Objective-C属性约束关键字杂谈 | Shaw">
+<meta name="twitter:description" content="1** copy retain assign的差别在于对象属性的&quot;set&quot;方法 **
+NSString 与 NSMutableStringNSString是不可变字符串对象，这句话的意思，结合代码：">
+<meta name="twitter:image" content="http://www.raywenderlich.com/wp-content/uploads/2011/10/Pointers1.png">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="images/avatar_backup.jpg">
+    
+    <link rel="stylesheet" href="/css/uno.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
+
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+        <a href="/" title="link to homepage for Shaw"><img src="/images/avatar.jpg" width="80" alt="Shaw logo" class="panel-cover__logo logo" /></a>
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">Shaw</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          Touch of your skin sympathetically brushed against the shouleder you used to embrace. Sparking ashes drift along your flames and softly merge into the sky.
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/" title="" class="">home</a></li>
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">posts</a></li>
+              
+                
+                <li class="navigation__item"><a href="/about" title="" class="">about</a></li>
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">Objective-C属性约束关键字杂谈</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2016-09-19" class="post-meta__date date">2016-09-19</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+
+          
+             &#8226; 标签:
+            <font class="tags">
+              <a class="tags-link" href="/tags/iOS/">iOS</a>
+            </font>
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">** copy retain assign的差别在于对象属性的<span class="string">"set"</span>方法 **</div></pre></td></tr></table></figure>
+<h2 id="NSString-与-NSMutableString"><a href="#NSString-与-NSMutableString" class="headerlink" title="NSString 与 NSMutableString"></a>NSString 与 NSMutableString</h2><p>NSString是不可变字符串对象，这句话的意思，结合代码：<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">#import &lt;Foundation/Foundation.h&gt;</div><div class="line"></div><div class="line">int main(int argc, const char * argv[]) &#123;</div><div class="line">    @autoreleasepool &#123;</div><div class="line"></div><div class="line">        NSString *str = @&quot;Shaw&quot;;</div><div class="line">        NSString *str1 = @&quot;Root&quot;;   // NSString *str1的意思是str1指向的@&quot;Root&quot;对象是不可变的,但str1是可以改变指向的。</div><div class="line">        NSLog(@&quot;str = %@, str1 = %@&quot;,str,str1);</div><div class="line">        NSLog(@&quot;str:%p, str1:%p&quot;,str,str1);</div><div class="line">        str = [str stringByAppendingString:@&quot;andRoot&quot;];  // 打印可以看到str地址变了，因为原地址下的对象是不可变的。</div><div class="line">        NSLog(@&quot;str:%p, str1:%p&quot;,str,str1);</div><div class="line">        str1 = str;  // 使str1指向str对象</div><div class="line">        NSLog(@&quot;str = %@, str1 = %@&quot;,str,str1);</div><div class="line">        NSLog(@&quot;str:%p, str1:%p&quot;,str,str1);</div><div class="line"></div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div><div class="line">// 输出结果</div><div class="line">2016-04-06 13:32:45.320 test[40011:4790098] str = Shaw, str1 = Root</div><div class="line">2016-04-06 13:32:45.321 test[40011:4790098] str:0x100001050, str1:0x100001070</div><div class="line">2016-04-06 13:32:45.321 test[40011:4790098] str:0x1001026b0, str1:0x100001070  </div><div class="line">2016-04-06 13:32:45.321 test[40011:4790098] str = ShawandRoot, str1 = ShawandRoot</div><div class="line">2016-04-06 13:32:45.321 test[40011:4790098] str:0x1001026b0, str1:0x1001026b0</div><div class="line">Program ended with exit code: 0</div></pre></td></tr></table></figure></p>
+<p><br></p>
+<p>同理，NSMutableString就是可变字符串对象。</p>
+<p><code>stringByAppendingString:</code>方法的定义为<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (NSString *)stringByAppendingString:(NSString *)aString;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">NSMutableString *mStr = [NSMutableString stringWithString:@&quot;Shaw&quot;];</div><div class="line">        NSLog(@&quot;%@ %p&quot;,mStr,mStr);</div><div class="line">        [mStr appendString:@&quot;andRoot&quot;]; //  可以看到输出地址为同一个，即对当前对象做了改变。</div><div class="line">        NSLog(@&quot;%@ %p&quot;,mStr,mStr);</div><div class="line"></div><div class="line">// 输出结果</div><div class="line">2016-04-06 16:17:05.789 test[40118:4806417] Shaw 0x100203470</div><div class="line">2016-04-06 16:17:05.790 test[40118:4806417] ShawandRoot 0x100203470</div><div class="line">Program ended with exit code: 0</div></pre></td></tr></table></figure>
+<p>如果用<code>NSMutableString</code>对象调用<code>stringByAppendingString:</code>方法会出现警告<code>&quot;Incompatible pointer types assigning NSMutableString to NSString&quot;</code></p>
+<hr>
+<h2 id="mutableCopy-遵从NSMutableCopying协议的对象可用-与-copy-遵从NSCopying协议的对象可用"><a href="#mutableCopy-遵从NSMutableCopying协议的对象可用-与-copy-遵从NSCopying协议的对象可用" class="headerlink" title="mutableCopy(遵从NSMutableCopying协议的对象可用) 与 copy (遵从NSCopying协议的对象可用)"></a>mutableCopy(遵从<code>NSMutableCopying</code>协议的对象可用) 与 copy (遵从<code>NSCopying</code>协议的对象可用)</h2><p>前者返回的对象是<code>可变</code>的, 后者返回的是<code>不可变</code>的</p>
+<p>所以用<code>copy</code>返回的字符串是<code>NSString *</code>, <code>mutableCopy</code>返回的字符串是<code>NSMutableString *</code>.</p>
+<blockquote>
+<p>复制不可变对象时</p>
+</blockquote>
+<ul>
+<li><p>copy是浅复制，即指针复制，两个指针都指向那块空间</p>
+</li>
+<li><p>mutableCopy是深复制，即新开辟一块空间，将对象复制过去</p>
+</li>
+</ul>
+<blockquote>
+<p>复制可变对象时</p>
+</blockquote>
+<ul>
+<li>mutableCopy与copy都是深复制,但copy返回的对象不可变</li>
+</ul>
+<p><strong> 下面可以用代码一一验证 </strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">//      复制不可变对象</div><div class="line">        NSString *str = @&quot;Shaw&quot;;</div><div class="line">        NSString *strCopy = [str copy];    // 相当于 [str retain]</div><div class="line">        NSMutableString *strMCopy = [str mutableCopy];</div><div class="line"></div><div class="line">        NSLog(@&quot;%@:%p %@:%p %@:%p&quot;,str,str,strCopy,strCopy,strMCopy,strMCopy);</div><div class="line">        strCopy = [str stringByAppendingString:@&quot;andRoot&quot;];</div><div class="line">           strMCopy = [strMCopy stringByAppendingString:@&quot;andRoot&quot;];</div><div class="line">        NSLog(@&quot;%@:%p %@:%p %@:%p&quot;,str,str,strCopy,strCopy,strMCopy,strMCopy);</div><div class="line"></div><div class="line">//  输出结果</div><div class="line">2016-04-06 18:06:17.399 test[40355:4843127] Shaw:0x100001050 Shaw:0x100001050 Shaw:0x100600380</div><div class="line">2016-04-06 18:06:17.400 test[40355:4843127] Shaw:0x100001050 ShawandRoot:0x100103870 Shaw:0x100600380</div></pre></td></tr></table></figure>
+<blockquote>
+<p>用<code>copy</code>方法复制<code>NSString</code>对象, 出于性能原因, 既然二者本身都不可变，那么不如直接返回源对象，所以二者返回地址一样，所以是浅复制，也就相当于对源对象做<code>retain</code>.</p>
+<p>因为strCopy是NSString对象，向其发送<code>stringByAppendingString:</code>消息，是开辟了另一块空间(0x100103870)的，并没有改变之前那块空间(0x100001050)的对象.</p>
+</blockquote>
+<p><br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">// 复制可变对象</div><div class="line"></div><div class="line">        NSMutableString *mStr = [NSMutableString stringWithString:@&quot;Shaw&quot;];</div><div class="line">        NSMutableString *strMCopy = [mStr mutableCopy];</div><div class="line">        NSString *strCopy = [mStr copy];</div><div class="line"></div><div class="line">//        NSLog(@&quot;%@:%p %@:%p %@:%p&quot;,mStr,mStr,strMCopy,strMCopy,strCopy,strCopy);</div><div class="line"></div><div class="line">        NSString *mStrCopy = [mStr copy]; // 打印结果可以看出mStrCopy和strCopy其实是同一个对象，也就是说可变对象的copy只能新开一块空间出来，之后再copy也都是指向这块空间的对象。</div><div class="line"></div><div class="line">        NSLog(@&quot;%@:%p %@:%p %@:%p %@:%p&quot;,mStr,mStr,strMCopy,strMCopy,strCopy,strCopy,mStrCopy,mStrCopy);</div><div class="line"></div><div class="line">        strMCopy = [strMCopy stringByAppendingString:@&quot;andRoot&quot;]; // 会放在新地址</div><div class="line">        strCopy = [strCopy stringByAppendingString:@&quot;andRoot&quot;];  //  会放在新地址</div><div class="line"></div><div class="line">        NSLog(@&quot;%@:%p %@:%p %@:%p&quot;,mStr,mStr,strMCopy,strMCopy,strCopy,strCopy);</div><div class="line"></div><div class="line"></div><div class="line">//  输出结果</div><div class="line"></div><div class="line">2016-04-06 19:15:09.413 test[40489:4866634] Shaw:0x100400290 Shaw:0x1004004d0 Shaw:0x7761685345 Shaw:0x7761685345</div><div class="line">2016-04-06 19:15:09.414 test[40489:4866634] Shaw:0x100400290 ShawandRoot:0x100400900 ShawandRoot:0x100400550</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="为什么NSString对象在-property属性声明时写的是copy"><a href="#为什么NSString对象在-property属性声明时写的是copy" class="headerlink" title="为什么NSString对象在@property属性声明时写的是copy?"></a>为什么NSString对象在@property属性声明时写的是copy?</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">// 假设Person类中有声明如下</div><div class="line">// .h</div><div class="line"></div><div class="line">@property (nonatomic, copy) NSString *name;</div><div class="line"></div><div class="line">// main.m</div><div class="line"></div><div class="line">Person *per = [Person alloc] init];</div><div class="line">NSMutableString *mStr = [NSMutableString stringWithFormat:@&quot;Root&quot;];</div><div class="line">per.name = mStr;</div><div class="line">NSLog(@&quot;name is %@ now&quot;, per.name);</div><div class="line">[mStr appendString:@&quot;andShaw&quot;];</div><div class="line">NSLog(@&quot;name is %@ now &quot;, per.name);</div><div class="line"></div><div class="line">// 输出结果会是这样</div><div class="line">name is Root now</div><div class="line">name is Root now</div></pre></td></tr></table></figure>
+<blockquote>
+<p>而将copy改为retain<br>输出结果会是<br>name is Root now<br>name is RootandShaw now</p>
+</blockquote>
+<h6 id="set方法的例子"><a href="#set方法的例子" class="headerlink" title="set方法的例子"></a>set方法的例子</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">setName:(NSString *)name &#123;</div><div class="line">    if (_name != name) &#123;</div><div class="line">        [_name release];</div><div class="line">        _name = [name retain];     // copy时此处将retain换成copy</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>复制方法存在的目的就是为了复制出一个当对它做出改变而不会影响源对象的对象.</p>
+<p>当然如果想改变一个NSString对象也不是不可以</p>
+<p>比如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">NSString *str =@&quot;Shaw&quot;;</div><div class="line">NSLog(&quot;str = %@, addr = %p&quot;, str, str);</div><div class="line">NSString *__strong *p = &amp;str;</div><div class="line">*p = @&quot;Root&quot;;</div><div class="line">NSLog(&quot;str = %@, addr = %p&quot;, str, str);</div><div class="line"></div><div class="line">//  输出结果在同一个地址，且已经改变</div></pre></td></tr></table></figure></p>
+<p>至于<code>__strong</code> ,  是对象<code>ownership</code>的话题了.</p>
+<blockquote>
+<p>这方面的知识我是在<a href="https://www.amazon.cn/gp/product/B00DE60G3S/ref=oh_aui_detailpage_o03_s00?ie=UTF8&amp;psc=1" target="_blank" rel="external">Objective-C高级编程:iOS与OS X多线程和内存管理</a>上获取的。</p>
+</blockquote>
+<h2 id="retain-weak-strong（图来自RayWenderlich）"><a href="#retain-weak-strong（图来自RayWenderlich）" class="headerlink" title="retain weak strong（图来自RayWenderlich）"></a>retain weak strong（图来自<a href="https://www.raywenderlich.com/5677/beginning-arc-in-ios-5-part-1" target="_blank" rel="external">RayWenderlich</a>）</h2><p><code>weak</code> <code>strong</code>是<code>ARC</code>引入的关键词</p>
+<ul>
+<li><code>strong</code></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">NSString *firstName = @<span class="string">"Ray"</span>;</div></pre></td></tr></table></figure>
+<p>firstName对@”Ray”强引用</p>
+<p><img src="http://www.raywenderlich.com/wp-content/uploads/2011/10/Pointers1.png" alt="image"></p>
+<p>此时猜想一个textField,当输入Ray</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">self.textField.text = @<span class="string">"Ray"</span>;</div></pre></td></tr></table></figure>
+<p>此时有两个strong指针指向此对象<br><img src="http://www.raywenderlich.com/wp-content/uploads/2011/10/Pointers2.png" alt="image"></p>
+<p>textField中的文字变化 变成Rayman</p>
+<p>此时就变成下图的样子<br><img src="http://www.raywenderlich.com/wp-content/uploads/2011/10/Pointers3.png" alt="image"></p>
+<p>只有当firstName被赋予新值，或者含有此局部变量的方法结束，或者因为firstName是一个实例变量且它所属的那个对象已经deallocated，这种所有权才结束。</p>
+<p>当@”Ray”不再被任何强指针拥有，它就被释放了。<br><img src="http://www.raywenderlich.com/wp-content/uploads/2011/10/Pointers4.png" alt="image"></p>
+<p>把firstName和self.textField.text这种指针称为strong指针，因为它们使对象存在于内存中。</p>
+<p>默认情况下的实例变量，局部变量都是强指针。</p>
+<p><br></p>
+<ul>
+<li><code>weak</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">__weak NSString *weakName = self.textField.text;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p><code>weak</code>指针是需要显式声明的,用<code>__weak</code>关键字</p>
+</blockquote>
+<p><img src="http://www.raywenderlich.com/wp-content/uploads/2011/10/Pointers5.png" alt="image"><br>weakName指向对象但并没有拥有它，如果textField内容发生变动，那么@”Rayman”对象不再被任何强指针指向，它会被释放掉。</p>
+<p><img src="http://www.raywenderlich.com/wp-content/uploads/2011/10/Pointers6.png" alt="image"></p>
+<p>weak比assign多了一个作用就是当它指向的对象已经被销毁了，它会自己置成nil。</p>
+<p>这是非常方便的，因为这防止弱指针继续指向那片已经被释放了的空间，曾经因为这个问题造成了很多bug，你也许有听过”悬摆指针””野指针”，但是有了weak指针，这些问题不会出现了。</p>
+<p>weak指针多数被用到有父子关系的两个对象上，父对象用strong指向子对象，子对象用weak指向父对象，这样就避免了内存循环，下面是一个例子</p>
+<p><img src="http://www.raywenderlich.com/wp-content/uploads/2011/10/Pointers7.png" alt="image"></p>
+<p>如果是从<code>storyboard</code>中连了线到代码块的，那都是添加到了父视图的子视图树里的，也就是说视图是有父对象的强指针指向的.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">//  ViewController.h</div><div class="line">//  test2</div><div class="line">//</div><div class="line">//  Created by Shaw on 16/4/6.</div><div class="line">//  Copyright © 2016年 Shaw. All rights reserved.</div><div class="line">//</div><div class="line"></div><div class="line">#import &lt;UIKit/UIKit.h&gt;</div><div class="line"></div><div class="line">@interface ViewController : UIViewController</div><div class="line"></div><div class="line">@property (weak, nonatomic) IBOutlet UITableView *tableView;</div><div class="line"></div><div class="line">@property (nonatomic,weak) UIScrollView *scrollView;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">#import &quot;ViewController.h&quot;</div><div class="line"></div><div class="line">@interface ViewController ()</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">@implementation ViewController</div><div class="line"></div><div class="line">- (void)viewDidLoad &#123;</div><div class="line">    [super viewDidLoad];</div><div class="line">    UIScrollView *scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 353, 400, 200)];</div><div class="line">    _scrollView = scrollView;</div><div class="line">    [self.view addSubview:self.scrollView];</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>这几句代码可以用下图来描述</p>
+</blockquote>
+<p><img src="D:\hexo\images\20160919.png" alt="image"></p>
+<p>担心<code>scrollView</code>对象有两个强指针指向不好释放？</p>
+<p><code>scrollView</code>变量是个局部变量，出了那个方法，就被释放掉了，之后就只有<code>self</code>一个强指针指向它了。</p>
+<p><br></p>
+<ul>
+<li><code>retain</code><br><code>retain</code>在<code>ARC</code>下是不能显式写的，但是在<code>@property(nonatomic,retain)</code>这样写是没问题的。</li>
+</ul>
+<p><code>retain</code>的属性的<code>setter</code>是先<code>release</code>旧值，再<code>retain</code>新值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">@property (nonatomic,retain) NSString *string;   </div><div class="line">// 当赋给string属性的对象总是NSString *,那么用retain和copy都是一样的</div><div class="line"></div><div class="line">-(void)setString:(NSString *)str&#123;</div><div class="line"></div><div class="line">//　　if(str == _string)&#123;</div><div class="line"></div><div class="line">//　　　　return;</div><div class="line"></div><div class="line">// &#125;</div><div class="line"></div><div class="line">　　[_string release];</div><div class="line"></div><div class="line">　　_string = [str retain];</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+  </section>
+
+  
+
+<section class="post-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+      var disqus_shortname = 'Shawww'; 
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+  
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2014-2015. | 由<a href="https://hexo.io/">Hexo</a>强力驱动 | 主题<a href="https://github.com/someus/huno">Huno</a></span>
+    
+</footer>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>
