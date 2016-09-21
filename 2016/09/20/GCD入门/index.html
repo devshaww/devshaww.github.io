@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      GCD入门 | Shaw 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="Ly.Shaw">
+    
+    
+
+    <meta name="description" content="前言
+
+GCD - Grand Central Dispatch是Apple开发的一个多核编程的较新的解决方法，是苹果主推的多线程处理机制。在多核CPU的状态下，GCD的性能很高。它自动利用更多的CPU内核，管理线程生命周期，程序员不需要编写任何线程管理代码，只需要给定要让GCD执行的任务。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GCD入门 | Shaw">
+<meta property="og:url" content="http://yoursite.com/2016/09/20/GCD入门/index.html">
+<meta property="og:site_name" content="Shaw">
+<meta property="og:description" content="前言
+
+GCD - Grand Central Dispatch是Apple开发的一个多核编程的较新的解决方法，是苹果主推的多线程处理机制。在多核CPU的状态下，GCD的性能很高。它自动利用更多的CPU内核，管理线程生命周期，程序员不需要编写任何线程管理代码，只需要给定要让GCD执行的任务。">
+<meta property="og:updated_time" content="2016-09-21T12:20:19.133Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GCD入门 | Shaw">
+<meta name="twitter:description" content="前言
+
+GCD - Grand Central Dispatch是Apple开发的一个多核编程的较新的解决方法，是苹果主推的多线程处理机制。在多核CPU的状态下，GCD的性能很高。它自动利用更多的CPU内核，管理线程生命周期，程序员不需要编写任何线程管理代码，只需要给定要让GCD执行的任务。">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    
+    <link rel="stylesheet" href="/css/uno.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
+
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+        <a href="/" title="link to homepage for Shaw"><img src="/images/avatar.jpg" width="80" alt="Shaw logo" class="panel-cover__logo logo" /></a>
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">Shaw</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          Touch of your skin sympathetically brushed against the shoulder you used to embrace. Sparking ashes drift along your flames and softly merge into the sky.
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/" title="" class="">home</a></li>
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">posts</a></li>
+              
+                
+                <li class="navigation__item"><a href="/about" title="" class="">about</a></li>
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+    
+      <!-- Github -->
+      <li class="navigation__item">
+        <a href="https://github.com/devshaww" title="Huno on GitHub">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+    
+
+    <!-- China social icon -->
+    <!--
+    
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+    -->
+
+
+
+  </ul>
+</nav>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">GCD入门</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2016-09-20" class="post-meta__date date">2016-09-20</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+            <font class="categories">
+            &#8226; 分类:
+            <a class="categories-link" href="/categories/iOS/">iOS</a>
+            </font>
+          
+
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<ol>
+<li><code>GCD - Grand Central Dispatch</code>是Apple开发的一个多核编程的较新的解决方法，是苹果主推的多线程处理机制。在多核CPU的状态下，<code>GCD</code>的性能很高。<br>它自动利用更多的<code>CPU</code>内核，管理线程生命周期，程序员不需要编写任何线程管理代码，只需要给定要让<code>GCD</code>执行的任务。</li>
+</ol>
+</blockquote>
+<a id="more"></a>
+<blockquote>
+<ol>
+<li><p><code>GCD</code>是纯C语言的，<code>GCD</code>中的函数大多数以<code>dispatch</code>开头。</p>
+</li>
+<li><p>GCD存在于 <code>libdispatch.dylib</code> 库中，但不需要手动导入，默认包含。</p>
+</li>
+<li><p><code>GCD</code>的两个核心概念：<code>任务</code> 和 <code>队列</code>。将任务添加到<code>队列</code>中，<code>GCD</code>会自动将队列中的任务取出，放到对应的线程中执行，遵行FIFO原则：先进先出，后进后出。</p>
+</li>
+<li><p><code>GCD</code>一般和<code>Block</code>一起使用，在<code>Block</code>回调中处理程序操作。</p>
+</li>
+</ol>
+</blockquote>
+<h2 id="GCD的三种调度队列"><a href="#GCD的三种调度队列" class="headerlink" title="GCD的三种调度队列"></a>GCD的三种调度队列</h2><h6 id="首先需要明确4个术语的概念"><a href="#首先需要明确4个术语的概念" class="headerlink" title=" 首先需要明确4个术语的概念 "></a><strong> 首先需要明确<code>4</code>个术语的概念 </strong></h6><ul>
+<li><p><code>线程</code>上的概念</p>
+<ul>
+<li><p>同步（sync）：阻塞当前线程，必须要等待同步线程中的任务执行完返回后，才能继续执行下一个任务。</p>
+</li>
+<li><p>异步（async）：不会阻塞当前线程，也就是说不需要等待异步线程的任务执行完。</p>
+</li>
+</ul>
+</li>
+<li><p><code>队列</code>上的概念</p>
+<ul>
+<li><p>并行（concurrent）：一段时间内多个任务(至于并发数多少, 跟队列的dq_width有关)都在执行。</p>
+</li>
+<li><p>串行（serial）：一个任务执行完成才执行下一个(dq_width为1)</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="三种调度队列"><a href="#三种调度队列" class="headerlink" title="三种调度队列"></a>三种调度队列</h3><ul>
+<li><p>运行在主线程的主队列<code>main queue</code>，一般是执行和<code>UI</code>相关的任务比如更新<code>UI</code>的显示，通过<code>dispatch_get_main_queue</code>获取。</p>
+</li>
+<li><p>并发队列<code>global dispatch queue</code>，一般是后台长时间执行的任务比如下载，可以通过<code>dispatch_get_global_queue</code>和<code>dispatch_queue_create</code>获取。</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t dispatch_get_global_queue(dispatch_queue_priority_t priority,unsigned long flags)</div></pre></td></tr></table></figure>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_create(const char *label, dispatch_queue_attr_t attr)</div></pre></td></tr></table></figure>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);</div></pre></td></tr></table></figure>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t queue = dispatch_queue_create(<span class="string">"queue_name"</span>, DISPATCH_QUEUE_CONCURRENT);</div></pre></td></tr></table></figure>
+</li>
+<li><p>串行队列<code>serial queues</code>，获得串行有两种途径</p>
+<ul>
+<li><p>使用<code>dispatch_queue_create</code>函数创建串行队列</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t  dispatch_queue_create(const char *label,  dispatch_queue_attr_t attr)</div><div class="line">// 第一个参数是队列名称，第二个参数是队列属性，串行队列传NULL/nil/DISPATCH_QUEUE_SERIAL都是创建串行队列</div><div class="line"></div><div class="line">// 用法</div><div class="line">dispatch_queue_t queue = 										dispatch_queue_create(&quot;blahblahblah&quot;,  NULL);</div><div class="line"></div><div class="line">//非ARC需要手动释放队列</div><div class="line">//dispatch_release(queue);</div></pre></td></tr></table></figure>
+</li>
+<li><p>使用主队列（一种特殊的串行队列，GCD自带的在主线程中执行的队列）</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">      1 dispatch_get_main_queue()</div><div class="line"></div><div class="line">// 用法</div><div class="line">dispatch_queue_t queue = dispatch_get_main_queue();</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2><h2 id="线程死锁-deadlock"><a href="#线程死锁-deadlock" class="headerlink" title="线程死锁(deadlock)"></a>线程死锁(deadlock)</h2><h3 id="什么是死锁？"><a href="#什么是死锁？" class="headerlink" title="什么是死锁？"></a>什么是死锁？</h3><blockquote>
+<p><strong> <code>死锁</code>发生的四个必要条件 </strong></p>
+<ul>
+<li><code>互斥</code>条件：一个资源每次只能被一个进程使用。</li>
+<li><code>请求与保持</code>条件：一个进程因请求资源而阻塞时，对已获得的资源保持不放。</li>
+<li><code>不剥夺</code>条件:进程已获得的资源，在末使用完之前，不能强行剥夺。</li>
+<li><code>循环等待</code>(<code>形成回路</code>)条件:若干进程之间形成一种头尾相接的循环等待资源关系。</li>
+</ul>
+</blockquote>
+<p>说人话：有两个线程A和B都卡住了，因为A在等B，B也在等A，相互等待对方完成某些操作后自己才能进行操作，于是两者什么事也做不了，这就造成了死锁。</p>
+<h3 id="什么样的代码会导致死锁？"><a href="#什么样的代码会导致死锁？" class="headerlink" title="什么样的代码会导致死锁？"></a>什么样的代码会导致死锁？</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dispatch_sync(diapatch_get_main_queue(),^&#123;</div><div class="line">	NSLog(&quot;线程死锁&quot;);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>在程序中写这样的语句执行后不会有这句输出。</p>
+<p><code>dispatch_sync</code>函数体之后的任何任务都必须等到<code>dispatch_sync</code>函数体内的任务执行完后才可以执行。</p>
+
+  </section>
+
+  
+
+<section class="post-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+      var disqus_shortname = 'Shawww'; 
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+  
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2014-2015. | 由<a href="https://hexo.io/">Hexo</a>强力驱动 | 主题<a href="https://github.com/someus/huno">Huno</a></span>
+    
+</footer>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>
