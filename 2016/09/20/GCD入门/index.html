@@ -17,21 +17,22 @@
     
 
     <meta name="description" content="前言
-
-GCD - Grand Central Dispatch是Apple开发的一个多核编程的较新的解决方法，是苹果主推的多线程处理机制。在多核CPU的状态下，GCD的性能很高。它自动利用更多的CPU内核，管理线程生命周期，程序员不需要编写任何线程管理代码，只需要给定要让GCD执行的任务。">
+ GCD - Grand Central Dispatch是Apple开发的一个多核编程的较新的解决方法，是苹果主推的多线程处理机制。在多核CPU的状态下，GCD的性能很高。它自动利用更多的CPU内核，管理线程生命周期，程序员不需要编写任何线程管理代码，只需要给定要让GCD执行的任务。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GCD入门 | Shaw">
 <meta property="og:url" content="http://yoursite.com/2016/09/20/GCD入门/index.html">
 <meta property="og:site_name" content="Shaw">
 <meta property="og:description" content="前言
-
-GCD - Grand Central Dispatch是Apple开发的一个多核编程的较新的解决方法，是苹果主推的多线程处理机制。在多核CPU的状态下，GCD的性能很高。它自动利用更多的CPU内核，管理线程生命周期，程序员不需要编写任何线程管理代码，只需要给定要让GCD执行的任务。">
-<meta property="og:updated_time" content="2016-09-21T12:20:19.133Z">
+ GCD - Grand Central Dispatch是Apple开发的一个多核编程的较新的解决方法，是苹果主推的多线程处理机制。在多核CPU的状态下，GCD的性能很高。它自动利用更多的CPU内核，管理线程生命周期，程序员不需要编写任何线程管理代码，只需要给定要让GCD执行的任务。">
+<meta property="og:image" content="https://cdn1.raywenderlich.com/wp-content/uploads/2014/01/Concurrent-Queue-480x272.png">
+<meta property="og:image" content="https://cdn2.raywenderlich.com/wp-content/uploads/2014/01/Serial-Queue-480x272.png">
+<meta property="og:image" content="https://cdn3.raywenderlich.com/wp-content/uploads/2014/01/Concurrency_vs_Parallelism.png">
+<meta property="og:updated_time" content="2016-09-22T12:06:00.072Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GCD入门 | Shaw">
 <meta name="twitter:description" content="前言
-
-GCD - Grand Central Dispatch是Apple开发的一个多核编程的较新的解决方法，是苹果主推的多线程处理机制。在多核CPU的状态下，GCD的性能很高。它自动利用更多的CPU内核，管理线程生命周期，程序员不需要编写任何线程管理代码，只需要给定要让GCD执行的任务。">
+ GCD - Grand Central Dispatch是Apple开发的一个多核编程的较新的解决方法，是苹果主推的多线程处理机制。在多核CPU的状态下，GCD的性能很高。它自动利用更多的CPU内核，管理线程生命周期，程序员不需要编写任何线程管理代码，只需要给定要让GCD执行的任务。">
+<meta name="twitter:image" content="https://cdn1.raywenderlich.com/wp-content/uploads/2014/01/Concurrent-Queue-480x272.png">
     
     
     
@@ -228,62 +229,86 @@ classes that you can use:
 
   <section id="post-content" class="article-content post">
     <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
-<ol>
-<li><code>GCD - Grand Central Dispatch</code>是Apple开发的一个多核编程的较新的解决方法，是苹果主推的多线程处理机制。在多核CPU的状态下，<code>GCD</code>的性能很高。<br>它自动利用更多的<code>CPU</code>内核，管理线程生命周期，程序员不需要编写任何线程管理代码，只需要给定要让<code>GCD</code>执行的任务。</li>
-</ol>
+<p> <code>GCD - Grand Central Dispatch</code>是Apple开发的一个多核编程的较新的解决方法，是苹果主推的多线程处理机制。在多核CPU的状态下，<code>GCD</code>的性能很高。<br>它自动利用更多的<code>CPU</code>内核，管理线程生命周期，程序员不需要编写任何线程管理代码，只需要给定要让<code>GCD</code>执行的任务。</p>
 </blockquote>
 <a id="more"></a>
 <blockquote>
 <ol>
 <li><p><code>GCD</code>是纯C语言的，<code>GCD</code>中的函数大多数以<code>dispatch</code>开头。</p>
 </li>
-<li><p>GCD存在于 <code>libdispatch.dylib</code> 库中，但不需要手动导入，默认包含。</p>
+<li><p><code>GCD</code>存在于 <code>libdispatch.dylib</code> 库中，但不需要手动导入，默认包含。</p>
 </li>
-<li><p><code>GCD</code>的两个核心概念：<code>任务</code> 和 <code>队列</code>。将任务添加到<code>队列</code>中，<code>GCD</code>会自动将队列中的任务取出，放到对应的线程中执行，遵行FIFO原则：先进先出，后进后出。</p>
+<li><p><code>GCD</code>的两个<code>核心概念</code>：<code>任务</code> 和 <code>队列</code>。将任务添加到<code>队列</code>中，<code>GCD</code>会自动将队列中的任务取出，放到对应的线程中执行，遵行FIFO原则：先进先出，后进后出。</p>
 </li>
 <li><p><code>GCD</code>一般和<code>Block</code>一起使用，在<code>Block</code>回调中处理程序操作。</p>
 </li>
 </ol>
 </blockquote>
-<h2 id="GCD的三种调度队列"><a href="#GCD的三种调度队列" class="headerlink" title="GCD的三种调度队列"></a>GCD的三种调度队列</h2><h6 id="首先需要明确4个术语的概念"><a href="#首先需要明确4个术语的概念" class="headerlink" title=" 首先需要明确4个术语的概念 "></a><strong> 首先需要明确<code>4</code>个术语的概念 </strong></h6><ul>
+<h2 id="GCD的三种调度队列"><a href="#GCD的三种调度队列" class="headerlink" title="GCD的三种调度队列"></a>GCD的三种调度队列</h2><blockquote>
+<p><a href="https://developer.apple.com/library/content/documentation/General/Conceptual/ConcurrencyProgrammingGuide/OperationQueues/OperationQueues.html#//apple_ref/doc/uid/TP40008091-CH102-SW1" target="_blank" rel="external">官方文档传送门</a></p>
+</blockquote>
+<h6 id="首先需要明确4个术语的概念"><a href="#首先需要明确4个术语的概念" class="headerlink" title=" 首先需要明确4个术语的概念 "></a><strong> 首先需要明确<code>4</code>个术语的概念 </strong></h6><ul>
 <li><p><code>线程</code>上的概念</p>
 <ul>
-<li><p>同步（sync）：阻塞当前线程，必须要等待同步线程中的任务执行完返回后，才能继续执行下一个任务。</p>
+<li><p>同步（sync）：函数要等到任务执行完才返回,所以会阻塞当前<code>线程</code>, 不是阻塞当前<code>队列</code>。</p>
 </li>
-<li><p>异步（async）：不会阻塞当前线程，也就是说不需要等待异步线程的任务执行完。</p>
+<li><p>异步（async）：函数马上返回, 异步向队列添加一个任务, 这个任务会被放到queue的队尾等待执行, 至于是串行还是并发执行和队列属性有关。</p>
 </li>
 </ul>
 </li>
 <li><p><code>队列</code>上的概念</p>
 <ul>
-<li><p>并行（concurrent）：一段时间内多个任务(至于并发数多少, 跟队列的dq_width有关)都在执行。</p>
+<li><p>并发（concurrent）：一段时间内多个任务(至于并发数到底是多少, 这个数量是在变化的, 与系统环境有关)都在同时执行。</p>
+<blockquote>
+<p>需要注意的是: 就算是<code>并行</code>队列, 任务的<code>开始时间</code>也是遵守<code>FIFO</code>的, 只是任务的执行不需要等待前一个任务完成后才开始而已。</p>
+</blockquote>
+<p><img src="https://cdn1.raywenderlich.com/wp-content/uploads/2014/01/Concurrent-Queue-480x272.png" alt="image"></p>
 </li>
-<li><p>串行（serial）：一个任务执行完成才执行下一个(dq_width为1)</p>
+<li><p>串行（serial）：一个任务执行完成才执行下一个, 遵守FIFO。</p>
+<blockquote>
+<p>需要注意的是：你可以创建任意数量的串行队列, 并且这之中的每个队列相对于另外的队列并发执行。换句话说，如果你创建了4个串行队列，那么每个队列一次只执行一个任务，那么加起来就是4个任务在并发执行。</p>
+</blockquote>
+<p><img src="https://cdn2.raywenderlich.com/wp-content/uploads/2014/01/Serial-Queue-480x272.png" alt="image"></p>
 </li>
 </ul>
 </li>
 </ul>
-<h3 id="三种调度队列"><a href="#三种调度队列" class="headerlink" title="三种调度队列"></a>三种调度队列</h3><ul>
-<li><p>运行在主线程的主队列<code>main queue</code>，一般是执行和<code>UI</code>相关的任务比如更新<code>UI</code>的显示，通过<code>dispatch_get_main_queue</code>获取。</p>
+<h3 id="三种调度队列-dispatch-queues"><a href="#三种调度队列-dispatch-queues" class="headerlink" title="三种调度队列(dispatch queues)"></a>三种调度队列(dispatch queues)</h3><ul>
+<li><p>运行在主线程的主队列的全局可获得的<code>main queue</code>，一般是执行和<code>UI</code>相关的任务比如更新<code>UI</code>的显示，通过<code>dispatch_get_main_queue</code>获取,不需要创建。</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t dispatch_get_main_queue(void);</div></pre></td></tr></table></figure>
 </li>
-<li><p>并发队列<code>global dispatch queue</code>，一般是后台长时间执行的任务比如下载，可以通过<code>dispatch_get_global_queue</code>和<code>dispatch_queue_create</code>获取。</p>
+<li><p>并发队列<code>global dispatch queue</code>，一般是后台长时间执行的任务比如下载，可以通过<code>dispatch_get_global_queue</code>获取全局并行发队列或者通过(<code>iOS 5</code>及以后)<code>dispatch_queue_create</code>创建一个。</p>
   <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t dispatch_get_global_queue(dispatch_queue_priority_t priority,unsigned long flags)</div></pre></td></tr></table></figure>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_create(const char *label, dispatch_queue_attr_t attr)</div></pre></td></tr></table></figure>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);</div></pre></td></tr></table></figure>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t queue = dispatch_queue_create(<span class="string">"queue_name"</span>, DISPATCH_QUEUE_CONCURRENT);</div></pre></td></tr></table></figure>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_create(const char *label, dispatch_queue_attr_t attr)</div><div class="line">   第一个参数是<span class="string">"队列名称"</span>。第二个参数是<span class="string">"队列属性"</span>，<span class="string">"并行发"</span>队列传`<span class="string">"DISPATCH_QUEUE_GLOBAL"</span></div></pre></td></tr></table></figure>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);</div></pre></td></tr></table></figure>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;global_queue_name&quot;, DISPATCH_QUEUE_CONCURRENT);</div></pre></td></tr></table></figure>
 </li>
-<li><p>串行队列<code>serial queues</code>，获得串行有两种途径</p>
-<ul>
-<li><p>使用<code>dispatch_queue_create</code>函数创建串行队列</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t  dispatch_queue_create(const char *label,  dispatch_queue_attr_t attr)</div><div class="line">// 第一个参数是队列名称，第二个参数是队列属性，串行队列传NULL/nil/DISPATCH_QUEUE_SERIAL都是创建串行队列</div><div class="line"></div><div class="line">// 用法</div><div class="line">dispatch_queue_t queue = 										dispatch_queue_create(&quot;blahblahblah&quot;,  NULL);</div><div class="line"></div><div class="line">//非ARC需要手动释放队列</div><div class="line">//dispatch_release(queue);</div></pre></td></tr></table></figure>
-</li>
-<li><p>使用主队列（一种特殊的串行队列，GCD自带的在主线程中执行的队列）</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">      1 dispatch_get_main_queue()</div><div class="line"></div><div class="line">// 用法</div><div class="line">dispatch_queue_t queue = dispatch_get_main_queue();</div></pre></td></tr></table></figure>
+<li><p>串行队列<code>serial queues</code>，可以通过<code>dispatch_get_main_queue</code>获得主队列或者通过<code>dispatch_create</code>创建一个</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t  dispatch_queue_create(const char *label,  dispatch_queue_attr_t attr)</div><div class="line">   第一个参数是<span class="string">"队列名称"</span>。第二个参数是<span class="string">"队列属性"</span>，<span class="string">"串行"</span>队列传<span class="string">"NULL/nil/DISPATCH_QUEUE_SERIAL"</span>都是创建<span class="string">"串行"</span>队列</div></pre></td></tr></table></figure>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;serial_queue_name&quot;,  NULL);</div></pre></td></tr></table></figure>
 </li>
 </ul>
+<blockquote>
+<p>Note: 系统同时提供给你好几个并发队列。它们叫做全局调度队列（Global Dispatch Queues）。目前的四个全局队列有着不同的优先级：background、low、default 以及 high。要知道，Apple的API也会使用这些队列，所以你添加的任何任务都不会是这些队列中唯一的任务。</p>
+<p>From <a href="https://www.raywenderlich.com/60749/grand-central-dispatch-in-depth-part-1" target="_blank" rel="external">Here</a> and <a href="https://github.com/nixzhu/dev-blog/blob/master/2014-04-19-grand-central-dispatch-in-depth-part-1.md" target="_blank" rel="external">译文</a></p>
+</blockquote>
+<h3 id="关于dispatch-queues的另外一些关键点"><a href="#关于dispatch-queues的另外一些关键点" class="headerlink" title="关于dispatch queues的另外一些关键点"></a>关于<code>dispatch queues</code>的另外一些关键点</h3><ul>
+<li><p>dispatch queue之间，任务的执行是并发的。任务的串行执行是相对单个dislatch queue而言的.</p>
+</li>
+<li><p>系统决定了在同一时间段执行的任务数量。因此，有100个任务(每个都在一个队列里，所以有100个队列)的应用也许不会并发执行这100个任务，除非它有100或以上个有效的核。</p>
+</li>
+<li><p>当在选择要开始哪个队列的任务执行时，系统会考虑队列的优先级。</p>
+</li>
+<li><p>在一个队列里的任务在它们被添加到队列时，一定是做好了执行准备的。</p>
+</li>
+<li><p>serial dispatch queue是引用计数对象。如果要在代码在retain它们，注意dispatch sources 能与一个队列联系同时也增加队列的引用计数。因此，你需要确保所有的dispatch sources都被取消，并且每个retain与每个release平衡对应。</p>
 </li>
 </ul>
-<h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2><h2 id="线程死锁-deadlock"><a href="#线程死锁-deadlock" class="headerlink" title="线程死锁(deadlock)"></a>线程死锁(deadlock)</h2><h3 id="什么是死锁？"><a href="#什么是死锁？" class="headerlink" title="什么是死锁？"></a>什么是死锁？</h3><blockquote>
+<blockquote>
+<p>附：<code>并行(parallesim)</code>与<code>并发(concurrency)</code>的区别<br><a href="https://laike9m.com/blog/huan-zai-yi-huo-bing-fa-he-bing-xing,61/" target="_blank" rel="external">具体解释传送门</a><br>有一张图可以大概说明<br><img src="https://cdn3.raywenderlich.com/wp-content/uploads/2014/01/Concurrency_vs_Parallelism.png" alt="image"></p>
+<p>由于<code>concurrent</code>的翻译是<code>并发</code>，所以我没有用过<code>并行</code>这个词，至于用得对不对，我不清楚。</p>
+</blockquote>
+<h2 id="线程死锁-deadlock"><a href="#线程死锁-deadlock" class="headerlink" title="线程死锁(deadlock)"></a>线程死锁(deadlock)</h2><h3 id="什么是死锁？"><a href="#什么是死锁？" class="headerlink" title="什么是死锁？"></a>什么是死锁？</h3><blockquote>
 <p><strong> <code>死锁</code>发生的四个必要条件 </strong></p>
 <ul>
 <li><code>互斥</code>条件：一个资源每次只能被一个进程使用。</li>
@@ -292,10 +317,19 @@ classes that you can use:
 <li><code>循环等待</code>(<code>形成回路</code>)条件:若干进程之间形成一种头尾相接的循环等待资源关系。</li>
 </ul>
 </blockquote>
-<p>说人话：有两个线程A和B都卡住了，因为A在等B，B也在等A，相互等待对方完成某些操作后自己才能进行操作，于是两者什么事也做不了，这就造成了死锁。</p>
-<h3 id="什么样的代码会导致死锁？"><a href="#什么样的代码会导致死锁？" class="headerlink" title="什么样的代码会导致死锁？"></a>什么样的代码会导致死锁？</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dispatch_sync(diapatch_get_main_queue(),^&#123;</div><div class="line">	NSLog(&quot;线程死锁&quot;);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<p>在程序中写这样的语句执行后不会有这句输出。</p>
-<p><code>dispatch_sync</code>函数体之后的任何任务都必须等到<code>dispatch_sync</code>函数体内的任务执行完后才可以执行。</p>
+<p>说人话：有两个线程<code>A</code>和<code>B</code>都卡住了，因为<code>A</code>在等<code>B</code>，<code>B</code>也在等<code>A</code>，相互等待对方完成某些操作后自己才能进行操作，于是两者什么事也做不了，这就造成了<code>死锁</code>。</p>
+<p>可以用<code>操作系统</code>中很经典的<code>图书馆问题</code>来说明:<br>图书馆里有100个座位，每个进入的人都需要登记后才能进去看书，离开前也需要登记后才能出去。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"V"</span>表示信号量 + 1, <span class="string">"P"</span>表示信号量 - 1</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">semaphore mutex = 1, seat = 100;</div><div class="line">// 信号量初始化</div><div class="line">P(seat); 检查有没有座位</div><div class="line">P(mutex); 登记，登记行为的信号量 - 1</div><div class="line">V(mutex); 登记完毕，释放登记信号量</div><div class="line">/* 阅读... */</div><div class="line">P(mutex); 要离开时需要登记</div><div class="line">V(mutex); 释放登记信号量</div><div class="line">V(seat); 座位信号量 + 1</div></pre></td></tr></table></figure>
+<p>这段伪代码没有问题，但是，当把<code>P(seat)</code>和<code>P(mutex)</code>交换一下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">P(mutex);</div><div class="line">P(seat);</div></pre></td></tr></table></figure>
+<p>想象当图书馆内已经<code>没有空闲座位</code>时，<code>P(mutex)</code>把登记资源占着，但是无法释放，因为<code>P(seat)</code>会因为<code>seat = 0</code>而陷入等待，而且占着座位的人想登记出去也登记不了，因为登记资源被占了，所以<code>seat</code>释放不了。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">想进图书馆的<span class="string">"A"</span>等着<span class="string">"seat"</span>释放, 想出去的人<span class="string">"B"</span>等着A释放<span class="string">"mutex"</span></div></pre></td></tr></table></figure></p>
+<h3 id="什么样的代码会导致死锁？"><a href="#什么样的代码会导致死锁？" class="headerlink" title="什么样的代码会导致死锁？"></a>什么样的代码会导致死锁？</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dispatch_sync(diapatch_get_main_queue(),^&#123;</div><div class="line">	NSLog(&quot;线程死锁&quot;); //任务１</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h6 id="在程序中写这样的语句执行后不会有这句输出。"><a href="#在程序中写这样的语句执行后不会有这句输出。" class="headerlink" title="在程序中写这样的语句执行后不会有这句输出。"></a>在程序中写这样的语句执行后不会有这句输出。</h6><h6 id="很多地方的文章都写这个例子，然后告诉你只要不要同步往main-queue里加任务就不会死锁，那么，这个说法太肤浅了，虽然我接下来写的东西也深入不到哪去，还没有研究过底层的源码。"><a href="#很多地方的文章都写这个例子，然后告诉你只要不要同步往main-queue里加任务就不会死锁，那么，这个说法太肤浅了，虽然我接下来写的东西也深入不到哪去，还没有研究过底层的源码。" class="headerlink" title="很多地方的文章都写这个例子，然后告诉你只要不要同步往main queue里加任务就不会死锁，那么，这个说法太肤浅了，虽然我接下来写的东西也深入不到哪去，还没有研究过底层的源码。"></a>很多地方的文章都写这个例子，然后告诉你只要不要<code>同步</code>往<code>main queue</code>里加任务就不会<code>死锁</code>，那么，这个说法太肤浅了，虽然我接下来写的东西也深入不到哪去，还没有研究过底层的源码。</h6><p><a href="https://developer.apple.com/library/content/documentation/General/Conceptual/ConcurrencyProgrammingGuide/OperationQueues/OperationQueues.html#//apple_ref/doc/uid/TP40008091-CH102-SW1" target="_blank" rel="external">官方文档</a>里有这样一句话</p>
+<blockquote>
+<p>Submits a block to a dispatch queue for synchronous execution. Unlike dispatch_async, this function does not return until the block has finished. <code>Calling this function and targeting the current queue results in deadlock</code>.</p>
+</blockquote>
+<p>按照官方文档里说的这句话，只要不要同步向当前队列添加任务，就不会导致死锁。</p>
 
   </section>
 
