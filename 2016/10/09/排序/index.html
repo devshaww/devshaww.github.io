@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      排序 | Shaw 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="Ly.Shaw">
+    
+    
+
+    <meta name="description" content="直接插入12345678910111213void InsertSort(SqList &amp;amp;L)&amp;#123;    for(i = 2; i &amp;lt; L.Length; i++)&amp;#123;        /* i从2开始是因为r[0]是哨兵，原本用r[0]和r[1]比较也就变成了r[1]与r[2]比较，同理如果i从1开始就让r[i]和r[i+1]作比较就可以了，一样的效果 */">
+<meta property="og:type" content="article">
+<meta property="og:title" content="排序 | Shaw">
+<meta property="og:url" content="http://yoursite.com/2016/10/09/排序/index.html">
+<meta property="og:site_name" content="Shaw">
+<meta property="og:description" content="直接插入12345678910111213void InsertSort(SqList &amp;amp;L)&amp;#123;    for(i = 2; i &amp;lt; L.Length; i++)&amp;#123;        /* i从2开始是因为r[0]是哨兵，原本用r[0]和r[1]比较也就变成了r[1]与r[2]比较，同理如果i从1开始就让r[i]和r[i+1]作比较就可以了，一样的效果 */">
+<meta property="og:updated_time" content="2016-10-09T03:08:22.665Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="排序 | Shaw">
+<meta name="twitter:description" content="直接插入12345678910111213void InsertSort(SqList &amp;amp;L)&amp;#123;    for(i = 2; i &amp;lt; L.Length; i++)&amp;#123;        /* i从2开始是因为r[0]是哨兵，原本用r[0]和r[1]比较也就变成了r[1]与r[2]比较，同理如果i从1开始就让r[i]和r[i+1]作比较就可以了，一样的效果 */">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    
+    <link rel="stylesheet" href="/css/uno.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
+
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+        <a href="/" title="link to homepage for Shaw"><img src="/images/avatar.jpg" width="80" alt="Shaw logo" class="panel-cover__logo logo" /></a>
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">Shaw</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          Touch of your skin sympathetically brushed against the shoulder you used to embrace. Sparking ashes drift along your flames and softly merge into the sky.
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/" title="" class="">home</a></li>
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">posts</a></li>
+              
+                
+                <li class="navigation__item"><a href="/about" title="" class="">about</a></li>
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+    
+      <!-- Github -->
+      <li class="navigation__item">
+        <a href="https://github.com/devshaww" title="Huno on GitHub">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+    
+
+    <!-- China social icon -->
+    <!--
+    
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+    -->
+
+
+
+  </ul>
+</nav>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">排序</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2016-10-09" class="post-meta__date date">2016-10-09</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+            <font class="categories">
+            &#8226; 分类:
+            <a class="categories-link" href="/categories/数据结构/">数据结构</a>
+            </font>
+          
+
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <h2 id="直接插入"><a href="#直接插入" class="headerlink" title="直接插入"></a>直接插入</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">void InsertSort(SqList &amp;L)&#123;</div><div class="line">    for(i = 2; i &lt; L.Length; i++)&#123;    </div><div class="line">    /* i从2开始是因为r[0]是哨兵，原本用r[0]和r[1]比较也就变成了r[1]与r[2]比较，同理如果i从1开始就让r[i]和r[i+1]作比较就可以了，一样的效果 */</div><div class="line">        if( L.r[ i ].key &lt; L.r[ i-1 ].key )&#123;</div><div class="line">            L.r[ 0 ] = L.r[ i ];    </div><div class="line">            /* r[0]用作监视哨，因为要进行操作的那个比前一个元素小的元素，也就是当前的r[i]，要马上被前一个元素赋值（见下一句），所以这里用监视哨把r[i]复制下来 */</div><div class="line">            L.r[ i ] = L.r[ i - 1 ]; </div><div class="line">            for( j = i - 2; L.r[ 0 ].key &lt; L.r[ j ].key; --j)&#123;</div><div class="line">                L.r[ j + 1] = L.r[ j ];   </div><div class="line">                /* 目的在于当当前遍历到的元素 &lt; 要插入的元素，就应该继续往后移，直到发现一个比监视哨小的，才找到了插入位置 */</div><div class="line">            L.r[ j + 1 ] = L.r[ 0 ];</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>直接插入的使用方法是给定一个任意序列，用这个函数把它排列出来。</p>
+<p>原理是：将一个记录插入到已排好序的序列中，从而得到一个新的，记录数增一的序列。</p>
+<p>一开始把第一个记录看作一个有序序列，第二个记录拿进来，排好；第三个记录拿进来，排好。这样，每拿一个记录出来，就和之前排好的有序序列里的最后一个元素开始作比较，找到合适的插入位置，原序列该后移后移.</p>
+<h2 id="二分法（折半插入）"><a href="#二分法（折半插入）" class="headerlink" title="二分法（折半插入）"></a>二分法（折半插入）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">// 折半插入的前提是：向一个有序序列里插入元素</div><div class="line"></div><div class="line">void BInsertSort(SqList &amp;L) &#123;</div><div class="line">    for( i = 2; i &lt;= L.Length; i++) &#123;</div><div class="line">        L.r[0] = L.r[i];</div><div class="line">        low = 1; high = i - 1;</div><div class="line">        while(low &lt;= high) &#123;</div><div class="line">            mid = (low + high)/2;</div><div class="line">            if( L.r[mid] &gt; L.r[0] ) &#123;</div><div class="line">                high = m - 1;</div><div class="line">            &#125;</div><div class="line">            else &#123;</div><div class="line">                low = low + 1;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        for(j = i - 1; j &gt;= high + 1; --j) </div><div class="line">            L,r[j] = L.r[j];</div><div class="line">        L.r[high + 1] = L.r[0];</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">// 无论怎样 找到插入的地方时的情况都是low指针在右，high指针在左</div><div class="line">// 因为一定会出现high low mid指向同一个记录</div></pre></td></tr></table></figure>
+
+  </section>
+
+  
+
+<section class="post-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+      var disqus_shortname = 'Shawww'; 
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+  
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2014-2015. | 由<a href="https://hexo.io/">Hexo</a>强力驱动 | 主题<a href="https://github.com/someus/huno">Huno</a></span>
+    
+</footer>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>
