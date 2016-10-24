@@ -7,7 +7,7 @@
     
 
     <title>
-      对Block的理解过程记录 | Shaw 
+      Block进阶 | Shaw 
     </title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -16,16 +16,28 @@
     
     
 
-    <meta name="description" content="前言在看iOS与OS X多线程和内存管理时，看到block那章，我就觉得看不懂了。这一章包含太多的底层源码，非常枯燥而且不好理解，因此难以集中精神。">
+    <meta name="description" content="前言在了解了Block的基础知识后，希望对它有更多的认识比如：
+
+Block里的野指针错误为什么会出现？怎样避免？
+Block里的循环引用的原理是什么？
+Block在ARC与MRC下有什么不同？">
 <meta property="og:type" content="article">
-<meta property="og:title" content="对Block的理解过程记录 | Shaw">
-<meta property="og:url" content="http://yoursite.com/2016/10/22/Block理解过程/index.html">
+<meta property="og:title" content="Block进阶 | Shaw">
+<meta property="og:url" content="http://yoursite.com/2016/10/22/Block进阶/index.html">
 <meta property="og:site_name" content="Shaw">
-<meta property="og:description" content="前言在看iOS与OS X多线程和内存管理时，看到block那章，我就觉得看不懂了。这一章包含太多的底层源码，非常枯燥而且不好理解，因此难以集中精神。">
-<meta property="og:updated_time" content="2016-10-22T13:24:59.371Z">
+<meta property="og:description" content="前言在了解了Block的基础知识后，希望对它有更多的认识比如：
+
+Block里的野指针错误为什么会出现？怎样避免？
+Block里的循环引用的原理是什么？
+Block在ARC与MRC下有什么不同？">
+<meta property="og:updated_time" content="2016-10-24T12:13:59.411Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="对Block的理解过程记录 | Shaw">
-<meta name="twitter:description" content="前言在看iOS与OS X多线程和内存管理时，看到block那章，我就觉得看不懂了。这一章包含太多的底层源码，非常枯燥而且不好理解，因此难以集中精神。">
+<meta name="twitter:title" content="Block进阶 | Shaw">
+<meta name="twitter:description" content="前言在了解了Block的基础知识后，希望对它有更多的认识比如：
+
+Block里的野指针错误为什么会出现？怎样避免？
+Block里的循环引用的原理是什么？
+Block在ARC与MRC下有什么不同？">
     
     
     
@@ -195,7 +207,7 @@ classes that you can use:
 
   <header class="post-header">
     
-    <h1 class="post-title">对Block的理解过程记录</h1>
+    <h1 class="post-title">Block进阶</h1>
 
     
 
@@ -221,8 +233,33 @@ classes that you can use:
   </header>
 
   <section id="post-content" class="article-content post">
-    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在看<a href="">iOS与OS X多线程和内存管理</a>时，看到<code>block</code>那章，我就觉得看不懂了。这一章包含太多的底层源码，非常枯燥而且不好理解，因此难以集中精神。<br><a id="more"></a></p>
-
+    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在了解了<code>Block</code>的基础知识后，希望对它有更多的认识比如：</p>
+<ul>
+<li><code>Block</code>里的<code>野指针</code>错误为什么会出现？怎样避免？</li>
+<li><code>Block</code>里的<code>循环引用</code>的原理是什么？</li>
+<li><code>Block</code>在<code>ARC</code>与<code>MRC</code>下有什么不同？</li>
+</ul>
+<a id="more"></a>
+<p>在看<a href="">iOS与OS X多线程和内存管理</a>时，看到<code>block</code>那章，我就觉得看不懂了。这一章包含太多的底层源码，非常枯燥而且不好理解，因此难以集中精神。<br>因此在我对之的理解稍微清晰了一些时，我就记录了下来。</p>
+<blockquote>
+<p>将环境改为<code>MRC</code>：添上<code>-fno-objc-arc</code>。</p>
+</blockquote>
+<h2 id="Block的种类"><a href="#Block的种类" class="headerlink" title="Block的种类"></a>Block的种类</h2><h3 id="NSStackBlock"><a href="#NSStackBlock" class="headerlink" title="NSStackBlock"></a>NSStackBlock</h3><ul>
+<li>引用了外部变量的<code>block</code></li>
+<li><code>MRC</code>下，<code>NSStackBlock</code>位于<code>栈</code>中，<code>block</code>函数体返回后，其位于的栈段会被清除，即<code>block</code>会无效，此时如果再次访问<code>block</code>，就会造成<code>野指针</code>错误。<code>解决方法</code>是：通过对block做<code>copy</code>操作，使之转换为位于<code>堆</code>中的<code>NSMallocBlock</code>。</li>
+<li><code>ARC</code>下，与<code>MRC</code>不同的是，不需要再做<code>copy</code>操作，在<code>ARC</code>下，所有的block都会自动转到堆区，即NSMallocBlock。</li>
+</ul>
+<h4 id="e-g"><a href="#e-g" class="headerlink" title="e.g."></a>e.g.</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">typedef void (^myBlock)();</div><div class="line"></div><div class="line">myBlock block = ^ &#123;</div><div class="line">	NSLog(&quot;%d&quot;, a);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="NSMallocBlock"><a href="#NSMallocBlock" class="headerlink" title="NSMallocBlock"></a>NSMallocBlock</h3><ul>
+<li>由<code>NSStackBlock copy</code>得来，位于内存的<code>堆</code>区。</li>
+</ul>
+<h4 id="e-g-1"><a href="#e-g-1" class="headerlink" title="e.g."></a>e.g.</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+<h3 id="NSGlobalStack"><a href="#NSGlobalStack" class="headerlink" title="NSGlobalStack"></a>NSGlobalStack</h3><ul>
+<li>没有引用外部变量的<code>block</code>就是<code>NSGlobalStack</code>。</li>
+<li>既不位于<code>堆</code>，也不位于<code>栈</code>。</li>
+</ul>
+<h4 id="e-g-2"><a href="#e-g-2" class="headerlink" title="e.g."></a>e.g.</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">int (^sum)(int, int) = ^(int x, int y) &#123;</div><div class="line">	return x + y;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="野指针错误"><a href="#野指针错误" class="headerlink" title="野指针错误"></a>野指针错误</h2>
   </section>
 
   
