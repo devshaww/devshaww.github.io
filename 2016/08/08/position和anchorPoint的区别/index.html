@@ -16,20 +16,26 @@
     
     
 
-    <meta name="description" content="整理自苹果官方文档">
+    <meta name="description" content="整理自苹果官方文档
+
+Layers使用两种坐标系point-based">
 <meta property="og:type" content="article">
 <meta property="og:title" content="position和anchorPoint的区别 | Shaw">
 <meta property="og:url" content="http://yoursite.com/2016/08/08/position和anchorPoint的区别/index.html">
 <meta property="og:site_name" content="Shaw">
-<meta property="og:description" content="整理自苹果官方文档">
+<meta property="og:description" content="整理自苹果官方文档
+
+Layers使用两种坐标系point-based">
 <meta property="og:image" content="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CoreAnimation_guide/Art/layer_coords_bounds_2x.png">
 <meta property="og:image" content="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CoreAnimation_guide/Art/layer_coords_unit_2x.png">
 <meta property="og:image" content="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CoreAnimation_guide/Art/layer_coords_anchorpoint_position_2x.png">
 <meta property="og:image" content="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CoreAnimation_guide/Art/layer_coords_anchorpoint_transform_2x.png">
-<meta property="og:updated_time" content="2016-09-20T13:01:38.722Z">
+<meta property="og:updated_time" content="2016-10-27T12:17:09.490Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="position和anchorPoint的区别 | Shaw">
-<meta name="twitter:description" content="整理自苹果官方文档">
+<meta name="twitter:description" content="整理自苹果官方文档
+
+Layers使用两种坐标系point-based">
 <meta name="twitter:image" content="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CoreAnimation_guide/Art/layer_coords_bounds_2x.png">
     
     
@@ -227,14 +233,15 @@ classes that you can use:
 
   <section id="post-content" class="article-content post">
     <blockquote>
-<p>整理自<a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CoreAnimation_guide/CoreAnimationBasics/CoreAnimationBasics.html#//apple_ref/doc/uid/TP40004514-CH2-SW3" target="_blank" rel="external">苹果官方文档</a><br><a id="more"></a></p>
-<h2 id="Layers使用两种坐标系"><a href="#Layers使用两种坐标系" class="headerlink" title="Layers使用两种坐标系"></a>Layers使用两种坐标系</h2><h3 id="point-based"><a href="#point-based" class="headerlink" title="point-based"></a>point-based</h3><ul>
+<p>整理自<a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CoreAnimation_guide/CoreAnimationBasics/CoreAnimationBasics.html#//apple_ref/doc/uid/TP40004514-CH2-SW3" target="_blank" rel="external">苹果官方文档</a></p>
+</blockquote>
+<h2 id="Layers使用两种坐标系"><a href="#Layers使用两种坐标系" class="headerlink" title="Layers使用两种坐标系"></a>Layers使用两种坐标系</h2><h3 id="point-based"><a href="#point-based" class="headerlink" title="point-based"></a>point-based</h3><a id="more"></a>
+<ul>
 <li>当需要定义<code>layer</code>在屏幕中或是距另一个<code>layer</code>的位置时用到，比如<code>position</code>，<code>position</code>默认在屏幕正中</li>
 <li>定义一个<code>layer</code>的具体位置，在此坐标系中用<code>size</code>和<code>position</code>可以确定下来</li>
 <li><code>position</code>是定义<code>layer</code>相对父坐标系的位置的</li>
 <li>虽然<code>layer</code>有<code>frame</code>属性，但它会随着<code>position</code>和<code>size</code>的改变而改变，且用得稍微少一些</li>
 </ul>
-</blockquote>
 <h3 id="unit-coordinate"><a href="#unit-coordinate" class="headerlink" title="unit coordinate"></a>unit coordinate</h3><ul>
 <li>这种坐标系不是用来定义<code>layer</code>在屏幕中的位置的，比如<code>anchorPoint</code>。默认为<code>(0.5, 0.5)</code>, 这个属性也是和以往大家适应的位置属性不同的一点，建立了和<code>bounds</code>的关系，具体看下面的内容就懂了</li>
 </ul>
