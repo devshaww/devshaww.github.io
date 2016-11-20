@@ -7,7 +7,7 @@
     
 
     <title>
-       | Shaw 
+      排序算法整合 | Shaw 
     </title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -16,21 +16,18 @@
     
     
 
-    <meta name="description" content="title: 排序算法整合date: 2016-01-07 20:58:40categories: 数据结构
-选择排序 N2/2次比较和N次交换
+    <meta name="description" content="选择排序 N2/2次比较和N次交换
 每次内循环都把当前最小的元素选出来，然后通过外循环将值交换。无论是乱序数组还是顺序数组，用的时间，竟然一样长。我们会看到，其他排序方法会更善于利用输入的初始状态。">
 <meta property="og:type" content="article">
-<meta property="og:title" content=" | Shaw">
-<meta property="og:url" content="http://yoursite.com/2016/10/09/排序/index.html">
+<meta property="og:title" content="排序算法整合 | Shaw">
+<meta property="og:url" content="http://yoursite.com/2016/01/07/排序/index.html">
 <meta property="og:site_name" content="Shaw">
-<meta property="og:description" content="title: 排序算法整合date: 2016-01-07 20:58:40categories: 数据结构
-选择排序 N2/2次比较和N次交换
+<meta property="og:description" content="选择排序 N2/2次比较和N次交换
 每次内循环都把当前最小的元素选出来，然后通过外循环将值交换。无论是乱序数组还是顺序数组，用的时间，竟然一样长。我们会看到，其他排序方法会更善于利用输入的初始状态。">
-<meta property="og:updated_time" content="2016-11-20T12:45:48.779Z">
+<meta property="og:updated_time" content="2016-11-20T12:51:02.211Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content=" | Shaw">
-<meta name="twitter:description" content="title: 排序算法整合date: 2016-01-07 20:58:40categories: 数据结构
-选择排序 N2/2次比较和N次交换
+<meta name="twitter:title" content="排序算法整合 | Shaw">
+<meta name="twitter:description" content="选择排序 N2/2次比较和N次交换
 每次内循环都把当前最小的元素选出来，然后通过外循环将值交换。无论是乱序数组还是顺序数组，用的时间，竟然一样长。我们会看到，其他排序方法会更善于利用输入的初始状态。">
     
     
@@ -201,15 +198,20 @@ classes that you can use:
 
   <header class="post-header">
     
-    <h1 class="post-title"></h1>
+    <h1 class="post-title">排序算法整合</h1>
 
     
 
     <div class="post-meta">
-      <time datetime="2016-10-09" class="post-meta__date date">2016-10-09</time> 
+      <time datetime="2016-01-07" class="post-meta__date date">2016-01-07</time> 
 
       <span class="post-meta__tags tags">
 
+          
+            <font class="categories">
+            &#8226; 分类:
+            <a class="categories-link" href="/categories/数据结构/">数据结构</a>
+            </font>
           
 
           
@@ -222,9 +224,7 @@ classes that you can use:
   </header>
 
   <section id="post-content" class="article-content post">
-    <hr>
-<p>title: 排序算法整合<br>date: 2016-01-07 20:58:40<br>categories: 数据结构</p>
-<h2 id="选择排序-N2-2次比较和N次交换"><a href="#选择排序-N2-2次比较和N次交换" class="headerlink" title="选择排序 N2/2次比较和N次交换"></a>选择排序 <code>N2/2</code>次比较和<code>N</code>次交换</h2><blockquote>
+    <h2 id="选择排序-N2-2次比较和N次交换"><a href="#选择排序-N2-2次比较和N次交换" class="headerlink" title="选择排序 N2/2次比较和N次交换"></a>选择排序 <code>N2/2</code>次比较和<code>N</code>次交换</h2><blockquote>
 <p>每次<code>内循环</code>都把当前<code>最小</code>的元素选出来，然后通过<code>外循环</code>将值交换。<br>无论是<code>乱序数组</code>还是<code>顺序数组</code>，用的时间，竟然一样长。<br>我们会看到，其他排序方法会更善于利用<code>输入的初始状态</code>。<br><a id="more"></a></p>
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public static void sort(int[] a) &#123;</div><div class="line">    int N = a.length;</div><div class="line">    for(int i = 0; i &lt; N; i++) &#123;</div><div class="line">        int min = i;</div><div class="line">        for(int j = i+1; a[j] &lt; a[min]; j++)</div><div class="line">            min = j;</div><div class="line">        int tmp = a[i];</div><div class="line">        a[i] = a[min];</div><div class="line">        a[min] = tmp;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
