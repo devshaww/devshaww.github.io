@@ -12,7 +12,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     
-      <meta name="author" content="Ly.Shaw">
+      <meta name="author" content="Shaw">
     
     
 
@@ -20,14 +20,14 @@
  GCD - Grand Central Dispatch是Apple开发的一个多核编程的较新的解决方法，是苹果主推的多线程处理机制。在多核CPU的状态下，GCD的性能很高。它自动利用更多的CPU内核，管理线程生命周期，程序员不需要编写任何线程管理代码，只需要给定要让GCD执行的任务。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GCD入门 | Shaw">
-<meta property="og:url" content="http://yoursite.com/2016/09/20/GCD入门/index.html">
+<meta property="og:url" content="http://yoursite.com/2016/09/20/GCD/index.html">
 <meta property="og:site_name" content="Shaw">
 <meta property="og:description" content="前言
  GCD - Grand Central Dispatch是Apple开发的一个多核编程的较新的解决方法，是苹果主推的多线程处理机制。在多核CPU的状态下，GCD的性能很高。它自动利用更多的CPU内核，管理线程生命周期，程序员不需要编写任何线程管理代码，只需要给定要让GCD执行的任务。">
 <meta property="og:image" content="https://cdn1.raywenderlich.com/wp-content/uploads/2014/01/Concurrent-Queue-480x272.png">
 <meta property="og:image" content="https://cdn2.raywenderlich.com/wp-content/uploads/2014/01/Serial-Queue-480x272.png">
 <meta property="og:image" content="https://cdn3.raywenderlich.com/wp-content/uploads/2014/01/Concurrency_vs_Parallelism.png">
-<meta property="og:updated_time" content="2016-09-22T12:06:00.072Z">
+<meta property="og:updated_time" content="2016-12-15T13:43:05.396Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GCD入门 | Shaw">
 <meta name="twitter:description" content="前言
@@ -232,6 +232,7 @@ classes that you can use:
 <p> <code>GCD - Grand Central Dispatch</code>是Apple开发的一个多核编程的较新的解决方法，是苹果主推的多线程处理机制。在多核CPU的状态下，<code>GCD</code>的性能很高。<br>它自动利用更多的<code>CPU</code>内核，管理线程生命周期，程序员不需要编写任何线程管理代码，只需要给定要让<code>GCD</code>执行的任务。</p>
 </blockquote>
 <a id="more"></a>
+<p><br></p>
 <blockquote>
 <ol>
 <li><p><code>GCD</code>是纯C语言的，<code>GCD</code>中的函数大多数以<code>dispatch</code>开头。</p>
@@ -274,20 +275,26 @@ classes that you can use:
 </li>
 </ul>
 <h3 id="三种调度队列-dispatch-queues"><a href="#三种调度队列-dispatch-queues" class="headerlink" title="三种调度队列(dispatch queues)"></a>三种调度队列(dispatch queues)</h3><ul>
-<li><p>运行在主线程的主队列的全局可获得的<code>main queue</code>，一般是执行和<code>UI</code>相关的任务比如更新<code>UI</code>的显示，通过<code>dispatch_get_main_queue</code>获取,不需要创建。</p>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t dispatch_get_main_queue(void);</div></pre></td></tr></table></figure>
+<li>运行在主线程的主队列的全局可获得的<code>main queue</code>，一般是执行和<code>UI</code>相关的任务比如更新<code>UI</code>的显示，通过<code>dispatch_get_main_queue</code>获取,不需要创建。  <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t dispatch_get_main_queue(void);</div></pre></td></tr></table></figure>
 </li>
+</ul>
+<p><br></p>
+<ul>
 <li><p>并发队列<code>global dispatch queue</code>，一般是后台长时间执行的任务比如下载，可以通过<code>dispatch_get_global_queue</code>获取全局并行发队列或者通过(<code>iOS 5</code>及以后)<code>dispatch_queue_create</code>创建一个。</p>
   <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t dispatch_get_global_queue(dispatch_queue_priority_t priority,unsigned long flags)</div></pre></td></tr></table></figure>
   <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_create(const char *label, dispatch_queue_attr_t attr)</div><div class="line">   第一个参数是<span class="string">"队列名称"</span>。第二个参数是<span class="string">"队列属性"</span>，<span class="string">"并行发"</span>队列传`<span class="string">"DISPATCH_QUEUE_GLOBAL"</span></div></pre></td></tr></table></figure>
   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);</div></pre></td></tr></table></figure>
   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;global_queue_name&quot;, DISPATCH_QUEUE_CONCURRENT);</div></pre></td></tr></table></figure>
 </li>
+</ul>
+<p><br></p>
+<ul>
 <li><p>串行队列<code>serial queues</code>，可以通过<code>dispatch_get_main_queue</code>获得主队列或者通过<code>dispatch_create</code>创建一个</p>
   <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t  dispatch_queue_create(const char *label,  dispatch_queue_attr_t attr)</div><div class="line">   第一个参数是<span class="string">"队列名称"</span>。第二个参数是<span class="string">"队列属性"</span>，<span class="string">"串行"</span>队列传<span class="string">"NULL/nil/DISPATCH_QUEUE_SERIAL"</span>都是创建<span class="string">"串行"</span>队列</div></pre></td></tr></table></figure>
   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;serial_queue_name&quot;,  NULL);</div></pre></td></tr></table></figure>
 </li>
 </ul>
+<p><br></p>
 <blockquote>
 <p>Note: 系统同时提供给你好几个并发队列。它们叫做全局调度队列（Global Dispatch Queues）。目前的四个全局队列有着不同的优先级：background、low、default 以及 high。要知道，Apple的API也会使用这些队列，所以你添加的任何任务都不会是这些队列中唯一的任务。</p>
 <p>From <a href="https://www.raywenderlich.com/60749/grand-central-dispatch-in-depth-part-1" target="_blank" rel="external">Here</a> and <a href="https://github.com/nixzhu/dev-blog/blob/master/2014-04-19-grand-central-dispatch-in-depth-part-1.md" target="_blank" rel="external">译文</a></p>
@@ -317,6 +324,7 @@ classes that you can use:
 <li><code>循环等待</code>(<code>形成回路</code>)条件:若干进程之间形成一种头尾相接的循环等待资源关系。</li>
 </ul>
 </blockquote>
+<p><br></p>
 <p>说人话：有两个线程<code>A</code>和<code>B</code>都卡住了，因为<code>A</code>在等<code>B</code>，<code>B</code>也在等<code>A</code>，相互等待对方完成某些操作后自己才能进行操作，于是两者什么事也做不了，这就造成了<code>死锁</code>。</p>
 <p>可以用<code>操作系统</code>中很经典的<code>图书馆问题</code>来说明:<br>图书馆里有100个座位，每个进入的人都需要登记后才能进去看书，离开前也需要登记后才能出去。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"V"</span>表示信号量 + 1, <span class="string">"P"</span>表示信号量 - 1</div></pre></td></tr></table></figure>
@@ -324,6 +332,7 @@ classes that you can use:
 <p>这段伪代码没有问题，但是，当把<code>P(seat)</code>和<code>P(mutex)</code>交换一下</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">P(mutex);</div><div class="line">P(seat);</div></pre></td></tr></table></figure>
 <p>想象当图书馆内已经<code>没有空闲座位</code>时，<code>P(mutex)</code>把登记资源占着，但是无法释放，因为<code>P(seat)</code>会因为<code>seat = 0</code>而陷入等待，而且占着座位的人想登记出去也登记不了，因为登记资源被占了，所以<code>seat</code>释放不了。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">想进图书馆的<span class="string">"A"</span>等着<span class="string">"seat"</span>释放, 想出去的人<span class="string">"B"</span>等着A释放<span class="string">"mutex"</span></div></pre></td></tr></table></figure></p>
+<p><br></p>
 <h3 id="什么样的代码会导致死锁？"><a href="#什么样的代码会导致死锁？" class="headerlink" title="什么样的代码会导致死锁？"></a>什么样的代码会导致死锁？</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dispatch_sync(diapatch_get_main_queue(),^&#123;</div><div class="line">	NSLog(&quot;线程死锁&quot;); //任务１</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
 <h6 id="在程序中写这样的语句执行后不会有这句输出。"><a href="#在程序中写这样的语句执行后不会有这句输出。" class="headerlink" title="在程序中写这样的语句执行后不会有这句输出。"></a>在程序中写这样的语句执行后不会有这句输出。</h6><h6 id="很多地方的文章都写这个例子，然后告诉你只要不要同步往main-queue里加任务就不会死锁，那么，这个说法太肤浅了，虽然我接下来写的东西也深入不到哪去，还没有研究过底层的源码。"><a href="#很多地方的文章都写这个例子，然后告诉你只要不要同步往main-queue里加任务就不会死锁，那么，这个说法太肤浅了，虽然我接下来写的东西也深入不到哪去，还没有研究过底层的源码。" class="headerlink" title="很多地方的文章都写这个例子，然后告诉你只要不要同步往main queue里加任务就不会死锁，那么，这个说法太肤浅了，虽然我接下来写的东西也深入不到哪去，还没有研究过底层的源码。"></a>很多地方的文章都写这个例子，然后告诉你只要不要<code>同步</code>往<code>main queue</code>里加任务就不会<code>死锁</code>，那么，这个说法太肤浅了，虽然我接下来写的东西也深入不到哪去，还没有研究过底层的源码。</h6><p><a href="https://developer.apple.com/library/content/documentation/General/Conceptual/ConcurrencyProgrammingGuide/OperationQueues/OperationQueues.html#//apple_ref/doc/uid/TP40008091-CH102-SW1" target="_blank" rel="external">官方文档</a>里有这样一句话</p>
 <blockquote>

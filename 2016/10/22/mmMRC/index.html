@@ -7,34 +7,28 @@
     
 
     <title>
-      UINavigationController 之 BarButtonItem | Shaw 
+      通过一个工程学习MRC内存管理 | Shaw 
     </title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     
-      <meta name="author" content="Ly.Shaw">
+      <meta name="author" content="Shaw">
     
     
 
-    <meta name="description" content="看了教学视频也还是被导航控制器弄晕了。
-于是果断去看相关官方文档。
-自定义的问题
-The Left Item">
+    <meta name="description" content="前言很早就想记录MRC下的内存管理，特别是set方法。与ARC不同的MRC, 非常有趣。很多开发者是在ARC已经普及时学习的iOS，没有接触过MRC。那么，如果你对MRC有兴趣，可以通过这个工程，对之形成比较完整的理解。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="UINavigationController 之 BarButtonItem | Shaw">
-<meta property="og:url" content="http://yoursite.com/2016/04/15/UINavigationController之barButtonItem/index.html">
+<meta property="og:title" content="通过一个工程学习MRC内存管理 | Shaw">
+<meta property="og:url" content="http://yoursite.com/2016/10/22/mmMRC/index.html">
 <meta property="og:site_name" content="Shaw">
-<meta property="og:description" content="看了教学视频也还是被导航控制器弄晕了。
-于是果断去看相关官方文档。
-自定义的问题
-The Left Item">
-<meta property="og:updated_time" content="2016-09-20T05:39:46.368Z">
+<meta property="og:description" content="前言很早就想记录MRC下的内存管理，特别是set方法。与ARC不同的MRC, 非常有趣。很多开发者是在ARC已经普及时学习的iOS，没有接触过MRC。那么，如果你对MRC有兴趣，可以通过这个工程，对之形成比较完整的理解。">
+<meta property="og:image" content="https://drops.azureedge.net/drops/files/acc_521713/1lO5?rscd=inline%3B%20filename%3DIMG_4593.PNG&rsct=image%2Fpng&se=2016-12-12T08%3A46%3A14Z&sig=j4VSAZhTPbaDTEnRPIR%2BZ4xby%2FdlizC2esP%2BW12t1qM%3D&sp=r&sr=b&st=2016-12-12T07%3A46%3A14Z&sv=2013-08-15">
+<meta property="og:image" content="https://drops.azureedge.net/drops/files/acc_521713/wAjZ?rscd=inline%3B%20filename%3DIMG_4594.PNG&rsct=image%2Fpng&se=2016-12-12T08%3A50%3A28Z&sig=5yFCTx2fs7ykmkkoF%2FgwLyP5ODd08MdEl1u7tbmOLPI%3D&sp=r&sr=b&st=2016-12-12T07%3A50%3A28Z&sv=2013-08-15">
+<meta property="og:updated_time" content="2016-12-15T13:45:49.437Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="UINavigationController 之 BarButtonItem | Shaw">
-<meta name="twitter:description" content="看了教学视频也还是被导航控制器弄晕了。
-于是果断去看相关官方文档。
-自定义的问题
-The Left Item">
+<meta name="twitter:title" content="通过一个工程学习MRC内存管理 | Shaw">
+<meta name="twitter:description" content="前言很早就想记录MRC下的内存管理，特别是set方法。与ARC不同的MRC, 非常有趣。很多开发者是在ARC已经普及时学习的iOS，没有接触过MRC。那么，如果你对MRC有兴趣，可以通过这个工程，对之形成比较完整的理解。">
+<meta name="twitter:image" content="https://drops.azureedge.net/drops/files/acc_521713/1lO5?rscd=inline%3B%20filename%3DIMG_4593.PNG&rsct=image%2Fpng&se=2016-12-12T08%3A46%3A14Z&sig=j4VSAZhTPbaDTEnRPIR%2BZ4xby%2FdlizC2esP%2BW12t1qM%3D&sp=r&sr=b&st=2016-12-12T07%3A46%3A14Z&sv=2013-08-15">
     
     
     
@@ -204,12 +198,12 @@ classes that you can use:
 
   <header class="post-header">
     
-    <h1 class="post-title">UINavigationController 之 BarButtonItem</h1>
+    <h1 class="post-title">通过一个工程学习MRC内存管理</h1>
 
     
 
     <div class="post-meta">
-      <time datetime="2016-04-15" class="post-meta__date date">2016-04-15</time> 
+      <time datetime="2016-10-22" class="post-meta__date date">2016-10-22</time> 
 
       <span class="post-meta__tags tags">
 
@@ -230,45 +224,12 @@ classes that you can use:
   </header>
 
   <section id="post-content" class="article-content post">
-    <p>看了教学视频也还是被导航控制器弄晕了。</p>
-<p>于是果断去看<a href="https://developer.apple.com/reference/uikit/uinavigationcontroller" target="_blank" rel="external">相关官方文档</a>。</p>
-<p>自定义的问题</p>
-<h2 id="The-Left-Item"><a href="#The-Left-Item" class="headerlink" title="The Left Item"></a>The Left Item</h2><a id="more"></a>
-<blockquote>
-<p>navigation栈里除了根控制器的所有控制器左边都会有一个leftBarButtonItem来返回上一个控制器。</p>
+    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>很早就想记录<code>MRC</code>下的内存管理，特别是<code>set</code>方法。<br>与<code>ARC</code>不同的<code>MRC</code>, 非常有趣。很多开发者是在<code>ARC</code>已经普及时学习的iOS，没有接触过<code>MRC</code>。那么，如果你对<code>MRC</code>有兴趣，可以通过这个工程，对之形成比较完整的理解。<br><a id="more"></a></p>
+<h2 id="配置MRC环境"><a href="#配置MRC环境" class="headerlink" title="配置MRC环境"></a>配置MRC环境</h2><blockquote>
+<p>将环境改为<code>MRC</code>：打开XCode-&gt;点击工程-&gt;Build Phases-&gt;Compile Sources-&gt;点击要配置MRC环境的文件-&gt;添上<code>-fno-objc-arc</code>。若要改回<code>ARC</code>, 则将<code>-fno-objc-arc</code>改成<code>-fobjc-arc</code>.</p>
 </blockquote>
-<ul>
-<li>如果栈顶控制器的<code>leftBarButtonItem</code>被自定义了，它会被展示出来.</li>
-<li>如果栈顶控制器的<code>leftBarButtonItem</code>没有被自定义，但是它的前一个控制器的backBarButtonItem是有对象的，那么当前控制器会展示那个item.</li>
-<li>如果没有任何一个控制器有自定义，那么默认有个<code>back</code>按钮，并且<code>back</code>按钮的<code>title</code>是前一个控制器的<code>title</code>（中间的那个<code>title</code>）如果<code>navigation</code>栈中只有一个<code>viewcontroller</code>，不会有<code>back</code>按钮.</li>
-</ul>
-<blockquote>
-<p>注意：有时back按钮的title可能会很长，无法适应提供的空间，navigation bar会用“Back”代替那个返回title，但是仅当当前back按钮由上一个控制器的backBarButtonItem提供时（也就是上面的第二条那样）；如果当前控制器是自定义的leftBarButton，则不会用“Back”代替。</p>
-</blockquote>
-<h2 id="The-Middle-Item"><a href="#The-Middle-Item" class="headerlink" title="The Middle Item"></a>The Middle Item</h2><ul>
-<li>如果有自定义则显示自定义，自定义用navigationItem的titleView属性.</li>
-<li>如果没有自定义，navigation bar展示一个默认title，这个属性一般来自于控制器本身的title属性的值，如果不想用这个，可以设定控制器的navigationItem属性的title属性.</li>
-</ul>
-<h2 id="The-Right-Item"><a href="#The-Right-Item" class="headerlink" title="The Right Item"></a>The Right Item</h2><ul>
-<li>通过控制器的navigationItem的rightBarButtonItem属性可以进行自定义.</li>
-<li>如果没有任何自定义，默认没有任何东西展示.</li>
-</ul>
-<hr>
-<h6 id="配置navigation-stack中的控制器间的segue，标准的show-Detail与show效果如下："><a href="#配置navigation-stack中的控制器间的segue，标准的show-Detail与show效果如下：" class="headerlink" title="配置navigation stack中的控制器间的segue，标准的show Detail与show效果如下："></a>配置<code>navigation stack</code>中的控制器间的<code>segue</code>，标准的<code>show Detail</code>与<code>show</code>效果如下：</h6><ul>
-<li>show Segue：navigationController 对 viewcontroller进行压栈</li>
-<li>show Detail Segue：present it modally</li>
-<li>别的segue的行为不变</li>
-</ul>
-<p><br></p>
-<blockquote>
-<p>关键是对<code>backBarButtonItem</code>和<code>leftBarButtonItem</code>的理解。</p>
-<p><code>backBarButtonItem</code> 和 <code>leftBarButtonItem</code>的区别主要是：</p>
-<p>假设有控制器A和控制器B，控制器A在栈底，控制器B在栈顶.</p>
-<p>那么控制器B的<code>leftBarButtonItem</code>，顾名思义，就是控制器B导航条左侧的那个item，是在控制器B的.m文件里设置的。</p>
-<p>而控制器B的<code>backBarButtonItem</code>，只能在它之前的那个控制器A里去设置，它的意义是相对A来说的，意思是：返回A的那个<code>barButtonItem</code>．</p>
-<p>拟人化一点</p>
-<p>A说：我要在我的控制器里设置一个返回我的item，其实这个item就会是B的<code>leftBarButtonItem</code>。</p>
-</blockquote>
+<p><img src="https://drops.azureedge.net/drops/files/acc_521713/1lO5?rscd=inline%3B%20filename%3DIMG_4593.PNG&amp;rsct=image%2Fpng&amp;se=2016-12-12T08%3A46%3A14Z&amp;sig=j4VSAZhTPbaDTEnRPIR%2BZ4xby%2FdlizC2esP%2BW12t1qM%3D&amp;sp=r&amp;sr=b&amp;st=2016-12-12T07%3A46%3A14Z&amp;sv=2013-08-15" alt="image"></p>
+<p><img src="https://drops.azureedge.net/drops/files/acc_521713/wAjZ?rscd=inline%3B%20filename%3DIMG_4594.PNG&amp;rsct=image%2Fpng&amp;se=2016-12-12T08%3A50%3A28Z&amp;sig=5yFCTx2fs7ykmkkoF%2FgwLyP5ODd08MdEl1u7tbmOLPI%3D&amp;sp=r&amp;sr=b&amp;st=2016-12-12T07%3A50%3A28Z&amp;sv=2013-08-15" alt="image"></p>
 
   </section>
 

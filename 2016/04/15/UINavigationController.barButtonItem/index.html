@@ -7,37 +7,34 @@
     
 
     <title>
-      Block进阶 | Shaw 
+      UINavigationController 之 BarButtonItem | Shaw 
     </title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     
-      <meta name="author" content="Ly.Shaw">
+      <meta name="author" content="Shaw">
     
     
 
-    <meta name="description" content="前言在了解了Block的基础知识后，希望对它有更多的认识比如：
-
-Block里的野指针错误为什么会出现？怎样避免？
-Block里的循环引用的原理是什么？
-Block在ARC与MRC下有什么不同？">
+    <meta name="description" content="看了教学视频也还是被导航控制器弄晕了。
+于是果断去看相关官方文档。
+自定义的问题
+The Left Item">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Block进阶 | Shaw">
-<meta property="og:url" content="http://yoursite.com/2016/10/22/Block进阶/index.html">
+<meta property="og:title" content="UINavigationController 之 BarButtonItem | Shaw">
+<meta property="og:url" content="http://yoursite.com/2016/04/15/UINavigationController.barButtonItem/index.html">
 <meta property="og:site_name" content="Shaw">
-<meta property="og:description" content="前言在了解了Block的基础知识后，希望对它有更多的认识比如：
-
-Block里的野指针错误为什么会出现？怎样避免？
-Block里的循环引用的原理是什么？
-Block在ARC与MRC下有什么不同？">
-<meta property="og:updated_time" content="2016-10-24T12:13:59.411Z">
+<meta property="og:description" content="看了教学视频也还是被导航控制器弄晕了。
+于是果断去看相关官方文档。
+自定义的问题
+The Left Item">
+<meta property="og:updated_time" content="2016-09-20T05:39:46.368Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Block进阶 | Shaw">
-<meta name="twitter:description" content="前言在了解了Block的基础知识后，希望对它有更多的认识比如：
-
-Block里的野指针错误为什么会出现？怎样避免？
-Block里的循环引用的原理是什么？
-Block在ARC与MRC下有什么不同？">
+<meta name="twitter:title" content="UINavigationController 之 BarButtonItem | Shaw">
+<meta name="twitter:description" content="看了教学视频也还是被导航控制器弄晕了。
+于是果断去看相关官方文档。
+自定义的问题
+The Left Item">
     
     
     
@@ -207,12 +204,12 @@ classes that you can use:
 
   <header class="post-header">
     
-    <h1 class="post-title">Block进阶</h1>
+    <h1 class="post-title">UINavigationController 之 BarButtonItem</h1>
 
     
 
     <div class="post-meta">
-      <time datetime="2016-10-22" class="post-meta__date date">2016-10-22</time> 
+      <time datetime="2016-04-15" class="post-meta__date date">2016-04-15</time> 
 
       <span class="post-meta__tags tags">
 
@@ -233,33 +230,46 @@ classes that you can use:
   </header>
 
   <section id="post-content" class="article-content post">
-    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在了解了<code>Block</code>的基础知识后，希望对它有更多的认识比如：</p>
-<ul>
-<li><code>Block</code>里的<code>野指针</code>错误为什么会出现？怎样避免？</li>
-<li><code>Block</code>里的<code>循环引用</code>的原理是什么？</li>
-<li><code>Block</code>在<code>ARC</code>与<code>MRC</code>下有什么不同？</li>
-</ul>
-<a id="more"></a>
-<p>在看<a href="">iOS与OS X多线程和内存管理</a>时，看到<code>block</code>那章，我就觉得看不懂了。这一章包含太多的底层源码，非常枯燥而且不好理解，因此难以集中精神。<br>因此在我对之的理解稍微清晰了一些时，我就记录了下来。</p>
+    <p>看了教学视频也还是被导航控制器弄晕了。</p>
+<p>于是果断去看<a href="https://developer.apple.com/reference/uikit/uinavigationcontroller" target="_blank" rel="external">相关官方文档</a>。</p>
+<p>自定义的问题</p>
+<h2 id="The-Left-Item"><a href="#The-Left-Item" class="headerlink" title="The Left Item"></a>The Left Item</h2><a id="more"></a>
 <blockquote>
-<p>将环境改为<code>MRC</code>：添上<code>-fno-objc-arc</code>。</p>
+<p>navigation栈里除了根控制器的所有控制器左边都会有一个leftBarButtonItem来返回上一个控制器。</p>
 </blockquote>
-<h2 id="Block的种类"><a href="#Block的种类" class="headerlink" title="Block的种类"></a>Block的种类</h2><h3 id="NSStackBlock"><a href="#NSStackBlock" class="headerlink" title="NSStackBlock"></a>NSStackBlock</h3><ul>
-<li>引用了外部变量的<code>block</code></li>
-<li><code>MRC</code>下，<code>NSStackBlock</code>位于<code>栈</code>中，<code>block</code>函数体返回后，其位于的栈段会被清除，即<code>block</code>会无效，此时如果再次访问<code>block</code>，就会造成<code>野指针</code>错误。<code>解决方法</code>是：通过对block做<code>copy</code>操作，使之转换为位于<code>堆</code>中的<code>NSMallocBlock</code>。</li>
-<li><code>ARC</code>下，与<code>MRC</code>不同的是，不需要再做<code>copy</code>操作，在<code>ARC</code>下，所有的block都会自动转到堆区，即NSMallocBlock。</li>
+<ul>
+<li>如果栈顶控制器的<code>leftBarButtonItem</code>被自定义了，它会被展示出来.</li>
+<li>如果栈顶控制器的<code>leftBarButtonItem</code>没有被自定义，但是它的前一个控制器的backBarButtonItem是有对象的，那么当前控制器会展示那个item.</li>
+<li>如果没有任何一个控制器有自定义，那么默认有个<code>back</code>按钮，并且<code>back</code>按钮的<code>title</code>是前一个控制器的<code>title</code>（中间的那个<code>title</code>）如果<code>navigation</code>栈中只有一个<code>viewcontroller</code>，不会有<code>back</code>按钮.</li>
 </ul>
-<h4 id="e-g"><a href="#e-g" class="headerlink" title="e.g."></a>e.g.</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">typedef void (^myBlock)();</div><div class="line"></div><div class="line">myBlock block = ^ &#123;</div><div class="line">	NSLog(&quot;%d&quot;, a);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="NSMallocBlock"><a href="#NSMallocBlock" class="headerlink" title="NSMallocBlock"></a>NSMallocBlock</h3><ul>
-<li>由<code>NSStackBlock copy</code>得来，位于内存的<code>堆</code>区。</li>
+<blockquote>
+<p>注意：有时back按钮的title可能会很长，无法适应提供的空间，navigation bar会用“Back”代替那个返回title，但是仅当当前back按钮由上一个控制器的backBarButtonItem提供时（也就是上面的第二条那样）；如果当前控制器是自定义的leftBarButton，则不会用“Back”代替。</p>
+</blockquote>
+<h2 id="The-Middle-Item"><a href="#The-Middle-Item" class="headerlink" title="The Middle Item"></a>The Middle Item</h2><ul>
+<li>如果有自定义则显示自定义，自定义用navigationItem的titleView属性.</li>
+<li>如果没有自定义，navigation bar展示一个默认title，这个属性一般来自于控制器本身的title属性的值，如果不想用这个，可以设定控制器的navigationItem属性的title属性.</li>
 </ul>
-<h4 id="e-g-1"><a href="#e-g-1" class="headerlink" title="e.g."></a>e.g.</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
-<h3 id="NSGlobalStack"><a href="#NSGlobalStack" class="headerlink" title="NSGlobalStack"></a>NSGlobalStack</h3><ul>
-<li>没有引用外部变量的<code>block</code>就是<code>NSGlobalStack</code>。</li>
-<li>既不位于<code>堆</code>，也不位于<code>栈</code>。</li>
+<h2 id="The-Right-Item"><a href="#The-Right-Item" class="headerlink" title="The Right Item"></a>The Right Item</h2><ul>
+<li>通过控制器的navigationItem的rightBarButtonItem属性可以进行自定义.</li>
+<li>如果没有任何自定义，默认没有任何东西展示.</li>
 </ul>
-<h4 id="e-g-2"><a href="#e-g-2" class="headerlink" title="e.g."></a>e.g.</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">int (^sum)(int, int) = ^(int x, int y) &#123;</div><div class="line">	return x + y;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="野指针错误"><a href="#野指针错误" class="headerlink" title="野指针错误"></a>野指针错误</h2>
+<hr>
+<h6 id="配置navigation-stack中的控制器间的segue，标准的show-Detail与show效果如下："><a href="#配置navigation-stack中的控制器间的segue，标准的show-Detail与show效果如下：" class="headerlink" title="配置navigation stack中的控制器间的segue，标准的show Detail与show效果如下："></a>配置<code>navigation stack</code>中的控制器间的<code>segue</code>，标准的<code>show Detail</code>与<code>show</code>效果如下：</h6><ul>
+<li>show Segue：navigationController 对 viewcontroller进行压栈</li>
+<li>show Detail Segue：present it modally</li>
+<li>别的segue的行为不变</li>
+</ul>
+<p><br></p>
+<blockquote>
+<p>关键是对<code>backBarButtonItem</code>和<code>leftBarButtonItem</code>的理解。</p>
+<p><code>backBarButtonItem</code> 和 <code>leftBarButtonItem</code>的区别主要是：</p>
+<p>假设有控制器A和控制器B，控制器A在栈底，控制器B在栈顶.</p>
+<p>那么控制器B的<code>leftBarButtonItem</code>，顾名思义，就是控制器B导航条左侧的那个item，是在控制器B的.m文件里设置的。</p>
+<p>而控制器B的<code>backBarButtonItem</code>，只能在它之前的那个控制器A里去设置，它的意义是相对A来说的，意思是：返回A的那个<code>barButtonItem</code>．</p>
+<p>拟人化一点</p>
+<p>A说：我要在我的控制器里设置一个返回我的item，其实这个item就会是B的<code>leftBarButtonItem</code>。</p>
+</blockquote>
+
   </section>
 
   
