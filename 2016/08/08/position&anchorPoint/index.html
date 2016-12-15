@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      position和anchorPoint的区别 | Shaw 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="Shaw">
+    
+    
+
+    <meta name="description" content="整理自苹果官方文档
+
+Layers使用两种坐标系point-based">
+<meta property="og:type" content="article">
+<meta property="og:title" content="position和anchorPoint的区别 | Shaw">
+<meta property="og:url" content="http://yoursite.com/2016/08/08/position&anchorPoint/index.html">
+<meta property="og:site_name" content="Shaw">
+<meta property="og:description" content="整理自苹果官方文档
+
+Layers使用两种坐标系point-based">
+<meta property="og:image" content="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CoreAnimation_guide/Art/layer_coords_bounds_2x.png">
+<meta property="og:image" content="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CoreAnimation_guide/Art/layer_coords_unit_2x.png">
+<meta property="og:image" content="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CoreAnimation_guide/Art/layer_coords_anchorpoint_position_2x.png">
+<meta property="og:image" content="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CoreAnimation_guide/Art/layer_coords_anchorpoint_transform_2x.png">
+<meta property="og:updated_time" content="2016-12-15T14:07:45.119Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="position和anchorPoint的区别 | Shaw">
+<meta name="twitter:description" content="整理自苹果官方文档
+
+Layers使用两种坐标系point-based">
+<meta name="twitter:image" content="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CoreAnimation_guide/Art/layer_coords_bounds_2x.png">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    
+    <link rel="stylesheet" href="/css/uno.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
+
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+        <a href="/" title="link to homepage for Shaw"><img src="/images/avatar.jpg" width="80" alt="Shaw logo" class="panel-cover__logo logo" /></a>
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">Shaw</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          Touch of your skin sympathetically brushed against the shoulder you used to embrace. Sparking ashes drift along your flames and softly merge into the sky.
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/" title="" class="">home</a></li>
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">posts</a></li>
+              
+                
+                <li class="navigation__item"><a href="/about" title="" class="">about</a></li>
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+    
+      <!-- Github -->
+      <li class="navigation__item">
+        <a href="https://github.com/devshaww" title="Huno on GitHub">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+    
+
+    <!-- China social icon -->
+    <!--
+    
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+    -->
+
+
+
+  </ul>
+</nav>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">position和anchorPoint的区别</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2016-08-08" class="post-meta__date date">2016-08-08</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+            <font class="categories">
+            &#8226; 分类:
+            <a class="categories-link" href="/categories/iOS/">iOS</a>
+            </font>
+          
+
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <blockquote>
+<p>整理自<a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CoreAnimation_guide/CoreAnimationBasics/CoreAnimationBasics.html#//apple_ref/doc/uid/TP40004514-CH2-SW3" target="_blank" rel="external">苹果官方文档</a></p>
+</blockquote>
+<h4 id="Layers使用两种坐标系"><a href="#Layers使用两种坐标系" class="headerlink" title="Layers使用两种坐标系"></a>Layers使用两种坐标系</h4><h5 id="point-based"><a href="#point-based" class="headerlink" title="point-based"></a>point-based</h5><a id="more"></a>
+<ul>
+<li>当需要定义<code>layer</code>在屏幕中或是距另一个<code>layer</code>的位置时用到，比如<code>position</code>，<code>position</code>默认在屏幕正中</li>
+<li>定义一个<code>layer</code>的具体位置，在此坐标系中用<code>size</code>和<code>position</code>可以确定下来</li>
+<li><code>position</code>是定义<code>layer</code>相对父坐标系的位置的</li>
+<li>虽然<code>layer</code>有<code>frame</code>属性，但它会随着<code>position</code>和<code>size</code>的改变而改变，且用得稍微少一些</li>
+</ul>
+<h5 id="unit-coordinate"><a href="#unit-coordinate" class="headerlink" title="unit coordinate"></a>unit coordinate</h5><ul>
+<li>这种坐标系不是用来定义<code>layer</code>在屏幕中的位置的，比如<code>anchorPoint</code>。默认为<code>(0.5, 0.5)</code>, 这个属性也是和以往大家适应的位置属性不同的一点，建立了和<code>bounds</code>的关系，具体看下面的内容就懂了</li>
+</ul>
+<p><img src="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CoreAnimation_guide/Art/layer_coords_bounds_2x.png" alt="image"></p>
+<h6 id="可以看到，position是在中间的，position也是少数的会随着anchorPoint的改变而变化的属性。"><a href="#可以看到，position是在中间的，position也是少数的会随着anchorPoint的改变而变化的属性。" class="headerlink" title=" 可以看到，position是在中间的，position也是少数的会随着anchorPoint的改变而变化的属性。"></a><strong> 可以看到，<code>position</code>是在中间的，<code>position</code>也是少数的会随着<code>anchorPoint</code>的改变而变化的属性。</strong></h6><p><img src="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CoreAnimation_guide/Art/layer_coords_unit_2x.png" alt="image"></p>
+<h6 id="在unit-coordinate的世界里，要定义具体的数值时，用的都是比例，所以值为0-1。"><a href="#在unit-coordinate的世界里，要定义具体的数值时，用的都是比例，所以值为0-1。" class="headerlink" title=" 在unit coordinate的世界里，要定义具体的数值时，用的都是比例，所以值为0~1。 "></a><strong> 在<code>unit coordinate</code>的世界里，要定义具体的数值时，用的都是比例，所以值为<code>0~1</code>。 </strong></h6><h2 id="什么是anchorPoint？anchorPoint跟transform和position密切相关。"><a href="#什么是anchorPoint？anchorPoint跟transform和position密切相关。" class="headerlink" title="什么是anchorPoint？anchorPoint跟transform和position密切相关。"></a>什么是<code>anchorPoint</code>？<code>anchorPoint</code>跟<code>transform</code>和<code>position</code>密切相关。</h2><p><img src="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CoreAnimation_guide/Art/layer_coords_anchorpoint_position_2x.png" alt="image"></p>
+<h6 id="可以看出来，为什么说anchorPoint不是定义layer在屏幕中的位置的属性，上下两个图anchorPoint发生了变化，但是layer在屏幕中的位置是没有变的，但这是因为position的变化。"><a href="#可以看出来，为什么说anchorPoint不是定义layer在屏幕中的位置的属性，上下两个图anchorPoint发生了变化，但是layer在屏幕中的位置是没有变的，但这是因为position的变化。" class="headerlink" title=" 可以看出来，为什么说anchorPoint不是定义layer在屏幕中的位置的属性，上下两个图anchorPoint发生了变化，但是layer在屏幕中的位置是没有变的，但这是因为position的变化。 "></a><strong> 可以看出来，为什么说<code>anchorPoint</code>不是定义<code>layer</code>在屏幕中的位置的属性，上下两个图<code>anchorPoint</code>发生了变化，但是<code>layer</code>在屏幕中的位置是没有变的，但这是因为<code>position</code>的变化。 </strong></h6><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">会发现<span class="string">"position"</span>和<span class="string">"anchorPoint"</span>的位置完全一样。</div></pre></td></tr></table></figure>
+<h6 id="任何时候都需要满足这样的公式"><a href="#任何时候都需要满足这样的公式" class="headerlink" title=" 任何时候都需要满足这样的公式 "></a><strong> 任何时候都需要满足这样的公式 </strong></h6><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">position.x = frame.origin.x + anchorPoint.x * bounds.size.width</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">position.y = frame.origin.y + anchorPoint.y * bounds.size.height</div></pre></td></tr></table></figure>
+<p>两者当中，一个是对于父视图而言，一个是对于layer本身而言，更直截了当一点说，<code>position</code>就是对<code>anchorPoint</code>在父视图中位置的数值化反应，而<code>anchorPoint</code>只是比例反应。</p>
+<p>比如上图中第一张图，<code>layer</code>长<code>120</code>，宽<code>80</code>；<code>anchorPoint(0, 0)</code>；<code>position</code>就是<code>anchorPoint</code>在父视图中的坐标，即<code>(40, 60)</code>。</p>
+<p><img src="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CoreAnimation_guide/Art/layer_coords_anchorpoint_transform_2x.png" alt="image"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">看得出`anchorPoint`是`transform`的旋转围绕点。</div></pre></td></tr></table></figure>
+
+  </section>
+
+  
+
+<section class="post-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+      var disqus_shortname = 'Shawww'; 
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+  
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2014-2015. | 由<a href="https://hexo.io/">Hexo</a>强力驱动 | 主题<a href="https://github.com/someus/huno">Huno</a></span>
+    
+</footer>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>
