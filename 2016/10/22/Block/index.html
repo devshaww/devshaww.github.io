@@ -30,7 +30,12 @@ Block里的循环引用的原理是什么？
 Block在ARC与MRC下有什么不同？">
 <meta property="og:image" content="https://drops.azureedge.net/drops/files/acc_521713/1lO5?rscd=inline%3B%20filename%3DIMG_4593.PNG&rsct=image%2Fpng&se=2016-12-12T08%3A46%3A14Z&sig=j4VSAZhTPbaDTEnRPIR%2BZ4xby%2FdlizC2esP%2BW12t1qM%3D&sp=r&sr=b&st=2016-12-12T07%3A46%3A14Z&sv=2013-08-15">
 <meta property="og:image" content="https://drops.azureedge.net/drops/files/acc_521713/wAjZ?rscd=inline%3B%20filename%3DIMG_4594.PNG&rsct=image%2Fpng&se=2016-12-12T08%3A50%3A28Z&sig=5yFCTx2fs7ykmkkoF%2FgwLyP5ODd08MdEl1u7tbmOLPI%3D&sp=r&sr=b&st=2016-12-12T07%3A50%3A28Z&sv=2013-08-15">
-<meta property="og:updated_time" content="2017-03-02T09:20:19.076Z">
+<meta property="og:image" content="https://drops.azureedge.net/drops/files/acc_521713/ovfp?rscd=inline%3B%20filename%3D%25C2%25A0%25E6%258D%2595%25E8%258E%25B7.png&rsct=image%2Fpng&se=2017-03-02T14%3A40%3A47Z&sig=eiVu7xigth%2F0U7ZlJrkJfT3OwdQPZH5%2FsxcHrWfuqEM%3D&sp=r&sr=b&st=2017-03-02T13%3A40%3A47Z&sv=2013-08-15">
+<meta property="og:image" content="https://drops.azureedge.net/drops/files/acc_521713/1dVox?rscd=inline%3B%20filename%3D%25E5%25B1%258F%25E5%25B9%2595%25E5%25BF%25AB%25E7%2585%25A7%25202017-03-02%2520%25E4%25B8%258B%25E5%258D%25886.32.36.png&rsct=image%2Fpng&se=2017-03-02T14%3A45%3A44Z&sig=5ic%2Bzf0ue%2Fuo%2ByIhXIYI9ViI6H5P4YW%2FHmK3jY5cvKo%3D&sp=r&sr=b&st=2017-03-02T13%3A45%3A44Z&sv=2013-08-15">
+<meta property="og:image" content="https://drops.azureedge.net/drops/files/acc_521713/Sd67?rscd=inline%3B%20filename%3D%25E5%25B1%258F%25E5%25B9%2595%25E5%25BF%25AB%25E7%2585%25A7%25202017-03-02%2520%25E4%25B8%258B%25E5%258D%25887.31.06.png&rsct=image%2Fpng&se=2017-03-02T14%3A47%3A36Z&sig=mukiOWFJl%2BtbssRsGuZMm8hOd8d3m6fralrhOSaaiU8%3D&sp=r&sr=b&st=2017-03-02T13%3A47%3A36Z&sv=2013-08-15">
+<meta property="og:image" content="https://drops.azureedge.net/drops/files/acc_521713/XNkQ?rscd=inline%3B%20filename%3D%25E5%25B1%258F%25E5%25B9%2595%25E5%25BF%25AB%25E7%2585%25A7%25202017-03-02%2520%25E4%25B8%258B%25E5%258D%25889.54.17.png&rsct=image%2Fpng&se=2017-03-02T14%3A49%3A49Z&sig=%2FlQrG3%2ByiK9gM4OiDjb5C%2FDzrGcM%2BDcQDMLfNfJJ4qg%3D&sp=r&sr=b&st=2017-03-02T13%3A49%3A49Z&sv=2013-08-15">
+<meta property="og:image" content="https://drops.azureedge.net/drops/files/acc_521713/zgFw?rscd=inline%3B%20filename%3D%25E5%25B1%258F%25E5%25B9%2595%25E5%25BF%25AB%25E7%2585%25A7%25202017-03-02%2520%25E4%25B8%258B%25E5%258D%25887.40.12.png&rsct=image%2Fpng&se=2017-03-02T14%3A55%3A11Z&sig=3EWt9lP3FQx179X%2Bb7stEPILRpNIgpT5t5Ib1d6CE9w%3D&sp=r&sr=b&st=2017-03-02T13%3A55%3A11Z&sv=2013-08-15">
+<meta property="og:updated_time" content="2017-03-02T14:28:40.592Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Block进阶 | Shaw">
 <meta name="twitter:description" content="前言在了解了Block的基础知识后，希望对它有更多的认识比如：
@@ -276,17 +281,41 @@ classes that you can use:
 <blockquote>
 <p>按理说是这样，但我做测试的时候，发现两者都可以。<br>然后我加了一句<code>sleep(1)</code>, 就会出现野指针错误了。<br><br></p>
 </blockquote>
-<ul>
-<li>小结<ul>
-<li>全局和静态变量在内存中的位置是确定的，block copy时不会retain这些对象。</li>
-<li>局部变量在block copy时，会被retain，增加其引用计数。</li>
-<li>实例变量或属性在block copy时不是直接retain这个对象本身，而是retain self。</li>
-</ul>
-</li>
-</ul>
+<h3 id="Block内存管理"><a href="#Block内存管理" class="headerlink" title="Block内存管理"></a>Block内存管理</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">源码获取：</div><div class="line">命令行-&gt;<span class="built_in">cd</span>到工程目录-&gt;输入`clang -rewrite-objc main.m`</div><div class="line">然后就会在目录下看到一个cpp文件</div></pre></td></tr></table></figure>
 <blockquote>
-<p>最后，这里有一个从<code>OneVCat</code>的文中看到的关于block的<a href="http://blog.parse.com/learn/engineering/objective-c-blocks-quiz/" target="_blank" rel="external">quiz</a>，有兴趣可以做做。</p>
+<p>Q: 为什么block内捕获到的不加__block的变量不能改变？</p>
 </blockquote>
+<p><img src="https://drops.azureedge.net/drops/files/acc_521713/ovfp?rscd=inline%3B%20filename%3D%25C2%25A0%25E6%258D%2595%25E8%258E%25B7.png&amp;rsct=image%2Fpng&amp;se=2017-03-02T14%3A40%3A47Z&amp;sig=eiVu7xigth%2F0U7ZlJrkJfT3OwdQPZH5%2FsxcHrWfuqEM%3D&amp;sp=r&amp;sr=b&amp;st=2017-03-02T13%3A40%3A47Z&amp;sv=2013-08-15" alt="image"></p>
+<ul>
+<li>从构造函数中可以看到, block捕获的变量是<code>localVar</code>和<code>*localStaticVar</code>。全局变量<code>globalVar</code>不会被捕获进来, 因为作用域足够大, 可是直接用。</li>
+<li>显然局部静态变量如果在block中被改变, 是可以作用到外部的<code>localStaticVar</code>上的。  </li>
+<li>而通过值传递的localVar, 在内部, 如果想给它赋个别的值, 不是不可以, 而是没作用。所以在OC里写这种代码是通不过编译的。  </li>
+<li>为什么？因为如果你在block内部用到了外部变量, 并且你要改它的值, 那肯定是不仅仅在block内用这个值的, 肯定是希望能改变外面的值。  </li>
+</ul>
+<p>可以看出来,<code>__main_block_func_0</code>这个函数就是block的代码段。<br>它对初始化后的<code>__main_block_impl_0</code>的成员变量<code>localVar</code>和<code>*localStaticVar</code>进行copy。<br><br></p>
+<blockquote>
+<p>Q: 既然通过指针传递, 就可以在block内部改变外部变量的值, 那么, 用对象不就好了？</p>
+</blockquote>
+<p><img src="https://drops.azureedge.net/drops/files/acc_521713/1dVox?rscd=inline%3B%20filename%3D%25E5%25B1%258F%25E5%25B9%2595%25E5%25BF%25AB%25E7%2585%25A7%25202017-03-02%2520%25E4%25B8%258B%25E5%258D%25886.32.36.png&amp;rsct=image%2Fpng&amp;se=2017-03-02T14%3A45%3A44Z&amp;sig=5ic%2Bzf0ue%2Fuo%2ByIhXIYI9ViI6H5P4YW%2FHmK3jY5cvKo%3D&amp;sp=r&amp;sr=b&amp;st=2017-03-02T13%3A45%3A44Z&amp;sv=2013-08-15" alt="image"></p>
+<p>这样, 没毛病。</p>
+<p>但是！</p>
+<p><img src="https://drops.azureedge.net/drops/files/acc_521713/Sd67?rscd=inline%3B%20filename%3D%25E5%25B1%258F%25E5%25B9%2595%25E5%25BF%25AB%25E7%2585%25A7%25202017-03-02%2520%25E4%25B8%258B%25E5%258D%25887.31.06.png&amp;rsct=image%2Fpng&amp;se=2017-03-02T14%3A47%3A36Z&amp;sig=mukiOWFJl%2BtbssRsGuZMm8hOd8d3m6fralrhOSaaiU8%3D&amp;sp=r&amp;sr=b&amp;st=2017-03-02T13%3A47%3A36Z&amp;sv=2013-08-15" alt="image"></p>
+<p>mStr = [mStr appendString:@”andRoot”];<br>原因和之前说的一样, 不是不能改, 而是没意义。<br>如图:</p>
+<p><img src="https://drops.azureedge.net/drops/files/acc_521713/XNkQ?rscd=inline%3B%20filename%3D%25E5%25B1%258F%25E5%25B9%2595%25E5%25BF%25AB%25E7%2585%25A7%25202017-03-02%2520%25E4%25B8%258B%25E5%258D%25889.54.17.png&amp;rsct=image%2Fpng&amp;se=2017-03-02T14%3A49%3A49Z&amp;sig=%2FlQrG3%2ByiK9gM4OiDjb5C%2FDzrGcM%2BDcQDMLfNfJJ4qg%3D&amp;sp=r&amp;sr=b&amp;st=2017-03-02T13%3A49%3A49Z&amp;sv=2013-08-15" alt="image"></p>
+<p>因为block里捕获对象, 是copy对象地址, 放到堆区里, 如果做改变, 我们假设这里在block里让<code>mStr</code>指向了<code>0x100404746</code>地址下的对象, 于是就会如图上那样, 写这行代码就是在堆区给它找块地方放<code>0x100404746</code>这个地址<br>然后, 影响到左边栈区的<code>mStr</code>了吗？并没有哦。和之前的localVar是一个道理。</p>
+<p><br></p>
+<p>这种时候, 就需要用上<code>__block</code>了<br><br></p>
+<blockquote>
+<p>Q: __block实现原理？</p>
+</blockquote>
+<p>源码中多生成了一个<code>__Block_byref_i_0</code>结构体。</p>
+<p><img src="https://drops.azureedge.net/drops/files/acc_521713/zgFw?rscd=inline%3B%20filename%3D%25E5%25B1%258F%25E5%25B9%2595%25E5%25BF%25AB%25E7%2585%25A7%25202017-03-02%2520%25E4%25B8%258B%25E5%258D%25887.40.12.png&amp;rsct=image%2Fpng&amp;se=2017-03-02T14%3A55%3A11Z&amp;sig=3EWt9lP3FQx179X%2Bb7stEPILRpNIgpT5t5Ib1d6CE9w%3D&amp;sp=r&amp;sr=b&amp;st=2017-03-02T13%3A55%3A11Z&amp;sv=2013-08-15" alt="image"></p>
+<p>从初始化方法可以看到, <code>__forwarding</code>最初指向自己<br><code>__forwarding</code>究竟是怎么指的, 我还没有搞清楚, 留坑。<br><br></p>
+<blockquote>
+<p>Q: 循环引用是怎么产生的</p>
+</blockquote>
+<p>ARC下, block只要是以赋值的形式定义的, 就是NSMallocBlock。<br>那么就会持有对象, 无论是__block修饰还是没有被修饰。</p>
+<p>最后，这里有一个从<code>OneVCat</code>的文中看到的关于block的<a href="http://blog.parse.com/learn/engineering/objective-c-blocks-quiz/" target="_blank" rel="external">quiz</a>，有兴趣可以做做。</p>
 
   </section>
 
