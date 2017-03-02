@@ -17,7 +17,6 @@
     
 
     <meta name="description" content="前言在了解了Block的基础知识后，希望对它有更多的认识比如：
-
 Block里的野指针错误为什么会出现？怎样避免？
 Block里的循环引用的原理是什么？
 Block在ARC与MRC下有什么不同？">
@@ -26,17 +25,15 @@ Block在ARC与MRC下有什么不同？">
 <meta property="og:url" content="http://yoursite.com/2016/10/22/Block/index.html">
 <meta property="og:site_name" content="Shaw">
 <meta property="og:description" content="前言在了解了Block的基础知识后，希望对它有更多的认识比如：
-
 Block里的野指针错误为什么会出现？怎样避免？
 Block里的循环引用的原理是什么？
 Block在ARC与MRC下有什么不同？">
 <meta property="og:image" content="https://drops.azureedge.net/drops/files/acc_521713/1lO5?rscd=inline%3B%20filename%3DIMG_4593.PNG&rsct=image%2Fpng&se=2016-12-12T08%3A46%3A14Z&sig=j4VSAZhTPbaDTEnRPIR%2BZ4xby%2FdlizC2esP%2BW12t1qM%3D&sp=r&sr=b&st=2016-12-12T07%3A46%3A14Z&sv=2013-08-15">
 <meta property="og:image" content="https://drops.azureedge.net/drops/files/acc_521713/wAjZ?rscd=inline%3B%20filename%3DIMG_4594.PNG&rsct=image%2Fpng&se=2016-12-12T08%3A50%3A28Z&sig=5yFCTx2fs7ykmkkoF%2FgwLyP5ODd08MdEl1u7tbmOLPI%3D&sp=r&sr=b&st=2016-12-12T07%3A50%3A28Z&sv=2013-08-15">
-<meta property="og:updated_time" content="2016-12-15T13:57:27.515Z">
+<meta property="og:updated_time" content="2017-03-02T09:20:19.076Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Block进阶 | Shaw">
 <meta name="twitter:description" content="前言在了解了Block的基础知识后，希望对它有更多的认识比如：
-
 Block里的野指针错误为什么会出现？怎样避免？
 Block里的循环引用的原理是什么？
 Block在ARC与MRC下有什么不同？">
@@ -236,11 +233,13 @@ classes that you can use:
   </header>
 
   <section id="post-content" class="article-content post">
-    <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>在了解了<code>Block</code>的基础知识后，希望对它有更多的认识比如：</p>
-<ul>
+    <ul>
+<li>前言<br>在了解了<code>Block</code>的基础知识后，希望对它有更多的认识比如：<ul>
 <li><code>Block</code>里的<code>野指针</code>错误为什么会出现？怎样避免？</li>
 <li><code>Block</code>里的<code>循环引用</code>的原理是什么？</li>
 <li><code>Block</code>在<code>ARC</code>与<code>MRC</code>下有什么不同？</li>
+</ul>
+</li>
 </ul>
 <a id="more"></a>
 <p>在看<a href="">iOS与OS X多线程和内存管理</a>时，看到<code>block</code>那章，我就觉得看不懂了。这一章包含太多的底层源码，非常枯燥而且不好理解，因此难以集中精神。<br>因此在我对之的理解稍微清晰了一些时，我就记录了下来。</p>
@@ -249,32 +248,44 @@ classes that you can use:
 </blockquote>
 <p><img src="https://drops.azureedge.net/drops/files/acc_521713/1lO5?rscd=inline%3B%20filename%3DIMG_4593.PNG&amp;rsct=image%2Fpng&amp;se=2016-12-12T08%3A46%3A14Z&amp;sig=j4VSAZhTPbaDTEnRPIR%2BZ4xby%2FdlizC2esP%2BW12t1qM%3D&amp;sp=r&amp;sr=b&amp;st=2016-12-12T07%3A46%3A14Z&amp;sv=2013-08-15" alt="image"></p>
 <p><img src="https://drops.azureedge.net/drops/files/acc_521713/wAjZ?rscd=inline%3B%20filename%3DIMG_4594.PNG&amp;rsct=image%2Fpng&amp;se=2016-12-12T08%3A50%3A28Z&amp;sig=5yFCTx2fs7ykmkkoF%2FgwLyP5ODd08MdEl1u7tbmOLPI%3D&amp;sp=r&amp;sr=b&amp;st=2016-12-12T07%3A50%3A28Z&amp;sv=2013-08-15" alt="image"></p>
-<h4 id="Block的种类"><a href="#Block的种类" class="headerlink" title="Block的种类"></a>Block的种类</h4><h5 id="NSStackBlock"><a href="#NSStackBlock" class="headerlink" title="NSStackBlock"></a>NSStackBlock</h5><ul>
-<li>引用了外部变量的<code>block</code></li>
+<ul>
+<li><p>Block的种类</p>
+<h5 id="NSStackBlock"><a href="#NSStackBlock" class="headerlink" title="NSStackBlock"></a>NSStackBlock</h5><ul>
+<li>引用了外部变量(局部静态变量/全局变量除外)的<code>block</code></li>
 <li><code>MRC</code>下，<code>NSStackBlock</code>位于<code>栈</code>中，<code>block</code>函数体返回后，其位于的栈段会被清除，即<code>block</code>会无效，此时如果再次访问<code>block</code>，就会造成<code>野指针</code>错误。<code>解决方法</code>是：通过对block做<code>copy</code>操作，使之转换为位于<code>堆</code>中的<code>NSMallocBlock</code>。</li>
-<li><code>ARC</code>下，与<code>MRC</code>不同的是，不需要再做<code>copy</code>操作，在<code>ARC</code>下，所有的block都会自动转到堆区，即NSMallocBlock。</li>
+<li><p><code>ARC</code>下，与<code>MRC</code>不同的是，不需要再做<code>copy</code>操作，在<code>ARC</code>下，基本都会自动被copy放到堆区，即NSMallocBlock。但是也有例外，比如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">NSString *str = @&quot;Shaw&quot;;</div><div class="line">NSLog(@&quot;%@&quot;, ^&#123;NSLog(@&quot;%@&quot;,str)&#125;);</div><div class="line">// 这种情况下是NSStackBlock</div></pre></td></tr></table></figure>
+<h5 id="e-g"><a href="#e-g" class="headerlink" title="e.g."></a>e.g.</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">typedef void (^myBlock)();</div><div class="line"></div><div class="line">char a = &apos;a&apos;;</div><div class="line">myBlock block = ^ &#123;</div><div class="line">    NSLog(&quot;%d&quot;, a);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
 </ul>
-<h5 id="e-g"><a href="#e-g" class="headerlink" title="e.g."></a>e.g.</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">typedef void (^myBlock)();</div><div class="line"></div><div class="line">char a = &apos;a&apos;;</div><div class="line">myBlock block = ^ &#123;</div><div class="line">	NSLog(&quot;%d&quot;, a);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
 <h4 id="NSMallocBlock"><a href="#NSMallocBlock" class="headerlink" title="NSMallocBlock"></a>NSMallocBlock</h4><ul>
 <li>由<code>NSStackBlock copy</code>得来，位于内存的<code>堆</code>区。</li>
 </ul>
 <h4 id="NSGlobalStack"><a href="#NSGlobalStack" class="headerlink" title="NSGlobalStack"></a>NSGlobalStack</h4><ul>
 <li>没有引用外部变量的<code>block</code>就是<code>NSGlobalStack</code>。</li>
-<li>既不位于<code>堆</code>，也不位于<code>栈</code>,是<code>程序段</code>。</li>
+<li><p>既不位于<code>堆</code>，也不位于<code>栈</code>,是<code>程序段</code>。</p>
+<h5 id="e-g-1"><a href="#e-g-1" class="headerlink" title="e.g."></a>e.g.</h5>   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">int (^sum)(int, int) = ^(int x, int y) &#123;</div><div class="line">	return x + y;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>野指针错误</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">typedef void (^block)();</div><div class="line"></div><div class="line">block arc_getBlock() &#123;</div><div class="line">    char a = &apos;a&apos;;</div><div class="line">    void (^myBlock) = ^&#123;</div><div class="line">        printf(&quot;%c&quot;,a);</div><div class="line">    &#125;;</div><div class="line">    NSLog(@&quot;myBlock:%@&quot;,myBlock);</div><div class="line">    block block_copy = [[myBlock copy]autorelease];</div><div class="line">    NSLog(&quot;block_copy:%@&quot;,block_copy);</div><div class="line">    // return block_copy;</div><div class="line">    return myBlock;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void test() &#123;</div><div class="line">    block myBlock = arc_getBlock();</div><div class="line">    // sleep(1);</div><div class="line">    myBlock();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
 </ul>
-<h5 id="e-g-1"><a href="#e-g-1" class="headerlink" title="e.g."></a>e.g.</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">int (^sum)(int, int) = ^(int x, int y) &#123;</div><div class="line">	return x + y;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="野指针错误"><a href="#野指针错误" class="headerlink" title="野指针错误"></a>野指针错误</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">typedef void (^block)();</div><div class="line"></div><div class="line">block arc_getBlock() &#123;</div><div class="line">	char a = &apos;a&apos;;</div><div class="line">    void (^myBlock) = ^&#123;</div><div class="line">    	printf(&quot;%c&quot;,a);</div><div class="line">    &#125;;</div><div class="line">    NSLog(@&quot;myBlock:%@&quot;,myBlock);</div><div class="line">    block block_copy = [[myBlock copy]autorelease];</div><div class="line">    NSLog(&quot;block_copy:%@&quot;,block_copy);</div><div class="line">    // return block_copy;</div><div class="line">    return myBlock;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void test() &#123;</div><div class="line">	block myBlock = arc_getBlock();</div><div class="line">    myBlock();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p><code>arc_getBlock()</code>最后返回的是<code>block_copy</code>就不会出现野指针错误，而返回<code>myBlock</code>就会出现野指针错误，因为<code>myBlock</code>在栈上，返回后，就被清理了。</p>
 <blockquote>
-<p>按理说是这样，但我做测试的时候，发现两者都可以。</p>
+<p>按理说是这样，但我做测试的时候，发现两者都可以。<br>然后我加了一句<code>sleep(1)</code>, 就会出现野指针错误了。<br><br></p>
 </blockquote>
 <ul>
+<li>小结<ul>
 <li>全局和静态变量在内存中的位置是确定的，block copy时不会retain这些对象。</li>
 <li>局部变量在block copy时，会被retain，增加其引用计数。</li>
-<li>实例变量或属性在block copy时不是直接retain这个对象本身，而是retain self。<br><br><br>下面来做一个稍大的测试以便更好地理解<br>#####e.g</li>
+<li>实例变量或属性在block copy时不是直接retain这个对象本身，而是retain self。</li>
+</ul>
+</li>
 </ul>
 <blockquote>
-<p>最后，这里有一个从<code>OneVCat</code>(写对了么)的文中看到的关于block的<a href="http://blog.parse.com/learn/engineering/objective-c-blocks-quiz/" target="_blank" rel="external">quiz</a>，有兴趣可以做做。</p>
+<p>最后，这里有一个从<code>OneVCat</code>的文中看到的关于block的<a href="http://blog.parse.com/learn/engineering/objective-c-blocks-quiz/" target="_blank" rel="external">quiz</a>，有兴趣可以做做。</p>
 </blockquote>
 
   </section>
