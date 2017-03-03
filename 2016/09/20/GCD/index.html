@@ -27,7 +27,7 @@
 <meta property="og:image" content="https://cdn1.raywenderlich.com/wp-content/uploads/2014/01/Concurrent-Queue-480x272.png">
 <meta property="og:image" content="https://cdn2.raywenderlich.com/wp-content/uploads/2014/01/Serial-Queue-480x272.png">
 <meta property="og:image" content="https://cdn3.raywenderlich.com/wp-content/uploads/2014/01/Concurrency_vs_Parallelism.png">
-<meta property="og:updated_time" content="2016-12-15T13:58:53.663Z">
+<meta property="og:updated_time" content="2017-03-03T09:16:51.036Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GCD入门 | Shaw">
 <meta name="twitter:description" content="前言
@@ -334,7 +334,7 @@ classes that you can use:
 <p>想象当图书馆内已经<code>没有空闲座位</code>时，<code>P(mutex)</code>把登记资源占着，但是无法释放，因为<code>P(seat)</code>会因为<code>seat = 0</code>而陷入等待，而且占着座位的人想登记出去也登记不了，因为登记资源被占了，所以<code>seat</code>释放不了。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">想进图书馆的<span class="string">"A"</span>等着<span class="string">"seat"</span>释放, 想出去的人<span class="string">"B"</span>等着A释放<span class="string">"mutex"</span></div></pre></td></tr></table></figure></p>
 <p><br></p>
 <h5 id="什么样的代码会导致死锁？"><a href="#什么样的代码会导致死锁？" class="headerlink" title="什么样的代码会导致死锁？"></a>什么样的代码会导致死锁？</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dispatch_sync(diapatch_get_main_queue(),^&#123;</div><div class="line">	NSLog(&quot;线程死锁&quot;); //任务１</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-<h6 id="在程序中写这样的语句执行后不会有这句输出。"><a href="#在程序中写这样的语句执行后不会有这句输出。" class="headerlink" title="在程序中写这样的语句执行后不会有这句输出。"></a>在程序中写这样的语句执行后不会有这句输出。</h6><h6 id="很多地方的文章都写这个例子，然后告诉你只要不要同步往main-queue里加任务就不会死锁，那么，这个说法太肤浅了，虽然我接下来写的东西也深入不到哪去，还没有研究过底层的源码。"><a href="#很多地方的文章都写这个例子，然后告诉你只要不要同步往main-queue里加任务就不会死锁，那么，这个说法太肤浅了，虽然我接下来写的东西也深入不到哪去，还没有研究过底层的源码。" class="headerlink" title="很多地方的文章都写这个例子，然后告诉你只要不要同步往main queue里加任务就不会死锁，那么，这个说法太肤浅了，虽然我接下来写的东西也深入不到哪去，还没有研究过底层的源码。"></a>很多地方的文章都写这个例子，然后告诉你只要不要<code>同步</code>往<code>main queue</code>里加任务就不会<code>死锁</code>，那么，这个说法太肤浅了，虽然我接下来写的东西也深入不到哪去，还没有研究过底层的源码。</h6><p><a href="https://developer.apple.com/library/content/documentation/General/Conceptual/ConcurrencyProgrammingGuide/OperationQueues/OperationQueues.html#//apple_ref/doc/uid/TP40008091-CH102-SW1" target="_blank" rel="external">官方文档</a>里有这样一句话</p>
+<h6 id="在程序中写这样的语句执行后不会有这句输出。"><a href="#在程序中写这样的语句执行后不会有这句输出。" class="headerlink" title="在程序中写这样的语句执行后不会有这句输出。"></a>在程序中写这样的语句执行后不会有这句输出。</h6><p><a href="https://developer.apple.com/library/content/documentation/General/Conceptual/ConcurrencyProgrammingGuide/OperationQueues/OperationQueues.html#//apple_ref/doc/uid/TP40008091-CH102-SW1" target="_blank" rel="external">官方文档</a>里有这样一句话</p>
 <blockquote>
 <p>Submits a block to a dispatch queue for synchronous execution. Unlike dispatch_async, this function does not return until the block has finished. <code>Calling this function and targeting the current queue results in deadlock</code>.</p>
 </blockquote>
