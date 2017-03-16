@@ -7,7 +7,7 @@
     
 
     <title>
-      通过一个工程学习MRC内存管理 | Shaw 
+      Test | Shaw 
     </title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -16,19 +16,13 @@
     
     
 
-    <meta name="description" content="前言很早就想记录MRC下的内存管理，特别是set方法。与ARC不同的MRC, 非常有趣。很多开发者是在ARC已经普及时学习的iOS，没有接触过MRC。那么，如果你对MRC有兴趣，可以通过这个工程，对之形成比较完整的理解。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="通过一个工程学习MRC内存管理 | Shaw">
-<meta property="og:url" content="http://yoursite.com/2016/10/22/mmMRC/index.html">
+    <meta property="og:type" content="article">
+<meta property="og:title" content="Test | Shaw">
+<meta property="og:url" content="http://yoursite.com/2017/03/03/Test/index.html">
 <meta property="og:site_name" content="Shaw">
-<meta property="og:description" content="前言很早就想记录MRC下的内存管理，特别是set方法。与ARC不同的MRC, 非常有趣。很多开发者是在ARC已经普及时学习的iOS，没有接触过MRC。那么，如果你对MRC有兴趣，可以通过这个工程，对之形成比较完整的理解。">
-<meta property="og:image" content="https://drops.azureedge.net/drops/files/acc_521713/1lO5?rscd=inline%3B%20filename%3DIMG_4593.PNG&rsct=image%2Fpng&se=2016-12-12T08%3A46%3A14Z&sig=j4VSAZhTPbaDTEnRPIR%2BZ4xby%2FdlizC2esP%2BW12t1qM%3D&sp=r&sr=b&st=2016-12-12T07%3A46%3A14Z&sv=2013-08-15">
-<meta property="og:image" content="https://drops.azureedge.net/drops/files/acc_521713/wAjZ?rscd=inline%3B%20filename%3DIMG_4594.PNG&rsct=image%2Fpng&se=2016-12-12T08%3A50%3A28Z&sig=5yFCTx2fs7ykmkkoF%2FgwLyP5ODd08MdEl1u7tbmOLPI%3D&sp=r&sr=b&st=2016-12-12T07%3A50%3A28Z&sv=2013-08-15">
-<meta property="og:updated_time" content="2016-12-15T13:59:12.090Z">
+<meta property="og:updated_time" content="2017-03-03T15:58:50.687Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="通过一个工程学习MRC内存管理 | Shaw">
-<meta name="twitter:description" content="前言很早就想记录MRC下的内存管理，特别是set方法。与ARC不同的MRC, 非常有趣。很多开发者是在ARC已经普及时学习的iOS，没有接触过MRC。那么，如果你对MRC有兴趣，可以通过这个工程，对之形成比较完整的理解。">
-<meta name="twitter:image" content="https://drops.azureedge.net/drops/files/acc_521713/1lO5?rscd=inline%3B%20filename%3DIMG_4593.PNG&rsct=image%2Fpng&se=2016-12-12T08%3A46%3A14Z&sig=j4VSAZhTPbaDTEnRPIR%2BZ4xby%2FdlizC2esP%2BW12t1qM%3D&sp=r&sr=b&st=2016-12-12T07%3A46%3A14Z&sv=2013-08-15">
+<meta name="twitter:title" content="Test | Shaw">
     
     
     
@@ -198,20 +192,15 @@ classes that you can use:
 
   <header class="post-header">
     
-    <h1 class="post-title">通过一个工程学习MRC内存管理</h1>
+    <h1 class="post-title">Test</h1>
 
     
 
     <div class="post-meta">
-      <time datetime="2016-10-22" class="post-meta__date date">2016-10-22</time> 
+      <time datetime="2017-03-03" class="post-meta__date date">2017-03-03</time> 
 
       <span class="post-meta__tags tags">
 
-          
-            <font class="categories">
-            &#8226; 分类:
-            <a class="categories-link" href="/categories/iOS/">iOS</a>
-            </font>
           
 
           
@@ -224,13 +213,7 @@ classes that you can use:
   </header>
 
   <section id="post-content" class="article-content post">
-    <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>很早就想记录<code>MRC</code>下的内存管理，特别是<code>set</code>方法。<br>与<code>ARC</code>不同的<code>MRC</code>, 非常有趣。很多开发者是在<code>ARC</code>已经普及时学习的iOS，没有接触过<code>MRC</code>。那么，如果你对<code>MRC</code>有兴趣，可以通过这个工程，对之形成比较完整的理解。<br><a id="more"></a></p>
-<h4 id="配置MRC环境"><a href="#配置MRC环境" class="headerlink" title="配置MRC环境"></a>配置MRC环境</h4><blockquote>
-<p>将环境改为<code>MRC</code>：打开XCode-&gt;点击工程-&gt;Build Phases-&gt;Compile Sources-&gt;点击要配置MRC环境的文件-&gt;添上<code>-fno-objc-arc</code>。若要改回<code>ARC</code>, 则将<code>-fno-objc-arc</code>改成<code>-fobjc-arc</code>.</p>
-</blockquote>
-<p><img src="https://drops.azureedge.net/drops/files/acc_521713/1lO5?rscd=inline%3B%20filename%3DIMG_4593.PNG&amp;rsct=image%2Fpng&amp;se=2016-12-12T08%3A46%3A14Z&amp;sig=j4VSAZhTPbaDTEnRPIR%2BZ4xby%2FdlizC2esP%2BW12t1qM%3D&amp;sp=r&amp;sr=b&amp;st=2016-12-12T07%3A46%3A14Z&amp;sv=2013-08-15" alt="image"></p>
-<p><img src="https://drops.azureedge.net/drops/files/acc_521713/wAjZ?rscd=inline%3B%20filename%3DIMG_4594.PNG&amp;rsct=image%2Fpng&amp;se=2016-12-12T08%3A50%3A28Z&amp;sig=5yFCTx2fs7ykmkkoF%2FgwLyP5ODd08MdEl1u7tbmOLPI%3D&amp;sp=r&amp;sr=b&amp;st=2016-12-12T07%3A50%3A28Z&amp;sv=2013-08-15" alt="image"></p>
-
+    
   </section>
 
   

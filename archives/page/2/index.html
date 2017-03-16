@@ -7,7 +7,7 @@
     
 
     <title>
-      通过一个工程学习MRC内存管理 | Shaw 
+      page 2 | 归档 | Shaw 
     </title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -16,19 +16,12 @@
     
     
 
-    <meta name="description" content="前言很早就想记录MRC下的内存管理，特别是set方法。与ARC不同的MRC, 非常有趣。很多开发者是在ARC已经普及时学习的iOS，没有接触过MRC。那么，如果你对MRC有兴趣，可以通过这个工程，对之形成比较完整的理解。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="通过一个工程学习MRC内存管理 | Shaw">
-<meta property="og:url" content="http://yoursite.com/2016/10/22/mmMRC/index.html">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="page 2 | 归档 | Shaw">
+<meta property="og:url" content="http://yoursite.com/archives/page/2/index.html">
 <meta property="og:site_name" content="Shaw">
-<meta property="og:description" content="前言很早就想记录MRC下的内存管理，特别是set方法。与ARC不同的MRC, 非常有趣。很多开发者是在ARC已经普及时学习的iOS，没有接触过MRC。那么，如果你对MRC有兴趣，可以通过这个工程，对之形成比较完整的理解。">
-<meta property="og:image" content="https://drops.azureedge.net/drops/files/acc_521713/1lO5?rscd=inline%3B%20filename%3DIMG_4593.PNG&rsct=image%2Fpng&se=2016-12-12T08%3A46%3A14Z&sig=j4VSAZhTPbaDTEnRPIR%2BZ4xby%2FdlizC2esP%2BW12t1qM%3D&sp=r&sr=b&st=2016-12-12T07%3A46%3A14Z&sv=2013-08-15">
-<meta property="og:image" content="https://drops.azureedge.net/drops/files/acc_521713/wAjZ?rscd=inline%3B%20filename%3DIMG_4594.PNG&rsct=image%2Fpng&se=2016-12-12T08%3A50%3A28Z&sig=5yFCTx2fs7ykmkkoF%2FgwLyP5ODd08MdEl1u7tbmOLPI%3D&sp=r&sr=b&st=2016-12-12T07%3A50%3A28Z&sv=2013-08-15">
-<meta property="og:updated_time" content="2016-12-15T13:59:12.090Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="通过一个工程学习MRC内存管理 | Shaw">
-<meta name="twitter:description" content="前言很早就想记录MRC下的内存管理，特别是set方法。与ARC不同的MRC, 非常有趣。很多开发者是在ARC已经普及时学习的iOS，没有接触过MRC。那么，如果你对MRC有兴趣，可以通过这个工程，对之形成比较完整的理解。">
-<meta name="twitter:image" content="https://drops.azureedge.net/drops/files/acc_521713/1lO5?rscd=inline%3B%20filename%3DIMG_4593.PNG&rsct=image%2Fpng&se=2016-12-12T08%3A46%3A14Z&sig=j4VSAZhTPbaDTEnRPIR%2BZ4xby%2FdlizC2esP%2BW12t1qM%3D&sp=r&sr=b&st=2016-12-12T07%3A46%3A14Z&sv=2013-08-15">
+<meta name="twitter:title" content="page 2 | 归档 | Shaw">
     
     
     
@@ -194,66 +187,55 @@ classes that you can use:
         <div class="content-wrapper__inner entry">
             
 
-<article class="post-container post-container--single">
 
-  <header class="post-header">
-    
-    <h1 class="post-title">通过一个工程学习MRC内存管理</h1>
+   <!-- do nothing -->
 
-    
 
-    <div class="post-meta">
-      <time datetime="2016-10-22" class="post-meta__date date">2016-10-22</time> 
-
-      <span class="post-meta__tags tags">
-
-          
-            <font class="categories">
-            &#8226; 分类:
-            <a class="categories-link" href="/categories/iOS/">iOS</a>
-            </font>
-          
-
-          
-
-      </span>
-    </div>
+<div class="main-post-list">
+    <ol class="post-list">
     
     
+    <li>
 
-  </header>
+      <h2 class="post-list__post-title post-title">
+        <a href="/2015/12/30/Cpointer/" title="link to 轻松理解C语言指针">轻松理解C语言指针</a>
+      </h2>
 
-  <section id="post-content" class="article-content post">
-    <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>很早就想记录<code>MRC</code>下的内存管理，特别是<code>set</code>方法。<br>与<code>ARC</code>不同的<code>MRC</code>, 非常有趣。很多开发者是在<code>ARC</code>已经普及时学习的iOS，没有接触过<code>MRC</code>。那么，如果你对<code>MRC</code>有兴趣，可以通过这个工程，对之形成比较完整的理解。<br><a id="more"></a></p>
-<h4 id="配置MRC环境"><a href="#配置MRC环境" class="headerlink" title="配置MRC环境"></a>配置MRC环境</h4><blockquote>
-<p>将环境改为<code>MRC</code>：打开XCode-&gt;点击工程-&gt;Build Phases-&gt;Compile Sources-&gt;点击要配置MRC环境的文件-&gt;添上<code>-fno-objc-arc</code>。若要改回<code>ARC</code>, 则将<code>-fno-objc-arc</code>改成<code>-fobjc-arc</code>.</p>
-</blockquote>
-<p><img src="https://drops.azureedge.net/drops/files/acc_521713/1lO5?rscd=inline%3B%20filename%3DIMG_4593.PNG&amp;rsct=image%2Fpng&amp;se=2016-12-12T08%3A46%3A14Z&amp;sig=j4VSAZhTPbaDTEnRPIR%2BZ4xby%2FdlizC2esP%2BW12t1qM%3D&amp;sp=r&amp;sr=b&amp;st=2016-12-12T07%3A46%3A14Z&amp;sv=2013-08-15" alt="image"></p>
-<p><img src="https://drops.azureedge.net/drops/files/acc_521713/wAjZ?rscd=inline%3B%20filename%3DIMG_4594.PNG&amp;rsct=image%2Fpng&amp;se=2016-12-12T08%3A50%3A28Z&amp;sig=5yFCTx2fs7ykmkkoF%2FgwLyP5ODd08MdEl1u7tbmOLPI%3D&amp;sp=r&amp;sr=b&amp;st=2016-12-12T07%3A50%3A28Z&amp;sv=2013-08-15" alt="image"></p>
+      <div class="post-list__meta">
 
-  </section>
+        <time datetime="2015-12-30" class="post-list__meta--date date">2015-12-30</time> 
+      </div>
 
-  
+      <div class="excerpt">
+        
+          <ul>
+<li><p><strong> 前言 </strong></p>
+<h6 id="指针困扰了一些学习编程的人，或许你的老师会告诉你，指针比较难理解。我当时被老师的话唬住所以学习指针那章的时候都没心情听课。（说得像讲别的内容时我听了似的，开玩笑）导致了学习链表的时候各种卧槽。"><a href="#指针困扰了一些学习编程的人，或许你的老师会告诉你，指针比较难理解。我当时被老师的话唬住所以学习指针那章的时候都没心情听课。（说得像讲别的内容时我听了似的，开玩笑）导致了学习链表的时候各种卧槽。" class="headerlink" title="指针困扰了一些学习编程的人，或许你的老师会告诉你，指针比较难理解。我当时被老师的话唬住所以学习指针那章的时候都没心情听课。（说得像讲别的内容时我听了似的，开玩笑）导致了学习链表的时候各种卧槽。"></a>指针困扰了一些学习编程的人，或许你的老师会告诉你，指针比较难理解。我当时被老师的话唬住所以学习指针那章的时候都没心情听课。（说得像讲别的内容时我听了似的，开玩笑）导致了学习链表的时候各种卧槽。</h6></li>
+<li><p><strong> 基本介绍 </strong></p>
+        
+      </div>
 
-<section class="post-comments">
-  <div id="disqus_thread"></div>
-  <script type="text/javascript">
-      var disqus_shortname = 'Shawww'; 
-      /* * * DON'T EDIT BELOW THIS LINE * * */
-      (function() {
-          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      })();
-  </script>
-  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</section>
+      <hr class="post-list__divider" />
+    </li>
+    
+  </ol>
+
+  <hr class="post-list__divider " />
+
+<nav class="pagination" role="navigation">
+    
+    	
+          <a class="newer-posts pagination__newer btn btn-small btn-tertiary" href="/archives/">&larr; 上一页 </a>
+        
+    
+
+    <span class="pagination__page-number"> 2 / 2</span>
+    
+    
+</nav>
 
 
-  
-</article>
-
-
+</div>
             <footer class="footer">
 
     <span class="footer__copyright">&copy; 2014-2015. | 由<a href="https://hexo.io/">Hexo</a>强力驱动 | 主题<a href="https://github.com/someus/huno">Huno</a></span>
@@ -281,18 +263,6 @@ classes that you can use:
 
 
     
-
-    <script src="/js/awesome-toc.min.js"></script>
-    <script>
-        $(document).ready(function(){
-            $.awesome_toc({
-                overlay: true,
-                contentId: "post-content",
-            });
-        });
-    </script>
-
-
     
     
     <!--kill ie6 -->
