@@ -33,7 +33,7 @@ Block在ARC与MRC下有什么不同？">
 <meta property="og:image" content="http://yoursite.com/images/Block/3.png">
 <meta property="og:image" content="http://yoursite.com/images/Block/4.png">
 <meta property="og:image" content="http://yoursite.com/images/Block/5.png">
-<meta property="og:updated_time" content="2017-06-17T11:48:38.307Z">
+<meta property="og:updated_time" content="2017-06-17T12:22:32.243Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Block进阶 | Shaw">
 <meta name="twitter:description" content="前言在了解了Block的基础知识后，希望对它有更多的认识比如：
@@ -306,9 +306,7 @@ classes that you can use:
 </blockquote>
 <p>源码中多生成了一个<code>__Block_byref_i_0</code>结构体。</p>
 <p><img src="/images/Block/5.png" alt="image"></p>
-<p>从初始化方法可以看到, <code>__forwarding</code>最初指向自己<br>但是复制到堆以后, 栈上的<strong>block变量的<code>_forwarding</code>会被替换为指向复制到堆上的自己.但是堆上的那个`</strong>forwarding<code>由于是复制的, 依然是指向自己本身的.
-所以通过</code>localVar.<strong>forwarding-&gt;localVar`可以保证：无论</strong>block变量在堆上还是在栈上都可以被正确地访问到.</p>
-<p><br></p>
+<p>从初始化方法可以看到, <code>__forwarding</code>最初指向自己<br>但是复制到堆以后, 栈上的<code>localVar</code>的<code>__forwarding</code>会被替换为指向复制到堆上的自己. 但是堆上的那个<code>__forwarding</code>由于是复制的, 依然是指向自己本身的.<br>所以通过<code>localVar.__forwarding-&gt;localVar</code>可以保证：无论__block变量在堆上还是在栈上都可以被正确地访问到.<br><br></p>
 <blockquote>
 <p>Q: 循环引用是怎么产生的</p>
 </blockquote>
