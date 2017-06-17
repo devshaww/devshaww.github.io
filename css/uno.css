@@ -1196,7 +1196,7 @@ hr {
   width: 100%;
   max-width: none;
   height: 100%;
-  background: url(../images/background-cover.jpg) top left no-repeat;
+  background: url(../images/background-cover.jpg) top left no-repeat rgb(119, 132, 125);
   background-size: cover; }
 
 .panel-cover--collapsed {
