@@ -1245,6 +1245,7 @@ hr {
   padding: 0 60px; }
 
 .panel-main__content {
+  background-color: rgba(0, 0, 0, 0.2);
   max-width: 620px;
   margin: 0 auto; }
 
