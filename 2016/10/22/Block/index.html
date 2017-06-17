@@ -28,19 +28,19 @@ Block在ARC与MRC下有什么不同？">
 Block里的野指针错误为什么会出现？怎样避免？
 Block里的循环引用的原理是什么？
 Block在ARC与MRC下有什么不同？">
-<meta property="og:image" content="http://yoursite.com/Block/one.png">
-<meta property="og:image" content="http://yoursite.com/Block/2.png">
-<meta property="og:image" content="http://yoursite.com/Block/3.png">
-<meta property="og:image" content="http://yoursite.com/Block/4.png">
-<meta property="og:image" content="http://yoursite.com/Block/5.png">
-<meta property="og:updated_time" content="2017-03-31T09:19:17.867Z">
+<meta property="og:image" content="http://yoursite.com/images/Block/one.png">
+<meta property="og:image" content="http://yoursite.com/images/Block/2.png">
+<meta property="og:image" content="http://yoursite.com/images/Block/3.png">
+<meta property="og:image" content="http://yoursite.com/images/Block/4.png">
+<meta property="og:image" content="http://yoursite.com/images/Block/5.png">
+<meta property="og:updated_time" content="2017-06-17T11:48:38.307Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Block进阶 | Shaw">
 <meta name="twitter:description" content="前言在了解了Block的基础知识后，希望对它有更多的认识比如：
 Block里的野指针错误为什么会出现？怎样避免？
 Block里的循环引用的原理是什么？
 Block在ARC与MRC下有什么不同？">
-<meta name="twitter:image" content="http://yoursite.com/Block/one.png">
+<meta name="twitter:image" content="http://yoursite.com/images/Block/one.png">
     
     
     
@@ -281,7 +281,7 @@ classes that you can use:
 <blockquote>
 <p>Q: 为什么block内捕获到的不加__block的变量不能改变？</p>
 </blockquote>
-<p><img src="/Block/one.png" alt="image"></p>
+<p><img src="/images/Block/one.png" alt="image"></p>
 <ul>
 <li>从构造函数中可以看到, block捕获的变量是<code>localVar</code>和<code>*localStaticVar</code>。全局变量<code>globalVar</code>不会被捕获进来, 因为作用域足够大, 可是直接用。</li>
 <li>显然局部静态变量如果在block中被改变, 是可以作用到外部的<code>localStaticVar</code>上的。  </li>
@@ -292,12 +292,12 @@ classes that you can use:
 <blockquote>
 <p>Q: 既然通过指针传递, 就可以在block内部改变外部变量的值, 那么, 用对象不就好了？</p>
 </blockquote>
-<p><img src="/Block/2.png" alt="image"></p>
+<p><img src="/images/Block/2.png" alt="image"></p>
 <p>这样, 没毛病。</p>
 <p>但是！</p>
-<p><img src="/Block/3.png" alt="image"></p>
+<p><img src="/images/Block/3.png" alt="image"></p>
 <p>mStr = [mStr appendString:@”andRoot”];<br>原因和之前说的一样, 不是不能改, 而是没意义。<br>如图:</p>
-<p><img src="/Block/4.png" alt="image"></p>
+<p><img src="/images/Block/4.png" alt="image"></p>
 <p>因为block里捕获对象, 是copy对象地址, 放到堆区里, 如果做改变, 我们假设这里在block里让<code>mStr</code>指向了<code>0x100404746</code>地址下的对象, 于是就会如图上那样, 写这行代码就是在堆区给它找块地方放<code>0x100404746</code>这个地址<br>然后, 影响到左边栈区的<code>mStr</code>了吗？并没有哦。和之前的localVar是一个道理。</p>
 <p><br></p>
 <p>这种时候, 就需要用上<code>__block</code>了<br><br></p>
@@ -305,8 +305,10 @@ classes that you can use:
 <p>Q: __block实现原理？</p>
 </blockquote>
 <p>源码中多生成了一个<code>__Block_byref_i_0</code>结构体。</p>
-<p><img src="/Block/5.png" alt="image"></p>
-<p>从初始化方法可以看到, <code>__forwarding</code>最初指向自己<br><code>__forwarding</code>究竟是怎么指的, 我还没有搞清楚, 留坑。<br><br></p>
+<p><img src="/images/Block/5.png" alt="image"></p>
+<p>从初始化方法可以看到, <code>__forwarding</code>最初指向自己<br>但是复制到堆以后, 栈上的<strong>block变量的<code>_forwarding</code>会被替换为指向复制到堆上的自己.但是堆上的那个`</strong>forwarding<code>由于是复制的, 依然是指向自己本身的.
+所以通过</code>localVar.<strong>forwarding-&gt;localVar`可以保证：无论</strong>block变量在堆上还是在栈上都可以被正确地访问到.</p>
+<p><br></p>
 <blockquote>
 <p>Q: 循环引用是怎么产生的</p>
 </blockquote>
