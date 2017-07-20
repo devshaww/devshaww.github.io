@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      JavaScript二三事 | Shaw 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="Shaw">
+    
+    
+
+    <meta name="description" content="javascript与各浏览器的兼容问题方法篇
+IE7及更早版本, unshift(向数组头部插入元素)返回的是undefined, 而不是length. IE8在兼容模式下会返回数组长度.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript二三事 | Shaw">
+<meta property="og:url" content="http://yoursite.com/2017/07/19/things-abour-javascript/index.html">
+<meta property="og:site_name" content="Shaw">
+<meta property="og:description" content="javascript与各浏览器的兼容问题方法篇
+IE7及更早版本, unshift(向数组头部插入元素)返回的是undefined, 而不是length. IE8在兼容模式下会返回数组长度.">
+<meta property="og:updated_time" content="2017-07-20T08:54:25.166Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript二三事 | Shaw">
+<meta name="twitter:description" content="javascript与各浏览器的兼容问题方法篇
+IE7及更早版本, unshift(向数组头部插入元素)返回的是undefined, 而不是length. IE8在兼容模式下会返回数组长度.">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    
+    <link rel="stylesheet" href="/css/uno.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
+
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+        <a href="/" title="link to homepage for Shaw"><img src="/images/avatar.jpg" width="80" alt="Shaw logo" class="panel-cover__logo logo" /></a>
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">Shaw</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          Touch of your skin sympathetically brushed against the shoulder you used to embrace. Sparkling ashes drift along your flames and softly merge into the sky.
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/" title="" class="">home</a></li>
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">posts</a></li>
+              
+                
+                <li class="navigation__item"><a href="/about" title="" class="">about</a></li>
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+    
+      <!-- Github -->
+      <li class="navigation__item">
+        <a href="https://github.com/devshaww" title="Huno on GitHub">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+    
+
+    <!-- China social icon -->
+    <!--
+    
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+    -->
+
+
+
+  </ul>
+</nav>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">JavaScript二三事</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2017-07-19" class="post-meta__date date">2017-07-19</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+            <font class="categories">
+            &#8226; 分类:
+            <a class="categories-link" href="/categories/JavaScript/">JavaScript</a>
+            </font>
+          
+
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <h4 id="javascript与各浏览器的兼容问题"><a href="#javascript与各浏览器的兼容问题" class="headerlink" title="javascript与各浏览器的兼容问题"></a>javascript与各浏览器的兼容问题</h4><h5 id="方法篇"><a href="#方法篇" class="headerlink" title="方法篇"></a>方法篇</h5><ul>
+<li><code>IE7</code>及更早版本, <code>unshift</code>(向数组头部插入元素)返回的是<code>undefined</code>, 而不是<code>length</code>. <code>IE8</code>在<code>兼容模式</code>下会返回<code>数组长度</code>.<a id="more"></a></li>
+<li><code>IE7</code>及更早版本在join方法不传参数或者传入undefined时, 会错误地将undefined作为分隔符, 而其他浏览器以<code>,</code>分隔处理; <code>join</code>方法遇到数组中为<code>null</code>, <code>undefined</code>的项, 以<code>空字符串</code>处理.<br><br></li>
+</ul>
+<h5 id="垃圾回收篇"><a href="#垃圾回收篇" class="headerlink" title="垃圾回收篇"></a>垃圾回收篇</h5><p>垃圾回收主要有两种方法: 1) 标记清除 2) 引用计数(会有循环引用问题). JavaScript采用的是标记清除.</p>
+<ul>
+<li><code>IE9</code>以前的<code>DOM/BOM</code>元素不是原生js对象, 采用的是<code>引用计数</code>.</li>
+<li><code>IE7</code>重写了它臭名昭著的垃圾回收, 性能得到大大的提升.<br><br></li>
+</ul>
+<h5 id="异常捕获篇"><a href="#异常捕获篇" class="headerlink" title="异常捕获篇"></a>异常捕获篇</h5><ul>
+<li>在<code>IE8</code>及之前版本, 在<code>catch</code>语句中捕获的错误对象会被添加到执行环境的变量对象中, 而不是<code>catch</code>语句的变量环境中. 也就是说, 即使是在<code>catch</code>块的外部也可以访问到错误对象, <code>IE9</code>修复了这个问题.<br><br></li>
+</ul>
+<h4 id="javascript与编程语言传统概念不同的地方"><a href="#javascript与编程语言传统概念不同的地方" class="headerlink" title="javascript与编程语言传统概念不同的地方"></a>javascript与编程语言传统概念不同的地方</h4><h5 id="基础篇"><a href="#基础篇" class="headerlink" title="基础篇"></a>基础篇</h5><ul>
+<li>js的五种基础数据类型: <code>Undefined</code> <code>Null</code> <code>Number</code> <code>Boolean</code> <code>String</code>.<ul>
+<li>这五种基本数据类型可以通过<code>valueOf()</code>取值. <code>undefined</code>转换成数值是<code>NaN</code>, 而<code>null</code>是<code>0</code>.</li>
+<li><code>Undefined</code> <code>Number</code> <code>Boolean</code> <code>String</code>可以通过<code>typeof</code>获得类型, 而对<code>Null</code>以及<code>对象</code>使用<code>typeof</code>会得到<code>Object</code>. 确切的判定对象是否是某类型需要通过<code>instanceof</code>, 即通过原型链来判断.</li>
+</ul>
+</li>
+<li>js的<code>Array</code>是可以存不同类型的数据的.</li>
+<li>js的<code>Array</code>的<code>length</code>不是<code>只读</code>的.</li>
+<li>js的<code>String</code>不是对象, 是基础数据类型之一.</li>
+<li>js的<code>sort</code>方法, 若不传参, 会对每个array项调用toString(), 然后比较字符串. 所以一般都需要传入一个函数来定义比较方案.</li>
+<li>如果<code>slice()</code>的参数中有一个负数, 则用数组长度加上该数来确定index; 如果<code>结束index</code>小于<code>起始index</code>, 则返回<code>空数组</code>.</li>
+<li><code>splice()</code>方法可用于向数组<code>替换</code>、<code>删除</code>、<code>插入</code>元素.<ul>
+<li>删除: 指定两个参数(起始项和删除的个数) e.g: splice(0,2) -&gt; 删除前两项.</li>
+<li>插入: 指定三个参数(起始位置、0(要删除的个数)、要插入的项) e.g: splice(2,0,”red”,”green”) -&gt; 从位置2开始插入元素</li>
+<li>替换: 指定三个参数(起始位置、要删除的项数、要插入的项) e.g: splice(2,1,”red”,”green”) -&gt; 删除当前位置2的项, 然后再从位置2开始插入”red”,”green”.<br><br></li>
+</ul>
+</li>
+</ul>
+<h5 id="作用域篇"><a href="#作用域篇" class="headerlink" title="作用域篇"></a>作用域篇</h5><ul>
+<li><p>js没有块级作用域(即if/while/for不会形成作用域)<br>e.g</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">if (true) &#123;</div><div class="line">   	var color = &quot;blue&quot;;</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   console.log(color);	// blue</div><div class="line">   </div><div class="line">   for (var i = 0; i &lt; 10; i++) &#123;</div><div class="line">   	</div><div class="line">   &#125;</div><div class="line">   </div><div class="line">   console.log(i);	// 10</div></pre></td></tr></table></figure>
+</li>
+<li><p>用var声明的变量会被添加到最近的环境, 没用var声明但却赋了值的变量, 会被添加到全局作用域. 即: 访问一个没有声明的变量, js会报错; 给一个没有声明的变量赋值, js不会报错, 会被认为是在隐式声明一个<code>全局变量</code>, 但在<code>strict</code>模式下<code>不允许</code>这样.<br><br></p>
+</li>
+</ul>
+
+  </section>
+
+  
+
+<section class="post-comments">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+      var disqus_shortname = 'Shawww'; 
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+  
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2014-2015. | 由<a href="https://hexo.io/">Hexo</a>强力驱动 | 主题<a href="https://github.com/someus/huno">Huno</a></span>
+    
+</footer>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>
