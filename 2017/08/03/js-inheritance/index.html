@@ -19,10 +19,10 @@
     <meta name="description" content="javascript继承的几种方法原型链(prototype chain)e.g">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript继承 | Shaw">
-<meta property="og:url" content="http://yoursite.com/2017/07/19/js-inheritance/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/08/03/js-inheritance/index.html">
 <meta property="og:site_name" content="Shaw">
 <meta property="og:description" content="javascript继承的几种方法原型链(prototype chain)e.g">
-<meta property="og:updated_time" content="2017-08-03T01:50:44.800Z">
+<meta property="og:updated_time" content="2017-08-03T02:17:48.936Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript继承 | Shaw">
 <meta name="twitter:description" content="javascript继承的几种方法原型链(prototype chain)e.g">
@@ -200,7 +200,7 @@ classes that you can use:
     
 
     <div class="post-meta">
-      <time datetime="2017-07-19" class="post-meta__date date">2017-07-19</time> 
+      <time datetime="2017-08-03" class="post-meta__date date">2017-08-03</time> 
 
       <span class="post-meta__tags tags">
 
@@ -235,7 +235,7 @@ classes that you can use:
 <h4 id="寄生式继承-parasitic-inheritance"><a href="#寄生式继承-parasitic-inheritance" class="headerlink" title="寄生式继承(parasitic inheritance)"></a>寄生式继承(parasitic inheritance)</h4><p>和<code>原型式继承</code>关系紧密<br>e.g<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">function createAnother(original) &#123;</div><div class="line">	var clone = object(original);</div><div class="line">    clone.sayHi = function() &#123;</div><div class="line">    	console.log(&quot;hi&quot;);</div><div class="line">    &#125;</div><div class="line">    return clone;</div><div class="line">&#125;</div><div class="line"></div><div class="line">var person = &#123;</div><div class="line">	name: &quot;Nicholas&quot;,</div><div class="line">    friends: [&quot;Shelby&quot;, &quot;Court&quot;, &quot;Van&quot;]</div><div class="line">&#125;</div><div class="line"></div><div class="line">var anotherPerson = createAnother(person);</div><div class="line">anotherPerson.sayHi();   // &quot;hi&quot;</div></pre></td></tr></table></figure></p>
 <h4 id="寄生式继承的问题"><a href="#寄生式继承的问题" class="headerlink" title="寄生式继承的问题"></a>寄生式继承的问题</h4><p>函数不能复用, 这一点与<code>构造函数模式</code>相同.<br><br></p>
 <h4 id="寄生组合式继承"><a href="#寄生组合式继承" class="headerlink" title="寄生组合式继承"></a>寄生组合式继承</h4><p>e.g<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">function SuperType(name) &#123;</div><div class="line">	this.name = name;</div><div class="line">    this.colors = [&quot;blue&quot;, &quot;purple&quot;, &quot;cyan&quot;];</div><div class="line">&#125;</div><div class="line"></div><div class="line">SuperType.prototype.sayName = function() &#123;</div><div class="line">	console.log(this.name);</div><div class="line">&#125;</div><div class="line"></div><div class="line">function SubType(name, age) &#123;</div><div class="line">	SuperType.call(this, name);   // 调用一次SuperType构造函数</div><div class="line">    this.age = age;</div><div class="line">&#125;</div><div class="line"></div><div class="line">function inheritPrototype(subType, superType) &#123;</div><div class="line">	var prototype = object(SuperType.prototype);</div><div class="line">    prototype.constructor = subType;</div><div class="line">    subType.prototype = prototype;</div><div class="line">&#125;</div><div class="line"></div><div class="line">inheritPrototype(SubType, SuperType);</div><div class="line"></div><div class="line">SubType.prototype.sayAge = function() &#123;</div><div class="line">	console.log(this.age);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>这个例子的高效率体现在它只调用了一次SuperType的构造函数</p>
+<p>这个例子的高效率体现在它只调用了一次SuperType的构造函数, 因此避免了在SubType.prototype上面创建不必要的、多余的属性.</p>
 
   </section>
 
