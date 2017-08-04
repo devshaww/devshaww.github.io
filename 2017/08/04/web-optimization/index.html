@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/08/04/web-optimization/index.html">
 <meta property="og:site_name" content="Shaw">
 <meta property="og:description" content="原视频链接这篇博文主要从四个方面总结优化方式.">
-<meta property="og:updated_time" content="2017-08-04T14:00:10.451Z">
+<meta property="og:updated_time" content="2017-08-04T15:12:11.227Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="总结-IE开发工程师为您展示页面性能的优化 | Shaw">
 <meta name="twitter:description" content="原视频链接这篇博文主要从四个方面总结优化方式.">
@@ -288,6 +288,77 @@ classes that you can use:
 </li>
 </ul>
 </li>
+</ul>
+<p><br></p>
+<h3 id="JavaScript-Coding-Ineffeciencies"><a href="#JavaScript-Coding-Ineffeciencies" class="headerlink" title="JavaScript Coding Ineffeciencies"></a>JavaScript Coding Ineffeciencies</h3><ul>
+<li>Parsing JSON: Use the native methods<ul>
+<li><code>JSON.parse()</code></li>
+<li><code>JSON.stringify()</code></li>
+<li><code>toJSON()</code> on prototypes of Date, Number, String and Boolean</li>
+</ul>
+</li>
+<li><p>The switch statement: Use a lookup table(Turn large switch statements into lookup table)</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">switch(option) &#123;</div><div class="line">   	case 1: ...</div><div class="line">       case 2: ...</div><div class="line">       case 3: ...</div><div class="line">       ...</div><div class="line">       case 1000: ...</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   // 改进:</div><div class="line">var lookup = &#123;</div><div class="line">   	1: function() &#123;...&#125;</div><div class="line">       2: function() &#123;...&#125;</div><div class="line">       3: function() &#123;...&#125;</div><div class="line">       ...</div><div class="line">       1000: function() &#123;...&#125;</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   try &#123;</div><div class="line">   	lookup[option]();</div><div class="line">   &#125; catch(e) &#123;</div><div class="line">   	// Default operation</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>Property access methods: Use the direct access(Avoid property access methods)</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">var property = foo();</div><div class="line"></div><div class="line">this.getProperty = function() &#123;</div><div class="line">	return property;</div><div class="line">&#125;</div><div class="line"></div><div class="line">this.setProperty = function(value) &#123;</div><div class="line">	property = value;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 改进:</div><div class="line">this.property = foo();</div></pre></td></tr></table></figure>
+</li>
+<li><p>Minimize DOM interaction</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">function getElementsByClassName(className, node, tag)&#123;</div><div class="line">	...</div><div class="line">    var elements = node.getElementsByTagName(tag);</div><div class="line">    var pattern = new RegExp(&quot;(^|\\s)&quot; + className + &quot;(\\s|$)&quot;;</div><div class="line">    for(var i = 0, j = 0; i &lt; elements.length; i++) &#123;</div><div class="line">    	if(pattern.test(elements[i].className)) &#123;</div><div class="line">        	classElements[j] = elements[i];</div><div class="line">            j++;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return classElements;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 改进:</div><div class="line">function getElementsByClassName(className, node, tag)&#123;</div><div class="line">	...</div><div class="line">    var results = node.getElementsByTagName(tag);</div><div class="line">    var elements = new Array(results.length);</div><div class="line">    while(length--) elements[length] = results[length];</div><div class="line">    var pattern = new RegExp(&quot;(^|\\s)&quot; + className + &quot;(\\s|$)&quot;;</div><div class="line">    for(var i = 0, j = 0; i &lt; elements.length; i++) &#123;</div><div class="line">    	if(pattern.test(elements[i].className)) &#123;</div><div class="line">        	classElements.push(results[i]);</div><div class="line">            j++;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return classElements;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>Smart use of DOM methods</p>
+<ul>
+<li><p><code>nextSibling()</code> better than childNodes[i]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">function LoopChildren(elm) &#123;</div><div class="line">	var nodes = elm.childNodes;</div><div class="line">    var length = nodes.length;</div><div class="line">    </div><div class="line">    for(var i = 0; i &lt; length; i++) &#123;</div><div class="line">    	var node = nodes[i];</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 改进:</div><div class="line">function LoopChildren(elm) &#123;</div><div class="line">	var node = elm.firstChild;</div><div class="line">    </div><div class="line">    while(node != null) &#123;</div><div class="line">    	node = node.nextSibling;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>querySelectorAll()</code> better for element groups</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function doValidation2() &#123;</div><div class="line">	var reqs = document.querySelectorAll(&quot;.reuired&quot;);</div><div class="line">    </div><div class="line">    var missingRequiredField = false;</div><div class="line">    </div><div class="line">    for(var i = 0; i &lt; reqs.length; i++) &#123;</div><div class="line">    	if(reqs[i].value == &quot;&quot;)</div><div class="line">        	missingRequiredField = true;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p><br></p>
+<h3 id="HTTP-Performance"><a href="#HTTP-Performance" class="headerlink" title="HTTP Performance"></a>HTTP Performance</h3><h4 id="Typical-visit"><a href="#Typical-visit" class="headerlink" title="Typical visit"></a>Typical visit</h4><ul>
+<li><p>HTTP compression: Use it</p>
+<ul>
+<li>Request Packet: Accept-Encoding:gzip</li>
+<li>Response Packet: Content-Encoding: gzip</li>
+<li><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">gzip对于text形式的内容(html/css/js)压缩效果非常好</div><div class="line">   但是要记住: 不能对已经压缩过的内容使用, 比如JPEG.</div><div class="line">   因为起不了什么作用, 同时又浪费了CPU和客户端的解压过程. 使用后甚至有时会被原文件更大.</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>Scaled images</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">&lt;html&gt;</div><div class="line">	&lt;head&gt;</div><div class="line">    	&lt;title&gt;Test&lt;/title&gt;</div><div class="line">    &lt;/head&gt;</div><div class="line">    &lt;body&gt;</div><div class="line">    	...</div><div class="line">        &lt;!-- icon.gif dimensions: 500 x 400 --&gt;</div><div class="line">        &lt;img src=&quot;icon.gif&quot; width=&quot;50&quot; height=&quot;40&quot; /&gt;</div><div class="line">        ...</div><div class="line">    &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div><div class="line"></div><div class="line">// 改进: 需要多大的图片就用多大的图片, 而不是对它作缩放.</div><div class="line"> &lt;html&gt;</div><div class="line">	&lt;head&gt;</div><div class="line">    	&lt;title&gt;Test&lt;/title&gt;</div><div class="line">    &lt;/head&gt;</div><div class="line">    &lt;body&gt;</div><div class="line">    	...</div><div class="line">        &lt;!-- icon.gif dimensions: 50 x 40 --&gt;</div><div class="line">        &lt;img src=&quot;icon.gif&quot; width=&quot;50&quot; height=&quot;40&quot; /&gt;</div><div class="line">        ...</div><div class="line">    &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>File linking: Link one CSS file and one JS file</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">&lt;html&gt;</div><div class="line">	&lt;head&gt;</div><div class="line">    	&lt;title&gt;Test&lt;/title&gt;</div><div class="line">        &lt;script src=&quot;1.js&quot; ...&gt;&lt;/script&gt;</div><div class="line">        &lt;script src=&quot;2.js&quot; ...&gt;&lt;/script&gt;</div><div class="line">        &lt;link href=&quot;1.css&quot; ...&gt;&lt;/link&gt;</div><div class="line">        &lt;link href=&quot;2.css&quot; ...&gt;&lt;/link&gt;</div><div class="line">    &lt;/head&gt;</div><div class="line">    &lt;body&gt;</div><div class="line">    	...</div><div class="line">    &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div><div class="line"></div><div class="line">// 改进:</div><div class="line">&lt;html&gt;</div><div class="line">	&lt;head&gt;</div><div class="line">    	&lt;title&gt;Test&lt;/title&gt;</div><div class="line">        &lt;script src=&quot;1+2.js&quot; ...&gt;&lt;/script&gt;</div><div class="line">        &lt;link href=&quot;1+2.css&quot; ...&gt;&lt;/link&gt;</div><div class="line">    &lt;/head&gt;</div><div class="line">    &lt;body&gt;</div><div class="line">    	...</div><div class="line">    &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>Many images: Combine and mask(sprites)</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&lt;head&gt;</div><div class="line">    &lt;title&gt;Test&lt;/title&gt;</div><div class="line">    &lt;style type=&quot;text/css&quot;&gt;</div><div class="line">    	.a, .b &#123;width: 10; height: 10;&#125;</div><div class="line">        .a, .b &#123;background-image: &quot;abc.gif&quot;;&#125;</div><div class="line">        .a &#123;background-position: 0 0&#125;</div><div class="line">        .b &#123;background-position: 0 -10&#125;</div><div class="line">    &lt;/style&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">    ...</div><div class="line">    &lt;div class=&quot;a&quot;&gt;&lt;/div&gt;</div><div class="line">    &lt;div class=&quot;b&quot;&gt;&lt;/div&gt;</div><div class="line">    ...</div><div class="line">&lt;/body&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><br></p>
+<h4 id="Repeat-visits"><a href="#Repeat-visits" class="headerlink" title="Repeat visits"></a>Repeat visits</h4><ul>
+<li>Use Conditional HTTP requests<ul>
+<li>Plain HTTP request<ul>
+<li>pragma: no-cache</li>
+</ul>
+</li>
+<li>Time conditional<ul>
+<li>If-modified-since: date,time</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Provide cacheable content<ul>
+<li>Time conditional<ul>
+<li>Expires: data,time</li>
+<li>Max-age: #seconds</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Script blocking<br>  将javascript脚本放置在body底部 而不是写在head里面</li>
 </ul>
 
   </section>
