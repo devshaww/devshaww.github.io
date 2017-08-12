@@ -31,7 +31,7 @@ Block里的野指针错误为什么会出现？怎样避免？">
 <meta property="og:image" content="http://yoursite.com/images/Block/3.png">
 <meta property="og:image" content="http://yoursite.com/images/Block/4.png">
 <meta property="og:image" content="http://yoursite.com/images/Block/5.png">
-<meta property="og:updated_time" content="2017-08-12T03:22:28.960Z">
+<meta property="og:updated_time" content="2017-08-12T03:24:11.868Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Block进阶 | Shaw">
 <meta name="twitter:description" content="前言在了解了Block的基础知识后，希望对它有更多的认识比如：
@@ -265,8 +265,9 @@ classes that you can use:
 </ul>
 <p><code>mrc_getBlock()</code>最后返回的是<code>block_copy</code>就不会出现野指针错误，而返回<code>myBlock</code>就会出现野指针错误，因为<code>myBlock</code>在栈上，返回后，就被清理了。</p>
 <blockquote>
-<p>按理说是这样，但我做测试的时候，发现两者都可以。<br>然后我加了一句<code>sleep(1)</code>, 就会出现野指针错误了。<br><br></p>
+<p>按理说是这样，但我做测试的时候，发现两者都可以。<br>然后我加了一句<code>sleep(1)</code>, 就会出现野指针错误了。</p>
 </blockquote>
+<p><br></p>
 <h4 id="Block内存管理"><a href="#Block内存管理" class="headerlink" title="Block内存管理"></a>Block内存管理</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">源码获取：</div><div class="line">命令行-&gt;<span class="built_in">cd</span>到工程目录-&gt;输入`clang -rewrite-objc main.m`</div><div class="line">然后就会在目录下看到一个cpp文件</div></pre></td></tr></table></figure>
 <blockquote>
 <p>Q: 为什么block内捕获到的不加__block的变量不能改变？</p>
