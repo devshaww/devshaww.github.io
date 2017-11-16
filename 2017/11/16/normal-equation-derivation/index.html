@@ -25,7 +25,6 @@
 <meta property="og:image" content="http://yoursite.com/images/norm-equa/res.png">
 <meta property="og:image" content="http://yoursite.com/images/norm-equa/tr.png">
 <meta property="og:image" content="http://yoursite.com/images/norm-equa/trAB.png">
-<meta property="og:image" content="http://yoursite.com/images/norm-equa/tr-prop.png">
 <meta property="og:image" content="http://yoursite.com/images/norm-equa/matr-deri.png">
 <meta property="og:image" content="http://yoursite.com/images/norm-equa/J.png">
 <meta property="og:image" content="http://yoursite.com/images/norm-equa/J1.png">
@@ -35,7 +34,7 @@
 <meta property="og:image" content="http://yoursite.com/images/norm-equa/3+.png">
 <meta property="og:image" content="http://yoursite.com/images/norm-equa/hw.jpg">
 <meta property="og:image" content="http://yoursite.com/images/norm-equa/res.png">
-<meta property="og:updated_time" content="2017-11-16T09:12:53.385Z">
+<meta property="og:updated_time" content="2017-11-16T09:14:53.983Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Normal Equation Derivation | Shaw">
 <meta name="twitter:description" content="source">
@@ -244,7 +243,7 @@ classes that you can use:
 </code></pre><h3 id="Normal-Equation-Derivation"><a href="#Normal-Equation-Derivation" class="headerlink" title="Normal Equation Derivation"></a>Normal Equation Derivation</h3><h4 id="Definition"><a href="#Definition" class="headerlink" title="Definition"></a>Definition</h4><p>和<code>梯度下降</code>采取的迭代<code>θ&#39;s</code>的方法不同, 为了找到使<code>J(θ)</code>最小的<code>θ</code>, 这里让<code>∇θJ(θ)</code> = <code>0</code>, 即找<code>导数</code>为<code>0</code>的时候的<code>θ</code>.<br><code>Normal Equation</code>就是这样一个式子。<br><img src="/images/norm-equa/res.png" alt="image"><br>下面的内容, 就是一步一步化简<code>∇θJ(θ)</code>, 并将其设为<code>0</code>从而得到<code>θ</code>的解。</p>
 <h4 id="Prerequisite"><a href="#Prerequisite" class="headerlink" title="Prerequisite"></a>Prerequisite</h4><ol>
 <li><code>tr</code>为n阶方阵<code>对角线</code>上元素之和<br> <img src="/images/norm-equa/tr.png" alt="image"></li>
-<li><code>tr</code>的性质<br> trAB = trBA 证明如图<br> <img src="/images/norm-equa/trAB.png" alt="image"><br> 同理可得: trABC = trCAB = trBCA<br> (将三个矩阵视为两个矩阵即可证明)<br> trA = trA’(这里用A’表示A的转置)<br> tr(A+B) = trA + trB<br> traA = atrA<br> <img src="/images/norm-equa/tr-prop.png" alt="image"></li>
+<li><code>tr</code>的性质<br> trAB = trBA 证明如图<br> <img src="/images/norm-equa/trAB.png" alt="image"><br> 同理可得: trABC = trCAB = trBCA<br> (将三个矩阵视为两个矩阵即可证明)<br> trA = trA’(这里用A’表示A的转置)<br> tr(A+B) = trA + trB<br> traA = atrA</li>
 <li><code>∇Af(A)</code>表示函数<code>f</code>对矩阵<code>A</code>求偏导<br> <img src="/images/norm-equa/matr-deri.png" alt="image"></li>
 <li>J(θ)为cost function<br> <img src="/images/norm-equa/J.png" alt="image"><br> <img src="/images/norm-equa/J1.png" alt="image"></li>
 </ol>
