@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      Normal Equation Derivation | Shaw 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+      <meta name="author" content="Shaw">
+    
+    
+
+    <meta name="description" content="source">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Normal Equation Derivation | Shaw">
+<meta property="og:url" content="http://yoursite.com/2017/11/16/normal-equation-derivation/index.html">
+<meta property="og:site_name" content="Shaw">
+<meta property="og:description" content="source">
+<meta property="og:image" content="http://yoursite.com/images/norm-equa/res.png">
+<meta property="og:image" content="http://yoursite.com/images/norm-equa/tr.png">
+<meta property="og:image" content="http://yoursite.com/images/norm-equa/tr-prop.png">
+<meta property="og:image" content="http://yoursite.com/images/norm-equa/matr-deri.png">
+<meta property="og:image" content="http://yoursite.com/images/norm-equa/J.png">
+<meta property="og:image" content="http://yoursite.com/images/norm-equa/J1.png">
+<meta property="og:image" content="http://yoursite.com/images/norm-equa/1.png">
+<meta property="og:image" content="http://yoursite.com/images/norm-equa/3.png">
+<meta property="og:image" content="http://yoursite.com/images/norm-equa/2.png">
+<meta property="og:image" content="http://yoursite.com/images/norm-equa/3+.png">
+<meta property="og:image" content="http://yoursite.com/images/norm-equa/hw.jpg">
+<meta property="og:image" content="http://yoursite.com/images/norm-equa/res.png">
+<meta property="og:updated_time" content="2017-11-16T08:58:29.464Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Normal Equation Derivation | Shaw">
+<meta name="twitter:description" content="source">
+<meta name="twitter:image" content="http://yoursite.com/images/norm-equa/res.png">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    
+    <link rel="stylesheet" href="/css/uno.css">
+    <link rel="stylesheet" href="/css/highlight.css">
+    <link rel="stylesheet" href="/css/archive.css">
+    <link rel="stylesheet" href="/css/china-social-icon.css">
+
+</head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+        <a href="/" title="link to homepage for Shaw"><img src="/images/avatar.jpg" width="80" alt="Shaw logo" class="panel-cover__logo logo" /></a>
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">Shaw</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          Touch of your skin sympathetically brushed against the shoulders you used to embrace. Sparkling ashes drift along your flames and softly merge into the sky.
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/" title="" class="">home</a></li>
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">posts</a></li>
+              
+                
+                <li class="navigation__item"><a href="/about" title="" class="">about</a></li>
+              
+
+            </ul>
+          </nav>
+
+          <!-- ----------------------------
+To add a new social icon simply duplicate one of the list items from below
+and change the class in the <i> tag to match the desired social network
+and then add your link to the <a>. Here is a full list of social network
+classes that you can use:
+
+    icon-social-500px
+    icon-social-behance
+    icon-social-delicious
+    icon-social-designer-news
+    icon-social-deviant-art
+    icon-social-digg
+    icon-social-dribbble
+    icon-social-facebook
+    icon-social-flickr
+    icon-social-forrst
+    icon-social-foursquare
+    icon-social-github
+    icon-social-google-plus
+    icon-social-hi5
+    icon-social-instagram
+    icon-social-lastfm
+    icon-social-linkedin
+    icon-social-medium
+    icon-social-myspace
+    icon-social-path
+    icon-social-pinterest
+    icon-social-rdio
+    icon-social-reddit
+    icon-social-skype
+    icon-social-spotify
+    icon-social-stack-overflow
+    icon-social-steam
+    icon-social-stumbleupon
+    icon-social-treehouse
+    icon-social-tumblr
+    icon-social-twitter
+    icon-social-vimeo
+    icon-social-xbox
+    icon-social-yelp
+    icon-social-youtube
+    icon-social-zerply
+    icon-mail
+
+-------------------------------->
+
+<!-- add social info here -->
+
+
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+    
+      <!-- Github -->
+      <li class="navigation__item">
+        <a href="https://github.com/devshaww" title="Huno on GitHub">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+    
+
+    <!-- China social icon -->
+    <!--
+    
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+    -->
+
+
+
+  </ul>
+</nav>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">Normal Equation Derivation</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2017-11-16" class="post-meta__date date">2017-11-16</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+            <font class="categories">
+            &#8226; 分类:
+            <a class="categories-link" href="/categories/Machine-Learning/">Machine Learning</a>
+            </font>
+          
+
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <p><a href="http://cs229.stanford.edu/notes/cs229-notes1.pdf" target="_blank" rel="external">source</a><br><a id="more"></a></p>
+<h4 id="Gradient-Descent-amp-Normal-Equation"><a href="#Gradient-Descent-amp-Normal-Equation" class="headerlink" title="Gradient Descent &amp; Normal Equation"></a>Gradient Descent &amp; Normal Equation</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">m条训练数据 n个特征</div></pre></td></tr></table></figure>
+<h5 id="Gradient-Descent"><a href="#Gradient-Descent" class="headerlink" title="Gradient Descent"></a>Gradient Descent</h5><pre><code>* 需要选择学习速率α
+* 需要多次迭代
+</code></pre><h5 id="Normal-Equation"><a href="#Normal-Equation" class="headerlink" title="Normal Equation"></a>Normal Equation</h5><pre><code>* 不需要选择α
+* 不需要迭代
+</code></pre><h4 id="Normal-Equation-Derivation"><a href="#Normal-Equation-Derivation" class="headerlink" title="Normal Equation Derivation"></a>Normal Equation Derivation</h4><h5 id="Definition"><a href="#Definition" class="headerlink" title="Definition"></a>Definition</h5><p>和<code>梯度下降</code>采取的迭代<code>θ&#39;s</code>的方法不同, 为了找到使<code>J(θ)</code>最小的<code>θ</code>, 这里让<code>∇θJ(θ)</code> = <code>0</code>, 即找<code>导数</code>为<code>0</code>的时候的<code>θ</code>.<br><code>Normal Equation</code>就是这样一个式子。<br><img src="/images/norm-equa/res.png" alt="image"><br>下面的内容, 就是一步一步化简<code>∇θJ(θ)</code>, 并将其设为<code>0</code>从而得到<code>θ</code>的解。</p>
+<h5 id="Prerequisite"><a href="#Prerequisite" class="headerlink" title="Prerequisite"></a>Prerequisite</h5><ol>
+<li><code>tr</code>为n阶方阵<code>对角线</code>上元素之和<br> <img src="images/norm-equa/tr.png" alt="image"></li>
+<li><code>tr</code>的性质<br> 1) trAB = trBA<br> 证明:<pre><code>![image](/images/norm-equa/trAB=trBA.png)
+</code></pre> 同理可得: trABC = trCAB = trBCA<br> (将三个矩阵视为两个矩阵即可证明)<br> 2) trA = trA’(这里用A’表示A的转置)<br> 3) tr(A+B) = trA + trB<br> 4) traA = atrA<br> <img src="/images/norm-equa/tr-prop.png" alt="image"></li>
+<li><code>∇Af(A)</code>表示函数<code>f</code>对矩阵<code>A</code>求偏导<br> <img src="/images/norm-equa/matr-deri.png" alt="image"></li>
+<li>J(θ)为cost function<br> <img src="/images/norm-equa/J.png" alt="image"><br> <img src="/images/norm-equa/J1.png" alt="image"></li>
+</ol>
+<h5 id="Properties"><a href="#Properties" class="headerlink" title="Properties"></a>Properties</h5><p>给出几条性质，有时间再来证明这几条性质。<br><img src="/images/norm-equa/1.png" alt="image"><br>根据(2)和(3)有：<br><img src="/images/norm-equa/3.png" alt="image"><br>因此：<br><img src="/images/norm-equa/2.png" alt="image"><br>上面第五步用到上面第二张图的推导<br><img src="/images/norm-equa/3+.png" alt="image"><br><img src="/images/norm-equa/hw.jpg" alt="image"><br><img src="/images/norm-equa/res.png" alt="image"></p>
+<p>推导结束。</p>
+
+  </section>
+
+  
+  
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2014-2015. | 由<a href="https://hexo.io/">Hexo</a>强力驱动 | 主题<a href="https://github.com/someus/huno">Huno</a></span>
+    
+</footer>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>
