@@ -7,7 +7,7 @@
     
 
     <title>
-      C指针 | Shaw 
+      C语言指针 | Shaw 
     </title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -16,25 +16,16 @@
     
     
 
-    <meta name="description" content="前言很多情况下指针都会困扰初学者。概念容易懂，但是会
-
-因为完全不知道指针存在的意义(看了一段用了指针的代码后会觉得：我不用指针照样能实现所以干嘛非要用)而对其失去兴趣。
-容易犯错，细节需要在实践中掌握。">
+    <meta name="description" content="前言很多情况下指针都会困扰初学者。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C指针 | Shaw">
+<meta property="og:title" content="C语言指针 | Shaw">
 <meta property="og:url" content="http://yoursite.com/2015/12/30/Cpointer/index.html">
 <meta property="og:site_name" content="Shaw">
-<meta property="og:description" content="前言很多情况下指针都会困扰初学者。概念容易懂，但是会
-
-因为完全不知道指针存在的意义(看了一段用了指针的代码后会觉得：我不用指针照样能实现所以干嘛非要用)而对其失去兴趣。
-容易犯错，细节需要在实践中掌握。">
-<meta property="og:updated_time" content="2017-12-15T14:41:41.367Z">
+<meta property="og:description" content="前言很多情况下指针都会困扰初学者。">
+<meta property="og:updated_time" content="2017-12-15T14:51:07.068Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C指针 | Shaw">
-<meta name="twitter:description" content="前言很多情况下指针都会困扰初学者。概念容易懂，但是会
-
-因为完全不知道指针存在的意义(看了一段用了指针的代码后会觉得：我不用指针照样能实现所以干嘛非要用)而对其失去兴趣。
-容易犯错，细节需要在实践中掌握。">
+<meta name="twitter:title" content="C语言指针 | Shaw">
+<meta name="twitter:description" content="前言很多情况下指针都会困扰初学者。">
     
     
     
@@ -204,7 +195,7 @@ classes that you can use:
 
   <header class="post-header">
     
-    <h1 class="post-title">C指针</h1>
+    <h1 class="post-title">C语言指针</h1>
 
     
 
@@ -230,12 +221,7 @@ classes that you can use:
   </header>
 
   <section id="post-content" class="article-content post">
-    <h5 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h5><p>很多情况下指针都会困扰初学者。<br>概念容易懂，但是会</p>
-<ol>
-<li>因为完全不知道指针存在的意义(看了一段用了指针的代码后会觉得：我不用指针照样能实现所以干嘛非要用)而对其失去兴趣。</li>
-<li>容易犯错，细节需要在实践中掌握。<a id="more"></a>
-</li>
-</ol>
+    <h5 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h5><p>很多情况下指针都会困扰初学者。<br><a id="more"></a><br>概念容易懂 但会<br>1) 因为完全不知道指针存在的意义(看了一段用了指针的代码后会觉得：我不用指针照样能实现所以干嘛非要用)而对其失去兴趣。<br>2) 容易犯错，细节需要在实践中掌握。</p>
 <h5 id="指针的作用"><a href="#指针的作用" class="headerlink" title="指针的作用"></a>指针的作用</h5><p>事实上，在代码经过编译-&gt;汇编后, 代码里的变量是没有什么a什么b之类的变量名的，全部是数字(也可以理解为地址)。<br><code>int a = 9</code>也仅仅是为了写程序，是给程序员看的。落实到机器上，就是在内存里找了一块空间，把9放在那块空间里，机器不知道a是谁。<br>至于体现在程序上的作用，后面会介绍。<br><br></p>
 <h5 id="直观理解"><a href="#直观理解" class="headerlink" title="直观理解"></a>直观理解</h5><p>体现在程序中，就是一个<code>*</code>号。<br>体现在生活中：你要见一个人总得知道这人在哪(地址)。</p>
 <hr>
