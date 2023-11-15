@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      正交投影和透视投影矩阵推导 | Shaw&#39;s blog 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+    
+
+    <meta name="description" content="简介投影是把不同z值（不包括z值大于摄像机z值的部分）的物体投射到z&#x3D;n（也就是near）的平面上。投影的关键是找到投影后的点$$(x^{‘}, y^{‘}, z^{‘})$$和投影前的点$$(x, y, z)$$的关系。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="正交投影和透视投影矩阵推导 | Shaw&#39;s blog">
+<meta property="og:url" content="https://devshaww.github.io/2023/04/19/Ortho-Persp/index.html">
+<meta property="og:site_name" content="Shaw&#39;s blog">
+<meta property="og:description" content="简介投影是把不同z值（不包括z值大于摄像机z值的部分）的物体投射到z&#x3D;n（也就是near）的平面上。投影的关键是找到投影后的点$$(x^{‘}, y^{‘}, z^{‘})$$和投影前的点$$(x, y, z)$$的关系。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.328888.xyz/2023/04/19/i6YOta.png">
+<meta property="og:image" content="https://i.328888.xyz/2023/04/19/i6uMMz.png">
+<meta property="article:published_time" content="2023-04-18T15:00:00.000Z">
+<meta property="article:modified_time" content="2023-04-19T07:42:06.697Z">
+<meta property="article:tag" content="Projection">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.328888.xyz/2023/04/19/i6YOta.png">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/css/uno.css">
+
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+    
+<link rel="stylesheet" href="/css/archive.css">
+
+    
+<link rel="stylesheet" href="/css/china-social-icon.css">
+
+
+<meta name="generator" content="Hexo 7.0.0"></head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+        <a href="/" title="link to homepage for Shaw&#39;s blog"><img src="/images/avatar.jpg" width="80" alt="Shaw&#39;s blog logo" class="panel-cover__logo logo" /></a>
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">Shaw&#39;s blog</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          🌈
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/" title="" class="">Home</a></li>
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">Posts</a></li>
+              
+
+            </ul>
+          </nav>
+
+          
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+    
+      <!-- Github -->
+      <li class="navigation__item">
+        <a target="_blank" rel="noopener" href="https://github.com/devshaww" title="Huno on GitHub">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+    
+
+    <!-- China social icon -->
+    <!--
+    
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+    -->
+
+
+
+  </ul>
+</nav>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">正交投影和透视投影矩阵推导</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2023-04-19" class="post-meta__date date">2023-04-19</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+            <font class="categories">
+            &#8226; 分类:
+            <a class="categories-link" href="/categories/CG/">CG</a>
+            </font>
+          
+
+          
+             &#8226; 标签:
+            <font class="tags">
+              <a class="tags-none-link" href="/tags/Projection/" rel="tag">Projection</a>
+            </font>
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>投影是把不同z值（不包括z值大于摄像机z值的部分）的物体投射到z&#x3D;n（也就是near）的平面上。<br>投影的关键是找到投影后的点$$(x^{‘}, y^{‘}, z^{‘})$$和投影前的点$$(x, y, z)$$的关系。  </p>
+<span id="more"></span>
+<p>这张图片展示了透视投影（左）和正交投影（右）的不同。<br><img src="https://i.328888.xyz/2023/04/19/i6YOta.png" alt="ftoc"></p>
+<h3 id="正交投影"><a href="#正交投影" class="headerlink" title="正交投影"></a>正交投影</h3><p>只需将长$$r-l$$宽$$n-f$$高$$t-b$$的立方体映射成标准正方体：</p>
+<ol>
+<li>用$$M_{t}$$将中心平移至原点  </li>
+<li>用$$M_{s}$$缩放至[-1,1]</li>
+</ol>
+<p>$$<br>M_{t} &#x3D;<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 0 &amp; -\frac{r+l}{2} \<br>0 &amp; 1 &amp; 0 &amp; -\frac{t+b}{2} \<br>0 &amp; 0 &amp; 1 &amp; -\frac{n+f}{2} \<br>0 &amp; 0 &amp; 0 &amp; 1 \<br>\end{bmatrix}<br>$$</p>
+<p>$$<br>M_{s} &#x3D;<br>\begin{bmatrix}<br>\frac{2}{r-l} &amp; 0 &amp; 0 &amp; 0 \<br>0 &amp; \frac{2}{t-b} &amp; 0 &amp; 0 \<br>0 &amp; 0 &amp; \frac{2}{n-f} &amp; 0 \<br>0 &amp; 0 &amp; 0 &amp; 1 \<br>\end{bmatrix}<br>$$</p>
+<p><strong>&#x3D;&gt;</strong><br> $$<br>M_{ortho} &#x3D; M_{s}M_{t} &#x3D;<br>\begin{bmatrix}<br>\frac{2}{r-l} &amp; 0 &amp; 0 &amp; 0 \<br>0 &amp; \frac{2}{t-b} &amp; 0 &amp; 0 \<br>0 &amp; 0 &amp; \frac{2}{n-f} &amp; 0 \<br>0 &amp; 0 &amp; 0 &amp; 1 \<br>\end{bmatrix}<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 0 &amp; -\frac{r+l}{2} \<br>0 &amp; 1 &amp; 0 &amp; -\frac{t+b}{2} \<br>0 &amp; 0 &amp; 1 &amp; -\frac{n+f}{2} \<br>0 &amp; 0 &amp; 0 &amp; 1 \<br>\end{bmatrix}<br>$$<br><br/>    </p>
+<h3 id="透视投影"><a href="#透视投影" class="headerlink" title="透视投影"></a>透视投影</h3><ol>
+<li>用$$M_{p-&gt;o}$$将视锥挤压成立方体  </li>
+<li>用$$M_{ortho}$$做正交投影</li>
+</ol>
+<p>那么关键在于确定$$M_{p-&gt;o}$$。  </p>
+<p>首先，从侧面根据相似三角形可以得出$$y^{‘} &#x3D;\frac{n}{z}y$$和$$x^{‘} &#x3D; \frac{n}{z}x$$<br><img src="https://i.328888.xyz/2023/04/19/i6uMMz.png"><br>即：<br>$$M_{p-&gt;o}<br>\begin{pmatrix}<br>x\<br>y\<br>z\<br>1\<br>\end{pmatrix}&#x3D;<br>\begin{pmatrix}<br>nx&#x2F;z\<br>ny&#x2F;z\<br>unknown\<br>1\<br>\end{pmatrix} &#x3D;<br>\begin{pmatrix}<br>nx\<br>ny\<br>unknown\<br>z\<br>\end{pmatrix}<br>$$</p>
+<p>根据上式可以确定$$M_{p-&gt;o}$$的部分值：</p>
+<p>$$<br>M_{p-&gt;o} &#x3D; \begin{pmatrix}<br>n &amp; 0 &amp; 0 &amp; 0\<br>0 &amp; n &amp; 0 &amp; 0\<br>? &amp; ? &amp; ? &amp; ?\<br>0 &amp; 0 &amp; 1 &amp; 0\<br>\end{pmatrix}<br>$$ </p>
+<p>接下来便是确定剩下的值。这些值可以通过下面的已知条件来计算。</p>
+<ul>
+<li><p>任意在<code>z=n</code>平面上的点在投影前后保持一致<br>即：<br>$$<br>\begin{pmatrix}<br>n &amp; 0 &amp; 0 &amp; 0\<br>0 &amp; n &amp; 0 &amp; 0\<br>? &amp; ? &amp; ? &amp; ?\<br>0 &amp; 0 &amp; 1 &amp; 0\<br>\end{pmatrix}<br>\begin{pmatrix}<br>x\<br>y\<br>n\<br>1\<br>\end{pmatrix}&#x3D;<br>\begin{pmatrix}<br>x\<br>y\<br>n\<br>1\<br>\end{pmatrix}&#x3D;<br>\begin{pmatrix}<br>nx\<br>ny\<br>n^{2}\<br>n\<br>\end{pmatrix}<br>$$  </p>
+<p>那么可以得出$$M_{p-&gt;o}$$第三行的前两个值。  </p>
+<p>$$\begin{pmatrix}<br>  0 &amp; 0 &amp; A &amp; B\<br>  \end{pmatrix}<br>  \begin{pmatrix}<br>  x\<br>  y\<br>  n\<br>  1\<br>  \end{pmatrix}&#x3D;n^2 &#x3D;&gt; An+B &#x3D; n^{2}  …….. （1）<br>$$  </p>
+</li>
+<li><p>任意在<code>z=f</code>平面上的点的z值在投影前后保持一致<br>这里用中心<code>(0,0,f,1)</code>来算，因为中心在变换前后都会是中心。<br>即：<br>$$<br>\begin{pmatrix}<br>n &amp; 0 &amp; 0 &amp; 0\<br>0 &amp; n &amp; 0 &amp; 0\<br>? &amp; ? &amp; ? &amp; ?\<br>0 &amp; 0 &amp; 1 &amp; 0\<br>\end{pmatrix}<br>\begin{pmatrix}<br>0\<br>0\<br>f\<br>1\<br>\end{pmatrix}&#x3D;<br>\begin{pmatrix}<br>0\<br>0\<br>f\<br>1\<br>\end{pmatrix}&#x3D;<br>\begin{pmatrix}<br>0\<br>0\<br>f^{2}\<br>f\<br>\end{pmatrix}<br>$$<br>那么：<br>$$\begin{pmatrix}<br>  0 &amp; 0 &amp; A &amp; B\<br>  \end{pmatrix}<br>  \begin{pmatrix}<br>  0\<br>  0\<br>  f\<br>  1\<br>  \end{pmatrix}&#x3D;n^2 &#x3D;&gt; Af+B &#x3D; f^{2}  …….. （2）<br>$$</p>
+</li>
+</ul>
+<h2 id="联立（1）（2）式可解出：-A-n-f-B-nf"><a href="#联立（1）（2）式可解出：-A-n-f-B-nf" class="headerlink" title="联立（1）（2）式可解出：$$A &#x3D; n + f \B &#x3D; -nf$$
+ "></a>联立（1）（2）式可解出：<br>$$<br>A &#x3D; n + f \<br>B &#x3D; -nf<br>$$
+ </h2><p><strong>所以：</strong><br>$$<br>M_{p-&gt;o} &#x3D; \begin{pmatrix}<br>n &amp; 0 &amp; 0 &amp; 0\<br>0 &amp; n &amp; 0 &amp; 0\<br>0 &amp; 0 &amp; n+f &amp; -nf\<br>0 &amp; 0 &amp; 1 &amp; 0\<br>\end{pmatrix}<br>$$ </p>
+<p>$$<br>M_{persp}&#x3D;M_{ortho}M_{p-&gt;o}&#x3D;<br>\begin{bmatrix}<br>\frac{2}{r-l} &amp; 0 &amp; 0 &amp; 0 \<br>0 &amp; \frac{2}{t-b} &amp; 0 &amp; 0 \<br>0 &amp; 0 &amp; \frac{2}{n-f} &amp; 0 \<br>0 &amp; 0 &amp; 0 &amp; 1 \<br>\end{bmatrix}<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 0 &amp; -\frac{r+l}{2} \<br>0 &amp; 1 &amp; 0 &amp; -\frac{t+b}{2} \<br>0 &amp; 0 &amp; 1 &amp; -\frac{n+f}{2} \<br>0 &amp; 0 &amp; 0 &amp; 1 \<br>\end{bmatrix}<br>\begin{bmatrix}<br>n &amp; 0 &amp; 0 &amp; 0\<br>0 &amp; n &amp; 0 &amp; 0\<br>0 &amp; 0 &amp; n+f &amp; -nf\<br>0 &amp; 0 &amp; 1 &amp; 0\<br>\end{bmatrix}<br>$$  </p>
+<br/>
+*图片来源：[GAMES-Webinar](https://www.bilibili.com/video/BV1X7411F744?p=4&vd_source=6b215407cb451b02d77a34120a82ed65)*
+  </section>
+
+  <section class="post-comments">
+
+    <!-- 将评论系统（例如Disqus、多说、友言、畅言等）提供的代码片段粘贴在这里 -->
+    
+</section>
+
+
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2014-2015. | 由<a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>强力驱动 | 主题<a target="_blank" rel="noopener" href="https://github.com/someus/huno">Huno</a></span>
+    
+</footer>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+
+    <script src="/js/jquery.githubRepoWidget.min.js"></script>
+
+
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+</body>
+</html>
