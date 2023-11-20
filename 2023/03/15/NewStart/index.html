@@ -182,11 +182,10 @@
   </header>
 
   <section id="post-content" class="article-content post">
-    <h4 id="原文-Orginal"><a href="#原文-Orginal" class="headerlink" title="原文&#x2F;Orginal"></a>原文&#x2F;Orginal</h4><hr>
+    <h4 id="原文-Orginal"><a href="#原文-Orginal" class="headerlink" title="原文/Orginal"></a>原文/Orginal</h4><hr>
 <p>时隔6年，开始更新博客。上次更新我还是个大三学生。 </p>
 <p>It’s been 6 years since I last updated my blog, at that time I was a 3rd year college student. Now I restart to update.</p>
 <span id="more"></span>
-
 <p>其实一直不更新是因为我丢失了六年前的所有源文件。</p>
 <p>Actually the reason I was not updating is because I lost all the source files from 6 years ago.</p>
 <p>一旦要更新就得重新建站，以前写的东西都会消失。</p>
@@ -195,7 +194,7 @@
 <p>But it doesn’t matter. Well…things I wrote long time ago make me a little bit awkward…</p>
 <p>就这样了吧。</p>
 <p>That’s it.<br><br/></p>
-<h4 id="更新-Update"><a href="#更新-Update" class="headerlink" title="更新&#x2F;Update"></a>更新&#x2F;Update</h4><hr>
+<h4 id="更新-Update"><a href="#更新-Update" class="headerlink" title="更新/Update"></a>更新/Update</h4><hr>
 <p>我居然找回了所有的md文件！立即更新了网站！然后删除了某些看起来会地铁老人手机脸的post。</p>
 <p>I found all the source files! And I instantly put them back, after deleting some weird posts.</p>
 
@@ -261,6 +260,22 @@
 <!--[if IE 6]>
   <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
 <![endif]-->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 </body>
 </html>

@@ -14,12 +14,12 @@
     
     
 
-    <meta name="description" content="简介投影是把不同z值（不包括z值大于摄像机z值的部分）的物体投射到z&#x3D;n（也就是near）的平面上。投影的关键是找到投影后的点$$(x^{‘}, y^{‘}, z^{‘})$$和投影前的点$$(x, y, z)$$的关系。">
+    <meta name="description" content="简介投影是把不同z值（不包括z值大于摄像机z值的部分）的物体投射到z&#x3D;n（也就是near）的平面上。投影的关键是找到投影后的点(x^{&#39;}, y^{&#39;}, z^{&#39;})和投影前的点(x, y, z)的关系。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="正交投影和透视投影矩阵推导 | Shaw&#39;s blog">
 <meta property="og:url" content="https://devshaww.github.io/2023/04/19/Ortho-Persp/index.html">
 <meta property="og:site_name" content="Shaw&#39;s blog">
-<meta property="og:description" content="简介投影是把不同z值（不包括z值大于摄像机z值的部分）的物体投射到z&#x3D;n（也就是near）的平面上。投影的关键是找到投影后的点$$(x^{‘}, y^{‘}, z^{‘})$$和投影前的点$$(x, y, z)$$的关系。">
+<meta property="og:description" content="简介投影是把不同z值（不包括z值大于摄像机z值的部分）的物体投射到z&#x3D;n（也就是near）的平面上。投影的关键是找到投影后的点(x^{&#39;}, y^{&#39;}, z^{&#39;})和投影前的点(x, y, z)的关系。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://i.328888.xyz/2023/04/19/i6YOta.png">
 <meta property="og:image" content="https://i.328888.xyz/2023/04/19/i6uMMz.png">
@@ -185,41 +185,179 @@
   </header>
 
   <section id="post-content" class="article-content post">
-    <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>投影是把不同z值（不包括z值大于摄像机z值的部分）的物体投射到z&#x3D;n（也就是near）的平面上。<br>投影的关键是找到投影后的点$$(x^{‘}, y^{‘}, z^{‘})$$和投影前的点$$(x, y, z)$$的关系。</p>
+    <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>投影是把不同z值（不包括z值大于摄像机z值的部分）的物体投射到z=n（也就是near）的平面上。<br>投影的关键是找到投影后的点<script type="math/tex">(x^{'}, y^{'}, z^{'})</script>和投影前的点<script type="math/tex">(x, y, z)</script>的关系。</p>
 <span id="more"></span>
-
 <p>这张图片展示了透视投影（左）和正交投影（右）的不同。<br><img src="https://i.328888.xyz/2023/04/19/i6YOta.png" alt="ftoc"></p>
-<h3 id="正交投影"><a href="#正交投影" class="headerlink" title="正交投影"></a>正交投影</h3><p>只需将长$$r-l$$宽$$n-f$$高$$t-b$$的立方体映射成标准正方体：</p>
+<h3 id="正交投影"><a href="#正交投影" class="headerlink" title="正交投影"></a>正交投影</h3><p>只需将长<script type="math/tex">r-l</script>宽<script type="math/tex">n-f</script>高<script type="math/tex">t-b</script>的立方体映射成标准正方体：</p>
 <ol>
-<li>用$$M_{t}$$将中心平移至原点  </li>
-<li>用$$M_{s}$$缩放至[-1,1]</li>
+<li>用<script type="math/tex">M_{t}</script>将中心平移至原点  </li>
+<li>用<script type="math/tex">M_{s}</script>缩放至[-1,1]  </li>
 </ol>
-<p>$$<br>M_{t} &#x3D;<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 0 &amp; -\frac{r+l}{2} \<br>0 &amp; 1 &amp; 0 &amp; -\frac{t+b}{2} \<br>0 &amp; 0 &amp; 1 &amp; -\frac{n+f}{2} \<br>0 &amp; 0 &amp; 0 &amp; 1 \<br>\end{bmatrix}<br>$$</p>
-<p>$$<br>M_{s} &#x3D;<br>\begin{bmatrix}<br>\frac{2}{r-l} &amp; 0 &amp; 0 &amp; 0 \<br>0 &amp; \frac{2}{t-b} &amp; 0 &amp; 0 \<br>0 &amp; 0 &amp; \frac{2}{n-f} &amp; 0 \<br>0 &amp; 0 &amp; 0 &amp; 1 \<br>\end{bmatrix}<br>$$</p>
-<p><strong>&#x3D;&gt;</strong><br> $$<br>M_{ortho} &#x3D; M_{s}M_{t} &#x3D;<br>\begin{bmatrix}<br>\frac{2}{r-l} &amp; 0 &amp; 0 &amp; 0 \<br>0 &amp; \frac{2}{t-b} &amp; 0 &amp; 0 \<br>0 &amp; 0 &amp; \frac{2}{n-f} &amp; 0 \<br>0 &amp; 0 &amp; 0 &amp; 1 \<br>\end{bmatrix}<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 0 &amp; -\frac{r+l}{2} \<br>0 &amp; 1 &amp; 0 &amp; -\frac{t+b}{2} \<br>0 &amp; 0 &amp; 1 &amp; -\frac{n+f}{2} \<br>0 &amp; 0 &amp; 0 &amp; 1 \<br>\end{bmatrix}<br>$$<br><br/>    </p>
+<script type="math/tex; mode=display">
+M_{t} = 
+\begin{bmatrix}
+1 & 0 & 0 & -\frac{r+l}{2} \\
+0 & 1 & 0 & -\frac{t+b}{2} \\
+0 & 0 & 1 & -\frac{n+f}{2} \\
+0 & 0 & 0 & 1 \\
+\end{bmatrix}</script><script type="math/tex; mode=display">
+M_{s} = 
+\begin{bmatrix}
+\frac{2}{r-l} & 0 & 0 & 0 \\
+0 & \frac{2}{t-b} & 0 & 0 \\
+0 & 0 & \frac{2}{n-f} & 0 \\
+0 & 0 & 0 & 1 \\
+\end{bmatrix}</script><p><strong>=&gt;</strong>   </p>
+<script type="math/tex; mode=display">
+M_{ortho} = M_{s}M_{t} = 
+\begin{bmatrix}
+\frac{2}{r-l} & 0 & 0 & 0 \\
+0 & \frac{2}{t-b} & 0 & 0 \\
+0 & 0 & \frac{2}{n-f} & 0 \\
+0 & 0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+1 & 0 & 0 & -\frac{r+l}{2} \\
+0 & 1 & 0 & -\frac{t+b}{2} \\
+0 & 0 & 1 & -\frac{n+f}{2} \\
+0 & 0 & 0 & 1 \\
+\end{bmatrix}</script><p><br/>    </p>
 <h3 id="透视投影"><a href="#透视投影" class="headerlink" title="透视投影"></a>透视投影</h3><ol>
-<li>用$$M_{p-&gt;o}$$将视锥挤压成立方体  </li>
-<li>用$$M_{ortho}$$做正交投影</li>
+<li>用<script type="math/tex">M_{p->o}</script>将视锥挤压成立方体  </li>
+<li>用<script type="math/tex">M_{ortho}</script>做正交投影  </li>
 </ol>
-<p>那么关键在于确定$$M_{p-&gt;o}$$。  </p>
-<p>首先，从侧面根据相似三角形可以得出$$y^{‘} &#x3D;\frac{n}{z}y$$和$$x^{‘} &#x3D; \frac{n}{z}x$$<br><img src="https://i.328888.xyz/2023/04/19/i6uMMz.png"><br>即：<br>$$M_{p-&gt;o}<br>\begin{pmatrix}<br>x\<br>y\<br>z\<br>1\<br>\end{pmatrix}&#x3D;<br>\begin{pmatrix}<br>nx&#x2F;z\<br>ny&#x2F;z\<br>unknown\<br>1\<br>\end{pmatrix} &#x3D;<br>\begin{pmatrix}<br>nx\<br>ny\<br>unknown\<br>z\<br>\end{pmatrix}<br>$$</p>
-<p>根据上式可以确定$$M_{p-&gt;o}$$的部分值：</p>
-<p>$$<br>M_{p-&gt;o} &#x3D; \begin{pmatrix}<br>n &amp; 0 &amp; 0 &amp; 0\<br>0 &amp; n &amp; 0 &amp; 0\<br>? &amp; ? &amp; ? &amp; ?\<br>0 &amp; 0 &amp; 1 &amp; 0\<br>\end{pmatrix}<br>$$ </p>
-<p>接下来便是确定剩下的值。这些值可以通过下面的已知条件来计算。</p>
+<p>那么关键在于确定<script type="math/tex">M_{p->o}</script>。  </p>
+<p>首先，从侧面根据相似三角形可以得出<script type="math/tex">y^{'} =\frac{n}{z}y</script>和<script type="math/tex">x^{'} = \frac{n}{z}x</script><br><img src="https://i.328888.xyz/2023/04/19/i6uMMz.png" alt=""><br>即：</p>
+<script type="math/tex; mode=display">M_{p->o}
+\begin{pmatrix}
+x\\
+y\\
+z\\
+1\\
+\end{pmatrix}=
+\begin{pmatrix}
+nx/z\\
+ny/z\\
+unknown\\
+1\\
+\end{pmatrix} =
+\begin{pmatrix}
+nx\\
+ny\\
+unknown\\
+z\\
+\end{pmatrix}</script><p>根据上式可以确定<script type="math/tex">M_{p->o}</script>的部分值：</p>
+<script type="math/tex; mode=display">
+M_{p->o} = \begin{pmatrix}
+n & 0 & 0 & 0\\
+0 & n & 0 & 0\\
+? & ? & ? & ?\\
+0 & 0 & 1 & 0\\
+\end{pmatrix}</script><p>接下来便是确定剩下的值。这些值可以通过下面的已知条件来计算。</p>
 <ul>
-<li><p>任意在<code>z=n</code>平面上的点在投影前后保持一致<br>即：<br>$$<br>\begin{pmatrix}<br>n &amp; 0 &amp; 0 &amp; 0\<br>0 &amp; n &amp; 0 &amp; 0\<br>? &amp; ? &amp; ? &amp; ?\<br>0 &amp; 0 &amp; 1 &amp; 0\<br>\end{pmatrix}<br>\begin{pmatrix}<br>x\<br>y\<br>n\<br>1\<br>\end{pmatrix}&#x3D;<br>\begin{pmatrix}<br>x\<br>y\<br>n\<br>1\<br>\end{pmatrix}&#x3D;<br>\begin{pmatrix}<br>nx\<br>ny\<br>n^{2}\<br>n\<br>\end{pmatrix}<br>$$  </p>
-<p>那么可以得出$$M_{p-&gt;o}$$第三行的前两个值。  </p>
-<p>$$\begin{pmatrix}<br>  0 &amp; 0 &amp; A &amp; B\<br>  \end{pmatrix}<br>  \begin{pmatrix}<br>  x\<br>  y\<br>  n\<br>  1\<br>  \end{pmatrix}&#x3D;n^2 &#x3D;&gt; An+B &#x3D; n^{2}  …….. （1）<br>$$  </p>
-</li>
-<li><p>任意在<code>z=f</code>平面上的点的z值在投影前后保持一致<br>这里用中心<code>(0,0,f,1)</code>来算，因为中心在变换前后都会是中心。<br>即：<br>$$<br>\begin{pmatrix}<br>n &amp; 0 &amp; 0 &amp; 0\<br>0 &amp; n &amp; 0 &amp; 0\<br>? &amp; ? &amp; ? &amp; ?\<br>0 &amp; 0 &amp; 1 &amp; 0\<br>\end{pmatrix}<br>\begin{pmatrix}<br>0\<br>0\<br>f\<br>1\<br>\end{pmatrix}&#x3D;<br>\begin{pmatrix}<br>0\<br>0\<br>f\<br>1\<br>\end{pmatrix}&#x3D;<br>\begin{pmatrix}<br>0\<br>0\<br>f^{2}\<br>f\<br>\end{pmatrix}<br>$$<br>那么：<br>$$\begin{pmatrix}<br>  0 &amp; 0 &amp; A &amp; B\<br>  \end{pmatrix}<br>  \begin{pmatrix}<br>  0\<br>  0\<br>  f\<br>  1\<br>  \end{pmatrix}&#x3D;n^2 &#x3D;&gt; Af+B &#x3D; f^{2}  …….. （2）<br>$$</p>
-</li>
+<li><p>任意在<code>z=n</code>平面上的点在投影前后保持一致<br>即：</p>
+<script type="math/tex; mode=display">
+\begin{pmatrix}
+n & 0 & 0 & 0\\
+0 & n & 0 & 0\\
+? & ? & ? & ?\\
+0 & 0 & 1 & 0\\
+\end{pmatrix}
+\begin{pmatrix}
+x\\
+y\\
+n\\
+1\\
+\end{pmatrix}=
+\begin{pmatrix}
+x\\
+y\\
+n\\
+1\\
+\end{pmatrix}=
+\begin{pmatrix}
+nx\\
+ny\\
+n^{2}\\
+n\\
+\end{pmatrix}</script><p>那么可以得出<script type="math/tex">M_{p->o}</script>第三行的前两个值。  </p>
+<script type="math/tex; mode=display">\begin{pmatrix}
+  0 & 0 & A & B\\
+  \end{pmatrix}
+  \begin{pmatrix}
+  x\\
+  y\\
+  n\\
+  1\\
+  \end{pmatrix}=n^2 => An+B = n^{2}  ........ （1）</script></li>
+<li><p>任意在<code>z=f</code>平面上的点的z值在投影前后保持一致<br>这里用中心<code>(0,0,f,1)</code>来算，因为中心在变换前后都会是中心。<br>即：</p>
+<script type="math/tex; mode=display">
+\begin{pmatrix}
+n & 0 & 0 & 0\\
+0 & n & 0 & 0\\
+? & ? & ? & ?\\
+0 & 0 & 1 & 0\\
+\end{pmatrix}
+\begin{pmatrix}
+0\\
+0\\
+f\\
+1\\
+\end{pmatrix}=
+\begin{pmatrix}
+0\\
+0\\
+f\\
+1\\
+\end{pmatrix}=
+\begin{pmatrix}
+0\\
+0\\
+f^{2}\\
+f\\
+\end{pmatrix}</script><p>那么：</p>
+<script type="math/tex; mode=display">\begin{pmatrix}
+  0 & 0 & A & B\\
+  \end{pmatrix}
+  \begin{pmatrix}
+  0\\
+  0\\
+  f\\
+  1\\
+  \end{pmatrix}=n^2 => Af+B = f^{2}  ........ （2）</script></li>
 </ul>
-<h2 id="联立（1）（2）式可解出：-A-n-f-B-nf"><a href="#联立（1）（2）式可解出：-A-n-f-B-nf" class="headerlink" title="联立（1）（2）式可解出：$$A &#x3D; n + f \B &#x3D; -nf$$
- "></a>联立（1）（2）式可解出：<br>$$<br>A &#x3D; n + f \<br>B &#x3D; -nf<br>$$
- </h2><p><strong>所以：</strong><br>$$<br>M_{p-&gt;o} &#x3D; \begin{pmatrix}<br>n &amp; 0 &amp; 0 &amp; 0\<br>0 &amp; n &amp; 0 &amp; 0\<br>0 &amp; 0 &amp; n+f &amp; -nf\<br>0 &amp; 0 &amp; 1 &amp; 0\<br>\end{pmatrix}<br>$$ </p>
-<p>$$<br>M_{persp}&#x3D;M_{ortho}M_{p-&gt;o}&#x3D;<br>\begin{bmatrix}<br>\frac{2}{r-l} &amp; 0 &amp; 0 &amp; 0 \<br>0 &amp; \frac{2}{t-b} &amp; 0 &amp; 0 \<br>0 &amp; 0 &amp; \frac{2}{n-f} &amp; 0 \<br>0 &amp; 0 &amp; 0 &amp; 1 \<br>\end{bmatrix}<br>\begin{bmatrix}<br>1 &amp; 0 &amp; 0 &amp; -\frac{r+l}{2} \<br>0 &amp; 1 &amp; 0 &amp; -\frac{t+b}{2} \<br>0 &amp; 0 &amp; 1 &amp; -\frac{n+f}{2} \<br>0 &amp; 0 &amp; 0 &amp; 1 \<br>\end{bmatrix}<br>\begin{bmatrix}<br>n &amp; 0 &amp; 0 &amp; 0\<br>0 &amp; n &amp; 0 &amp; 0\<br>0 &amp; 0 &amp; n+f &amp; -nf\<br>0 &amp; 0 &amp; 1 &amp; 0\<br>\end{bmatrix}<br>$$  </p>
-<br/>
-*图片来源：[GAMES-Webinar](https://www.bilibili.com/video/BV1X7411F744?p=4&vd_source=6b215407cb451b02d77a34120a82ed65)*
+<p>联立（1）（2）式可解出：</p>
+<script type="math/tex; mode=display">
+A = n + f \\
+B = -nf</script><hr>
+<p><strong>所以：</strong></p>
+<script type="math/tex; mode=display">
+M_{p->o} = \begin{pmatrix}
+n & 0 & 0 & 0\\
+0 & n & 0 & 0\\
+0 & 0 & n+f & -nf\\
+0 & 0 & 1 & 0\\
+\end{pmatrix}</script><script type="math/tex; mode=display">
+M_{persp}=M_{ortho}M_{p->o}= 
+\begin{bmatrix}
+\frac{2}{r-l} & 0 & 0 & 0 \\
+0 & \frac{2}{t-b} & 0 & 0 \\
+0 & 0 & \frac{2}{n-f} & 0 \\
+0 & 0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+1 & 0 & 0 & -\frac{r+l}{2} \\
+0 & 1 & 0 & -\frac{t+b}{2} \\
+0 & 0 & 1 & -\frac{n+f}{2} \\
+0 & 0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+n & 0 & 0 & 0\\
+0 & n & 0 & 0\\
+0 & 0 & n+f & -nf\\
+0 & 0 & 1 & 0\\
+\end{bmatrix}</script><p><br/><br><em>图片来源：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1X7411F744?p=4&amp;vd_source=6b215407cb451b02d77a34120a82ed65">GAMES-Webinar</a></em></p>
+
   </section>
 
   <section class="post-comments">
@@ -282,6 +420,22 @@
 <!--[if IE 6]>
   <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
 <![endif]-->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 </body>
 </html>
