@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      排序算法整合 | Shaw&#39;s blog 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+    
+
+    <meta name="description" content="选择排序 N2&#x2F;2次比较和N次交换 每次内循环都把当前最小的元素选出来，然后通过外循环将值交换。无论是乱序数组还是顺序数组，用的时间，竟然一样长。我们会看到，其他排序方法会更善于利用输入的初始状态。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="排序算法整合 | Shaw&#39;s blog">
+<meta property="og:url" content="https://devshaww.github.io/2016/01/07/sorting/index.html">
+<meta property="og:site_name" content="Shaw&#39;s blog">
+<meta property="og:description" content="选择排序 N2&#x2F;2次比较和N次交换 每次内循环都把当前最小的元素选出来，然后通过外循环将值交换。无论是乱序数组还是顺序数组，用的时间，竟然一样长。我们会看到，其他排序方法会更善于利用输入的初始状态。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2016-01-07T12:58:40.000Z">
+<meta property="article:modified_time" content="2023-04-19T07:15:25.799Z">
+<meta name="twitter:card" content="summary">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/css/uno.css">
+
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+    
+<link rel="stylesheet" href="/css/archive.css">
+
+    
+<link rel="stylesheet" href="/css/china-social-icon.css">
+
+
+<meta name="generator" content="Hexo 7.0.0"></head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+        <a href="/" title="link to homepage for Shaw&#39;s blog"><img src="/images/avatar.jpg" width="80" alt="Shaw&#39;s blog logo" class="panel-cover__logo logo" /></a>
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">Shaw&#39;s blog</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          🌈
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/" title="" class="">Home</a></li>
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">Posts</a></li>
+              
+
+            </ul>
+          </nav>
+
+          
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+    
+      <!-- Github -->
+      <li class="navigation__item">
+        <a target="_blank" rel="noopener" href="https://github.com/devshaww" title="Huno on GitHub">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+    
+
+    <!-- China social icon -->
+    <!--
+    
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+    -->
+
+
+
+  </ul>
+</nav>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">排序算法整合</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2016-01-07" class="post-meta__date date">2016-01-07</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+            <font class="categories">
+            &#8226; 分类:
+            <a class="categories-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+            </font>
+          
+
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <h3 id="选择排序-N2-2次比较和N次交换"><a href="#选择排序-N2-2次比较和N次交换" class="headerlink" title="选择排序 N2/2次比较和N次交换"></a>选择排序 <code>N2/2</code>次比较和<code>N</code>次交换</h3><blockquote>
+<p>每次<code>内循环</code>都把当前<code>最小</code>的元素选出来，然后通过<code>外循环</code>将值交换。<br>无论是<code>乱序数组</code>还是<code>顺序数组</code>，用的时间，竟然一样长。<br>我们会看到，其他排序方法会更善于利用<code>输入的初始状态</code>。<br><span id="more"></span></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public static void sort(int[] a) &#123;</span><br><span class="line">    int N = a.length;</span><br><span class="line">    for(int i = 0; i &lt; N; i++) &#123;</span><br><span class="line">        int min = i;</span><br><span class="line">        for(int j = i+1; a[j] &lt; a[min]; j++)</span><br><span class="line">            min = j;</span><br><span class="line">        int tmp = a[i];</span><br><span class="line">        a[i] = a[min];</span><br><span class="line">        a[min] = tmp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="直接插入-N2-2次比较和N2-2次交换"><a href="#直接插入-N2-2次比较和N2-2次交换" class="headerlink" title="直接插入 N2/2次比较和N2/2次交换"></a>直接插入 N2/2次比较和N2/2次交换</h3><blockquote>
+<p>直接插入的使用方法是给定一个任意序列，用这个函数把它排列出来。<br>  原理是：将一个记录插入到已排好序的序列中，从而得到一个新的，记录数增一的序列。<br>  一开始把第一个记录看作一个有序序列，第二个记录拿进来，排好；第三个记录拿进来，排好。这样，每拿一个记录出来，就和之前排好的有序序列里的最后一个元素开始作比较，找到合适的插入位置，原序列该后移后移.</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public static void sort(int[] a) &#123;</span><br><span class="line">    int N = a.length;</span><br><span class="line">    for(int i = 1; i &lt; N; i++) &#123;</span><br><span class="line">        for(int j = i; a[j] &lt; a[j-1] &amp;&amp; j &gt; 0; j--) &#123;</span><br><span class="line">            int tmp = a[j];</span><br><span class="line">            a[j] = a[j-1];</span><br><span class="line">            a[j-1] = tmp;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="二分法（折半插入）"><a href="#二分法（折半插入）" class="headerlink" title="二分法（折半插入）"></a>二分法（折半插入）</h3><blockquote>
+<p>折半插入的前提是：向一个有序序列里插入元素</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">void BInsertSort(SqList &amp;L) &#123;</span><br><span class="line">    for( i = 2; i &lt;= L.Length; i++) &#123;</span><br><span class="line">        L.r[0] = L.r[i];</span><br><span class="line">        low = 1; high = i - 1;</span><br><span class="line">        while(low &lt;= high) &#123;</span><br><span class="line">            mid = (low + high)/2;</span><br><span class="line">            if( L.r[mid] &gt; L.r[0] ) &#123;</span><br><span class="line">                high = m - 1;</span><br><span class="line">            &#125;</span><br><span class="line">            else &#123;</span><br><span class="line">                low = m + 1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        for(j = i - 1; j &gt;= high + 1; --j) </span><br><span class="line">            L,r[j] = L.r[j];</span><br><span class="line">        L.r[high + 1] = L.r[0];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h3><blockquote>
+<p>对于大规模乱序数组，插入排序很慢，因为它只会交换相邻的元素，因此元素只能一点一点地移动。<br>希尔排序的思想是使数组中任意间隔为h的元素都是有序的。<br>在进行排序时，如果h很大，就能移动很远的距离。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public static void sort(int[] a) &#123;</span><br><span class="line">    int N = a.length;</span><br><span class="line">    int h = 1;</span><br><span class="line">    while(h &lt; N/3)</span><br><span class="line">        h = 3 * h + 1;</span><br><span class="line">        // 这个序列被称为递增序列，至于哪个序列是最好的，还没有定论。</span><br><span class="line">    while(h &gt;= 1) &#123;</span><br><span class="line">        for(int i = h; i &lt; N; i++) &#123;</span><br><span class="line">            for(int j = i; a[j] &lt; a[j-h] &amp;&amp; j &gt;= h; j -= h) &#123;</span><br><span class="line">                int tmp = a[j];</span><br><span class="line">                a[j] = a[j-h];</span><br><span class="line">                a[j-h] = tmp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        h = h / 3;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><blockquote>
+<p><code>递归地</code>将数组分成两半分别排序，然后再将结果归并。</p>
+</blockquote>
+<h4 id="自顶向下归并-1-2NlgN-NlgN次比较"><a href="#自顶向下归并-1-2NlgN-NlgN次比较" class="headerlink" title="自顶向下归并 1/2NlgN~NlgN次比较"></a>自顶向下归并 1/2NlgN~NlgN次比较</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">public class Merge &#123;</span><br><span class="line">	private static int[] aux;</span><br><span class="line">	public static void sort(int[] a) &#123;</span><br><span class="line">		aux = new int[a.length];</span><br><span class="line">		sort(a, 0, a.length-1);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	private static void sort(int[] a, int lo, int hi) &#123;</span><br><span class="line">		if(hi &lt;= lo) return;</span><br><span class="line">		int mid = lo + (hi - lo) / 2;</span><br><span class="line">		sort(a, lo, lo + (hi-lo) / 2);</span><br><span class="line">		sort(a, mid + 1, hi);</span><br><span class="line">		merge(a, lo, mid, hi);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	// merge方法将子数组a[lo..mid]和a[mid+1..hi]归并成一个有序的数组并将结果存放在a[lo..hi]中</span><br><span class="line">	public static void merge(int[] a, int lo, int mid, int hi) &#123;</span><br><span class="line">		int i = lo, j = mid + 1;</span><br><span class="line">		for(int k = lo; k &lt;= hi; k++)</span><br><span class="line">			aux[k] = a[k];</span><br><span class="line">		for(int k = lo; k &lt;= hi; k++) &#123;</span><br><span class="line">			if(lo &gt; mid) a[k] = aux[j++]; // 左半边的元素取完则取右半边的元素</span><br><span class="line">			else if(j &gt; hi) a[k] = aux[i++]; // 右半边的元素取完则取左边的元素</span><br><span class="line">			else if(aux[i] &gt; aux[j]) a[k] = aux[j++];</span><br><span class="line">			else a[k] = aux[i++];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3><blockquote>
+<p>与归并互补: 归并将数组分成两个子数组分别排序;而快排将数组排序的方式则是当<code>两个子数组都有序时</code>整个数组也就有序了.<br>快排中有个<code>partition</code>的概念：假设<code>partition</code>为<code>a[k]</code>, 那么a[k]<code>前面</code>的元素通通<code>小于等于</code>a[k], 同理a[k]<code>后面</code>的元素通通<code>大于等于</code>a[k].</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">public class Quick &#123;</span><br><span class="line">	private static int partition(int[] a, int lo, int hi) &#123;</span><br><span class="line">		int i = lo, j = hi + 1;  // 左右扫描指针</span><br><span class="line">		int v = a[lo];  // 切分元素</span><br><span class="line">		while(true) &#123;</span><br><span class="line">			while(a[++i] &lt; v) &#123;</span><br><span class="line">				if (i == hi) break;</span><br><span class="line">			&#125;</span><br><span class="line">			while(v &lt; a[--j]) &#123;</span><br><span class="line">				if (j == lo) break;</span><br><span class="line">			&#125;</span><br><span class="line">			if (i &gt;= j) break;</span><br><span class="line">			int tmp = a[i];</span><br><span class="line">			a[i] = a[j];</span><br><span class="line">			a[j] = tmp;</span><br><span class="line">		&#125;</span><br><span class="line">		int tmp = a[lo];</span><br><span class="line">		a[lo] = a[j];</span><br><span class="line">		a[j] = tmp;</span><br><span class="line">		return j;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static void sort(int[] a) &#123;</span><br><span class="line">		StdRandom.shuffle(a);</span><br><span class="line">		sort(a, 0, a.length - 1);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	private static void sort(int[] a, int lo, int hi) &#123;</span><br><span class="line">		if (hi &lt;= lo) return;</span><br><span class="line">		int j = partition(a, lo, hi);</span><br><span class="line">		sort(a, lo, j-1);</span><br><span class="line">		sort(a, j+1, hi);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  </section>
+
+  <section class="post-comments">
+
+    <!-- 将评论系统（例如Disqus、多说、友言、畅言等）提供的代码片段粘贴在这里 -->
+    
+</section>
+
+
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2014-2015. | 由<a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>强力驱动 | 主题<a target="_blank" rel="noopener" href="https://github.com/someus/huno">Huno</a></span>
+    
+</footer>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+
+    <script src="/js/jquery.githubRepoWidget.min.js"></script>
+
+
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+</body>
+</html>

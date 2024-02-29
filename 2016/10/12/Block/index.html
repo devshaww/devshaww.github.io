@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    
+
+    <title>
+      Block进阶 | Shaw&#39;s blog 
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+    
+
+    <meta name="description" content="前言在了解了Block的基础知识后，希望对它有更多的认识比如：  Block里的野指针错误为什么会出现？怎样避免？ Block里的循环引用的原理是什么？ Block在ARC与MRC下有什么不同？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Block进阶 | Shaw&#39;s blog">
+<meta property="og:url" content="https://devshaww.github.io/2016/10/12/Block/index.html">
+<meta property="og:site_name" content="Shaw&#39;s blog">
+<meta property="og:description" content="前言在了解了Block的基础知识后，希望对它有更多的认识比如：  Block里的野指针错误为什么会出现？怎样避免？ Block里的循环引用的原理是什么？ Block在ARC与MRC下有什么不同？">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://drops.azureedge.net/drops/files/acc_521713/1lO5?rscd=inline%3B%20filename%3DIMG_4593.PNG&amp;rsct=image%2Fpng&amp;se=2016-12-12T08%3A46%3A14Z&amp;sig=j4VSAZhTPbaDTEnRPIR%2BZ4xby%2FdlizC2esP%2BW12t1qM%3D&amp;sp=r&amp;sr=b&amp;st=2016-12-12T07%3A46%3A14Z&amp;sv=2013-08-15">
+<meta property="og:image" content="https://drops.azureedge.net/drops/files/acc_521713/wAjZ?rscd=inline%3B%20filename%3DIMG_4594.PNG&amp;rsct=image%2Fpng&amp;se=2016-12-12T08%3A50%3A28Z&amp;sig=5yFCTx2fs7ykmkkoF%2FgwLyP5ODd08MdEl1u7tbmOLPI%3D&amp;sp=r&amp;sr=b&amp;st=2016-12-12T07%3A50%3A28Z&amp;sv=2013-08-15">
+<meta property="article:published_time" content="2016-10-11T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-02-19T07:55:05.850Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://drops.azureedge.net/drops/files/acc_521713/1lO5?rscd=inline%3B%20filename%3DIMG_4593.PNG&amp;rsct=image%2Fpng&amp;se=2016-12-12T08%3A46%3A14Z&amp;sig=j4VSAZhTPbaDTEnRPIR%2BZ4xby%2FdlizC2esP%2BW12t1qM%3D&amp;sp=r&amp;sr=b&amp;st=2016-12-12T07%3A46%3A14Z&amp;sv=2013-08-15">
+    
+    
+    
+      <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/css/uno.css">
+
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+    
+<link rel="stylesheet" href="/css/archive.css">
+
+    
+<link rel="stylesheet" href="/css/china-social-icon.css">
+
+
+<meta name="generator" content="Hexo 7.0.0"></head>
+<body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+
+<header class="panel-cover panel-cover--collapsed">
+
+
+  <div class="panel-main">
+
+  
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        
+        <a href="/" title="link to homepage for Shaw&#39;s blog"><img src="/images/avatar.jpg" width="80" alt="Shaw&#39;s blog logo" class="panel-cover__logo logo" /></a>
+        
+
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage">Shaw&#39;s blog</a></h1>
+        <hr class="panel-cover__divider" />
+
+        
+        <p class="panel-cover__description">
+          🌈
+        </p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+
+        <div class="navigation-wrapper">
+
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+
+              
+                
+                <li class="navigation__item"><a href="/" title="" class="">Home</a></li>
+              
+                
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">Posts</a></li>
+              
+
+            </ul>
+          </nav>
+
+          
+
+<nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+    
+      <!-- Github -->
+      <li class="navigation__item">
+        <a target="_blank" rel="noopener" href="https://github.com/devshaww" title="Huno on GitHub">
+          <i class='icon icon-social-github'></i>
+          <span class="label">GitHub</span>
+        </a>
+      </li>
+    
+
+    <!-- China social icon -->
+    <!--
+    
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-douban'></i>
+          <span class="label">Douban</span>
+        </a>
+      </li>
+
+      <li class="navigation__item">
+        <a href="" title="">
+          <i class='icon cs-icon-weibo'></i>
+          <span class="label">Weibo</span>
+        </a>
+      </li>
+
+    -->
+
+
+
+  </ul>
+</nav>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner entry">
+            
+
+<article class="post-container post-container--single">
+
+  <header class="post-header">
+    
+    <h1 class="post-title">Block进阶</h1>
+
+    
+
+    <div class="post-meta">
+      <time datetime="2016-10-12" class="post-meta__date date">2016-10-12</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+            <font class="categories">
+            &#8226; 分类:
+            <a class="categories-link" href="/categories/iOS/">iOS</a>
+            </font>
+          
+
+          
+
+      </span>
+    </div>
+    
+    
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>在了解了<code>Block</code>的基础知识后，希望对它有更多的认识比如：</p>
+<ul>
+<li><code>Block</code>里的<code>野指针</code>错误为什么会出现？怎样避免？</li>
+<li><code>Block</code>里的<code>循环引用</code>的原理是什么？</li>
+<li><code>Block</code>在<code>ARC</code>与<code>MRC</code>下有什么不同？</li>
+</ul>
+<span id="more"></span>
+<p>在看<a href="">iOS与OS X多线程和内存管理</a>时，看到<code>block</code>那章，我就觉得看不懂了。这一章包含太多的底层源码，非常枯燥而且不好理解，因此难以集中精神。<br>因此在我对之的理解稍微清晰了一些时，我就记录了下来。</p>
+<blockquote>
+<p>将环境改为<code>MRC</code>：打开XCode-&gt;点击工程-&gt;Build Phases-&gt;Compile Sources-&gt;点击要配置MRC环境的文件-&gt;添上<code>-fno-objc-arc</code>。若要改回<code>ARC</code>, 则将<code>-fno-objc-arc</code>改成<code>-fobjc-arc</code>.</p>
+</blockquote>
+<p><img src="https://drops.azureedge.net/drops/files/acc_521713/1lO5?rscd=inline%3B%20filename%3DIMG_4593.PNG&amp;rsct=image%2Fpng&amp;se=2016-12-12T08%3A46%3A14Z&amp;sig=j4VSAZhTPbaDTEnRPIR%2BZ4xby%2FdlizC2esP%2BW12t1qM%3D&amp;sp=r&amp;sr=b&amp;st=2016-12-12T07%3A46%3A14Z&amp;sv=2013-08-15" alt="image"></p>
+<p><img src="https://drops.azureedge.net/drops/files/acc_521713/wAjZ?rscd=inline%3B%20filename%3DIMG_4594.PNG&amp;rsct=image%2Fpng&amp;se=2016-12-12T08%3A50%3A28Z&amp;sig=5yFCTx2fs7ykmkkoF%2FgwLyP5ODd08MdEl1u7tbmOLPI%3D&amp;sp=r&amp;sr=b&amp;st=2016-12-12T07%3A50%3A28Z&amp;sv=2013-08-15" alt="image"></p>
+<h4 id="Block的种类"><a href="#Block的种类" class="headerlink" title="Block的种类"></a>Block的种类</h4><h5 id="NSStackBlock"><a href="#NSStackBlock" class="headerlink" title="NSStackBlock"></a>NSStackBlock</h5><ul>
+<li>引用了外部变量的<code>block</code></li>
+<li><code>MRC</code>下，<code>NSStackBlock</code>位于<code>栈</code>中，<code>block</code>函数体返回后，其位于的栈段会被清除，即<code>block</code>会无效，此时如果再次访问<code>block</code>，就会造成<code>野指针</code>错误。<code>解决方法</code>是：通过对block做<code>copy</code>操作，使之转换为位于<code>堆</code>中的<code>NSMallocBlock</code>。</li>
+<li><code>ARC</code>下，与<code>MRC</code>不同的是，不需要再做<code>copy</code>操作，在<code>ARC</code>下，所有的block都会自动转到堆区，即NSMallocBlock。</li>
+</ul>
+<h5 id="e-g"><a href="#e-g" class="headerlink" title="e.g."></a>e.g.</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">typedef void (^myBlock)();</span><br><span class="line"></span><br><span class="line">char a = &#x27;a&#x27;;</span><br><span class="line">myBlock block = ^ &#123;</span><br><span class="line">	NSLog(&quot;%c&quot;, a);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="NSMallocBlock"><a href="#NSMallocBlock" class="headerlink" title="NSMallocBlock"></a>NSMallocBlock</h4><ul>
+<li>由<code>NSStackBlock copy</code>得来，位于内存的<code>堆</code>区。</li>
+</ul>
+<h4 id="NSGlobalStack"><a href="#NSGlobalStack" class="headerlink" title="NSGlobalStack"></a>NSGlobalStack</h4><ul>
+<li>没有引用外部变量的<code>block</code>就是<code>NSGlobalStack</code>。</li>
+<li>既不位于<code>堆</code>，也不位于<code>栈</code>,是<code>程序段</code>。</li>
+</ul>
+<h5 id="e-g-1"><a href="#e-g-1" class="headerlink" title="e.g."></a>e.g.</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int (^sum)(int, int) = ^(int x, int y) &#123;</span><br><span class="line">	return x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="野指针错误"><a href="#野指针错误" class="headerlink" title="野指针错误"></a>野指针错误</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">typedef void (^block)();</span><br><span class="line"></span><br><span class="line">block arc_getBlock() &#123;</span><br><span class="line">	char a = &#x27;a&#x27;;</span><br><span class="line">    void (^myBlock) = ^&#123;</span><br><span class="line">    	printf(&quot;%c&quot;,a);</span><br><span class="line">    &#125;;</span><br><span class="line">    NSLog(@&quot;myBlock:%@&quot;,myBlock);</span><br><span class="line">    block block_copy = [[myBlock copy]autorelease];</span><br><span class="line">    NSLog(&quot;block_copy:%@&quot;,block_copy);</span><br><span class="line">    // return block_copy;</span><br><span class="line">    return myBlock;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void test() &#123;</span><br><span class="line">	block myBlock = arc_getBlock();</span><br><span class="line">    myBlock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>arc_getBlock()</code>最后返回的是<code>block_copy</code>就不会出现野指针错误，而返回<code>myBlock</code>就会出现野指针错误，因为<code>myBlock</code>在栈上，返回后，就被清理了。</p>
+<blockquote>
+<p>按理说是这样，但我做测试的时候，发现两者都可以。</p>
+</blockquote>
+<ul>
+<li>全局和静态变量在内存中的位置是确定的，block copy时不会retain这些对象。</li>
+<li>局部变量在block copy时，会被retain，增加其引用计数。</li>
+<li>实例变量或属性在block copy时不是直接retain这个对象本身，而是retain self。<br><br/><br>下面来做一个稍大的测试以便更好地理解<h5 id="e-g-2"><a href="#e-g-2" class="headerlink" title="e.g"></a>e.g</h5></li>
+</ul>
+<blockquote>
+<p>最后，这里有一个从<code>OneVCat</code>的文中看到的关于block的<a target="_blank" rel="noopener" href="http://blog.parse.com/learn/engineering/objective-c-blocks-quiz/">quiz</a>，有兴趣可以做做。</p>
+</blockquote>
+
+  </section>
+
+  <section class="post-comments">
+
+    <!-- 将评论系统（例如Disqus、多说、友言、畅言等）提供的代码片段粘贴在这里 -->
+    
+</section>
+
+
+</article>
+
+
+            <footer class="footer">
+
+    <span class="footer__copyright">&copy; 2014-2015. | 由<a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>强力驱动 | 主题<a target="_blank" rel="noopener" href="https://github.com/someus/huno">Huno</a></span>
+    
+</footer>
+        </div>
+    </div>
+
+    <!-- js files -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/scale.fix.js"></script>
+    
+
+    
+
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript"> 
+        $(document).ready(function(){
+            MathJax.Hub.Config({ 
+                tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]} 
+            });
+        });
+    </script>
+
+
+    
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
+    
+    
+
+    <script src="/js/jquery.githubRepoWidget.min.js"></script>
+
+
+    <!--kill ie6 -->
+<!--[if IE 6]>
+  <script src="//letskillie6.googlecode.com/svn/trunk/2/zh_CN.js"></script>
+<![endif]-->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+</body>
+</html>
